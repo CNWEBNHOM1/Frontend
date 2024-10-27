@@ -1,0 +1,8 @@
+.menu {
+    position: absolute; /* Đặt vị trí tuyệt đối cho menu */
+    top: 100%; /* Đặt menu ngay bên dưới phần tử .account */
+    left: 0; /* Căn trái với phần tử cha */
+    background-color: red; /* Để dễ nhìn thấy */
+    width: 100%; /* Đặt chiều rộng bằng với chiều rộng của phần tử cha nếu cần */
+    z-index: -1;
+}

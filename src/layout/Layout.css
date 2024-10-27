@@ -1,0 +1,11 @@
+.layout{
+    display: flex;
+    flex-direction: row;
+    background-color: #f1f1f1;
+    height: 100vh;
+    width: 100vw;
+}
+.layout-children{
+    height: 100%;
+    width: 100%;
+}

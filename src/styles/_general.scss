@@ -1,0 +1,52 @@
+html {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#root, body, html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #182537;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+
+#root {
+    overflow: auto;
+}
+
+body {
+    font-family: var(--bs-font-sans-serif);
+    background-color: #fafafa;
+    line-height: 1.43;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.dropdown-item {
+    cursor: pointer;
+    transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+    font-family: $font-family-base;
+}
+
+th {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+ul ul, ol ul {
+    list-style: none;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 0;
+}

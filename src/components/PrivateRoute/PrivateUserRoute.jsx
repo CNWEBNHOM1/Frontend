@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { logout } from '../../actions/auth';

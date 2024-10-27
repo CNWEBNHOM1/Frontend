@@ -1,0 +1,1 @@
+export default <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" font-size="24" active="true" variant="filled" class="sc-hHLeRK cDcJUH"><path d="m7 9.5 5 5 5-5H7Z" fill="currentColor"></path></svg>

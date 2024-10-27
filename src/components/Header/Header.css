@@ -1,0 +1,50 @@
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 10%;
+    background-color: #FFFFFF;
+    width: 100%;
+    padding: 0 20px;
+    padding-right: 100px;
+    box-sizing: border-box;
+    box-shadow: #d73d32;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.header-title{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    font-size: 25px;
+    font-style: bold;
+}
+
+.header-right{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 40px;
+    align-items: center;
+}
+.account{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
+.circle-name{
+    background-color: #d73d32;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    font-style: bold;
+    font-size: 20px;
+}

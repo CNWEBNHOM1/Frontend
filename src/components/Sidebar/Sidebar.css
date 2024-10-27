@@ -1,0 +1,13 @@
+.sidebar{
+    width: 250px;
+    flex-shrink: 0;
+    background-color: #FFFFFF;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column
+}
+.logo{
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,1 @@
+export default <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fontSize="22" style={{color: "rgb(163, 168, 175)", fontSize: "22px"}}><path d="M20.052 3.667H4.5v1.296h15.552V3.667ZM4.811 5.74l5.988 6.066c.078.077.181.181.181.285v8.242l2.592-1.4v-6.842c0-.104.104-.208.182-.285L19.74 5.74H4.811Z" fill="currentColor"></path></svg>
