@@ -8,30 +8,33 @@ import PrivateManagerRoute from './components/PrivateRoute/PrivateMangerRoute'
 import PrivateUserRoute from './components/PrivateRoute/PrivateUserRoute'
 import LayoutUser from './layout/LayoutUser'
 import './styles/App.css'
-const  App = () =>{
+import FormRegistrationForm from './FormRegistrationForm';
+
+const App = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const role = useSelector((state) => state.auth.role);
-    return(
-      <>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Navigate to='/login' />} />
-            <Route path='/login' element = {<Login/>} />
-            <Route path='/unauthorized' element={<UnauthorizedPage />} />
-            <Route path='/manager' element= {<Navigate to='/manager/dashboard'/>} />
-            {/* <Route element = {<PrivateManagerRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Navigate to='/login' />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/unauthorized' element={<UnauthorizedPage />} />
+          <Route path='/manager' element={<Navigate to='/manager/dashboard' />} />
+          {/* <Route element = {<PrivateManagerRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
               <Route path='/manager/*' element={<LayoutManager/>}/>
             </Route> */}
-            <Route path='/manager/*' element={<LayoutManager/>}/>
-            <Route path='/user' element= {<Navigate to='/user/dashboard'/>} />
-            <Route element = {<PrivateUserRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
-              <Route path='/user/*' element={<LayoutUser/>}/>
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </>
-    )
+          <Route path='/manager/*' element={<LayoutManager />} />
+          <Route path='/user' element={<Navigate to='/user/dashboard' />} />
+          <Route element={<PrivateUserRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role} />}>
+            <Route path='/user/*' element={<LayoutUser />} />
+          </Route>
+          <Route path='/registration' element={<FormRegistrationForm />} /> {/* Route cho form đăng ký */}
+        </Routes>
+      </BrowserRouter>
+    </>
+  )
 }
 
 export default App
