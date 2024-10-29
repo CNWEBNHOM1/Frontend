@@ -93,4 +93,4 @@ function FormRegistrationForm() {
     );
 }
 
-export default DormRegistrationForm;
+export default FormRegistrationForm;
