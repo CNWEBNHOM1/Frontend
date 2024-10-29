@@ -14,7 +14,7 @@ const PrivateUserRoute = ({ isAuthenticated, role, dispatch }) => {
     if(!isAuthenticated){
       return <Navigate to='/login'/>  // Điều hướng về trang đăng nhập
     }
-    else if(role === "USER"){
+    else if(role === "Sinh viên"){
       return <Outlet />
     }
     else{

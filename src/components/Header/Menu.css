@@ -1,8 +1,54 @@
-.menu {
-    position: absolute; /* Đặt vị trí tuyệt đối cho menu */
-    top: 100%; /* Đặt menu ngay bên dưới phần tử .account */
-    left: 0; /* Căn trái với phần tử cha */
-    background-color: red; /* Để dễ nhìn thấy */
-    width: 100%; /* Đặt chiều rộng bằng với chiều rộng của phần tử cha nếu cần */
-    z-index: -1;
+.menu-list{
+    background-color: #FFFFFF;
+    height: 210px;
+    width: 180px;
+    top: 10.5%;
+    position: absolute;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border-radius: 10px;
+}
+
+.list-profile{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+.menu-title{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    font-style: bold;
+    color: #16365f;
+}
+
+.btn-logout{
+    background-color: #4d53e0;
+    height: 35px;
+    width: 140px;
+    border: none;
+    color: #FFFFFF;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    font-style: bold;
+    border-radius: 10px;
+
+}
+.btn-logout:hover{
+    background-color: rgba(77, 83, 224, 0.8); /* Giảm độ đậm bằng cách giảm alpha */
+}
+.btn-logout:active{
+    background-color: #4d53e0;
 }

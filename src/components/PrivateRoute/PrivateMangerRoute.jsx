@@ -14,7 +14,7 @@ const PrivateManagerRoute = ({ isAuthenticated, role, dispatch }) => {
     if(!isAuthenticated){
       return <Navigate to='/login'/>  // Điều hướng về trang đăng nhập
     }
-    else if(role === "MANAGER"){
+    else if(role === "Quản lý"){
       return <Outlet />
     }
     else{

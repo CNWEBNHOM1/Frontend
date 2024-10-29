@@ -2,8 +2,10 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%; /* Ensure full height for body and html */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #root {
     height: 100vh; /* Make sure the root div takes up the full height */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

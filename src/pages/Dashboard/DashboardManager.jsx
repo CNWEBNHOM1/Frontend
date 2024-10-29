@@ -1,8 +1,9 @@
-
-
+import Header from "../../components/Header/Header"
+import "./DashboardManager.css"
 const DashboardManager = () => {
   return (
-    <div>
+    <div className="dashboard-manager">
+        <Header title={"Trang chủ"}/>
         DashboardManager
     </div>
   )

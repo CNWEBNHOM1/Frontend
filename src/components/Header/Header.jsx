@@ -14,13 +14,15 @@ import ProfileIcon from '../../assets/icons/ProfileIcon'
 import TasksIcon from '../../assets/icons/TasksIcon'
 import MessagesIcon from '../../assets/icons/MessagesIcon'
 import logoutIcon from '../../assets/icons/logout-outline-icon.svg'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import "./Header.css"
-//import Menu from './Menu'
+import Menu from './Menu'
 const Header = ({ title }) => {
+
+    const menuRef = useRef(null)
     const [menuOpen, setMenuOpen] = useState(false);
     const [notificationsOpen, setNotificationsOpen] = useState(false);
-    const fullName = localStorage.getItem("fullName");
+    const email = localStorage.getItem("email");
     const dispatch = useDispatch();
   
     const toggleNotifications = () => setNotificationsOpen(!notificationsOpen);
@@ -41,14 +43,15 @@ const Header = ({ title }) => {
                 <div className='notification'>
                     <FontAwesomeIcon icon={faBell} style={{width: "30px", height: "30px"}}/>
                 </div>
-                <div className='account' onClick={() => setIsOpen(!isOpen)}>
+                <div className='account' onClick={() => setIsOpen(!isOpen)} ref={menuRef}>
                     <div className='circle-name'>
-                        {fullName[0]}
+                        {email[0].toUpperCase()}
                     </div>
                     <div className='menu'>
                         <FontAwesomeIcon icon={faChevronDown} style={{width: "20px", height: "20px"}}/>
                     </div>
                 </div>
+                {isOpen && <Menu btnRef={menuRef} closePopup={() => setIsOpen(false)}/>}
             </div>
         </div>
 

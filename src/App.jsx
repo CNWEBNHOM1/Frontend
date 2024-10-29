@@ -20,9 +20,9 @@ const  App = () =>{
             <Route path='/login' element = {<Login/>} />
             <Route path='/unauthorized' element={<UnauthorizedPage />} />
             <Route path='/manager' element= {<Navigate to='/manager/dashboard'/>} />
-            {/* <Route element = {<PrivateManagerRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
+            <Route element = {<PrivateManagerRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
               <Route path='/manager/*' element={<LayoutManager/>}/>
-            </Route> */}
+            </Route>
             <Route path='/manager/*' element={<LayoutManager/>}/>
             <Route path='/user' element= {<Navigate to='/user/dashboard'/>} />
             <Route element = {<PrivateUserRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
