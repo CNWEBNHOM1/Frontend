@@ -1,0 +1,35 @@
+.dorm-form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 0 auto;
+}
+
+.dorm-form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.dorm-form input,
+.dorm-form select {
+    padding: 8px;
+    font-size: 14px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.dorm-form button {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.dorm-form button:hover {
+    background-color: #45a049;
+}
