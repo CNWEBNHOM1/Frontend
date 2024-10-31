@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import './FormRegistrationForm.css';
 
@@ -93,4 +94,4 @@ function FormRegistrationForm() {
     );
 }
 
-export default DormRegistrationForm;
+export default FormRegistrationForm;

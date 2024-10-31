@@ -36,7 +36,7 @@ export const SidebarManagerData =[
     {
         title: "Báo cáo",
         icon: <ReportIcon />,
-        link : "/manager/invoice"   
+        link : "/manager/report"   
     },
     {
         title: "Tài khoản",
