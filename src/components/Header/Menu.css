@@ -2,7 +2,8 @@
     background-color: #FFFFFF;
     height: 210px;
     width: 180px;
-    top: 10.5%;
+    top: 9%;
+    right: 1.8%;
     position: absolute;
     box-sizing: border-box;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -11,6 +12,7 @@
     flex-direction: column;
     gap: 30px;
     border-radius: 10px;
+    z-index: 3;
 }
 
 .list-profile{
@@ -24,13 +26,17 @@
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    color: #16365f;
+}
+.profile:hover{
+    color: #000000;
+    cursor: pointer;
 }
 .menu-title{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 500;
     font-size: 15px;
     font-style: bold;
-    color: #16365f;
 }
 
 .btn-logout{

@@ -3,11 +3,12 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 10%;
+    height: 8%;
     background-color: #FFFFFF;
     width: 100%;
     padding: 0 20px;
-    padding-right: 100px;
+    padding-left: 32px;
+    padding-right: 32px;
     box-sizing: border-box;
     box-shadow: #d73d32;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

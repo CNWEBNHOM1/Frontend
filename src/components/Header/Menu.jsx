@@ -29,19 +29,19 @@ const Menu  = ({btnRef, closePopup}) =>{
         <div className="menu-list" ref={popupRef}>
             <div className='list-profile'>
                 <div className="profile">
-                    <FontAwesomeIcon icon={faUser} style={{width: "25px", height : "25px", color: "#16365f"}}/>
+                    <FontAwesomeIcon icon={faUser} style={{width: "25px", height : "25px"}}/>
                     <div className='menu-title'>
                         Hồ sơ
                     </div>
                 </div>
                 <div className="profile">
-                    <FontAwesomeIcon icon={faKeyboard} style={{width: "25px", height : "25px", color: "#16365f"}}/>
+                    <FontAwesomeIcon icon={faKeyboard} style={{width: "25px", height : "25px"}}/>
                     <div className='menu-title'>
                         Công việc
                     </div>
                 </div>
                 <div className="profile">
-                    <FontAwesomeIcon icon={faMessage} style={{width: "25px", height : "25px", color: "#16365f"}}/>
+                    <FontAwesomeIcon icon={faMessage} style={{width: "25px", height : "25px"}}/>
                     <div className='menu-title'>
                         Tin nhắn
                     </div>

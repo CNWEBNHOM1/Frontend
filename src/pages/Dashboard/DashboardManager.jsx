@@ -1,4 +1,5 @@
 import Header from "../../components/Header/Header"
+import { withAuthorization } from '../../hoc';
 import "./DashboardManager.css"
 const DashboardManager = () => {
   return (
@@ -9,4 +10,4 @@ const DashboardManager = () => {
   )
 }
 
-export default DashboardManager
+export default withAuthorization(DashboardManager, ["Quản lý"])

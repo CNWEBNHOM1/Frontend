@@ -1,0 +1,88 @@
+.btn{
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    outline: 0;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    height: 36px;
+    min-width: 64px;
+    text-align: center;
+    flex-direction: column;
+}
+.btn_base{
+    color: #0F1824;
+    height: 36px;
+    font-size: 0.875rem;
+    min-width: 80px;
+    box-sizing: border-box;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 0;
+    margin: 0;
+    display: inline-flex;
+    outline: 0;
+    padding: 6px 16px;
+    position: relative;
+    align-items: center;
+    user-select: none;
+    vertical-align: middle;
+    -moz-appearance: none;
+    justify-content: center;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.btn_base:hover {
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.04);
+}
+.btn_filter {
+    min-width: 119px;
+    font-weight: 400;
+    border-radius: 3px;
+    border: 1px solid #d3d5d7;
+    display: flex;
+    padding: 0 12px;
+    align-items: center;
+    background-color: #fff;
+}
+.btn__label {
+    width: 100%;
+    display: inherit;
+    font-size: 1rem;
+    align-items: inherit;
+    text-transform: none;
+    justify-content: inherit;
+    gap: 12px;
+}
+.btn__icon {
+    display: inherit;
+    color: #A3A8AF;
+    height: 24px;
+    width: 24px;
+    align-items: center;
+    justify-content: center;
+
+}
+.btn__icon svg {
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    font-size: 1rem;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    flex-shrink: 0;
+    user-select: none;
+}
