@@ -2,6 +2,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Login from './pages/Login/Login'
+import Signup from './pages/Sign_Up/SignUp'
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage'
 import LayoutManager from './layout/LayoutManager'
 import PrivateManagerRoute from './components/PrivateRoute/PrivateMangerRoute'
