@@ -1,0 +1,49 @@
+.container2 {
+    z-index: 5;
+    border: 1px solid rgb(211, 213, 215);
+    box-shadow: rgba(168, 168, 168, 0.25) 0px 0.571429rem 1.14286rem;
+    border-radius: 3px;
+    background: rgb(255, 255, 255);
+    box-sizing: border-box;
+    position: absolute;
+    inset: auto auto 0px 0px;
+    transform: translate3d(0px, -35px, 0px);
+}
+
+.wrapper2 {
+    max-height: 160px;
+    width: 75px;
+    overflow: hidden auto;
+    border-radius: 3px;
+    padding: 0px 4px;
+    box-sizing: border-box;
+}
+
+.selectItem2 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    width: 100%;
+    -webkit-box-align: center;
+    align-items: center;
+    min-height: 32px;
+    cursor: pointer;
+    border: none;
+    padding: 0px 8px;
+    border-radius: 3px;
+    outline: none;
+    box-sizing: border-box;
+    text-align: left;
+    margin: 4px 0px;
+    background: transparent;
+}
+
+.selectItem2.selected2 {
+    color: #4d53E0;
+    background: #f6f3ff;      
+}
+.selectItem2:hover{
+    background: rgb(243, 244, 245);
+}

@@ -5,6 +5,7 @@ import { formatDate } from "../../utils/DateUtils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import "./SelectDatePopup.css"
+import DateFilter from "../DateFilter/DateFilter";
 const SelectDatePopup = ({ data, setDataFilters, title}) =>{
     
     const dateRef = useRef(null);
@@ -13,6 +14,7 @@ const SelectDatePopup = ({ data, setDataFilters, title}) =>{
     const handleChangeDataFilter = (filters) => {
 		setDataFilters(filters);
 	};
+
     return(
         <>
             <button
@@ -30,12 +32,12 @@ const SelectDatePopup = ({ data, setDataFilters, title}) =>{
                     </span>
                 </span>
             </button>
-            {isOpenDatePopup
-                // <CreatedAtFilter
-                //     createdRef={createdAtRef}
-                //     closePopup={() => setIsOpenCreatedAtPopup(false)}
-                //     handeChangeDatafilter={(data) => handleChangeDataFilter(data)}
-                // />
+            {isOpenDatePopup &&
+                <DateFilter
+                    dateRef={dateRef}
+                    closePopup={() => setIsOpenDatePopup(false)}
+                    handeChangeDatafilter={(data) => handleChangeDataFilter(data)}
+                />
             }
         </>
     )
