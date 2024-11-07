@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import DashboardManager from "../pages/Dashboard/DashboardManager";
 import Area from "../pages/Area/Area";
 import "./Layout.css"
+import Room from "../pages/Room/Room.jsx";
 const LayoutManager = () =>{
     return (
         <div className="layout">
@@ -11,6 +12,7 @@ const LayoutManager = () =>{
                 <Routes>
                     <Route path="/dashboard/*" element={<DashboardManager />} />
                     <Route path="/area/*"  element={<Area />}/>
+                    <Route path="/room"  element={<Room />}/>
                 </Routes>
             </div>
         </div>

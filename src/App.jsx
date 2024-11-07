@@ -25,7 +25,6 @@ const App = () => {
             <Route element = {<PrivateManagerRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
               <Route path='/manager/*' element={<LayoutManager/>}/>
             </Route>
-            <Route path='/manager/*' element={<LayoutManager/>}/>
             <Route path='/user' element= {<Navigate to='/user/dashboard'/>} />
             <Route element = {<PrivateUserRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
               <Route path='/user/*' element={<LayoutUser/>}/>

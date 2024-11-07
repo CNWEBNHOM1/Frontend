@@ -55,62 +55,7 @@ const colsToRender = {
   updated_at: true
 };
 const areaList = [
-  {
-    id : 1,
-    name: "B1",
-    room_count: 50,
-    broken_room: 3,
-    created_at: "9999-12-31 23:59:59",
-    updated_at:"9999-12-31 23:59:59"
-  },
-  {
-    id : 2,
-    name: "B2",
-    room_count: 50,
-    broken_room: 3,
-    created_at: "9999-12-31 23:59:59",
-    updated_at:"9999-12-31 23:59:59"
-  },
-  {
-    id : 3,
-    name: "B3",
-    room_count: 50,
-    broken_room: 3,
-    created_at: "9999-12-31 23:59:59",
-    updated_at:"9999-12-31 23:59:59"
-  },
-  {
-    id : 4,
-    name: "B4",
-    room_count: 50,
-    broken_room: 3,
-    created_at: "9999-12-31 23:59:59",
-    updated_at:"9999-12-31 23:59:59"
-  },
-  {
-    id : 5,
-    name: "B5",
-    room_count: 50,
-    broken_room: 3,
-    created_at: "9999-12-31 23:59:59",
-    updated_at:"9999-12-31 23:59:59"
-  },
-  {
-    id : 6,
-    name: "B6",
-    room_count: 50,
-    broken_room: 3,
-    created_at: "9999-12-31 23:59:59",
-    updated_at:"9999-12-31 23:59:59"
-  },
-  {
-    id : 7,
-    name: "B7",
-    room_count: 50,
-    broken_room: 3,
-    created_at: "9999-12-31 23:59:59",
-    updated_at:"9999-12-31 23:59:59"
-  },
+  
 ]
 const AreaList = () => {
 

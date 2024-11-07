@@ -24,7 +24,7 @@ const LimitSelectPopup = ({ btnRef, limit, handleChangeLimit, closePopup}) =>{
         <div ref={popupRef} className="container2">
             <div className="wrapper2">
                 <button onClick={() => handleChange(10)} className={`selectItem2 ${limit === 10 ? 'selected2' : ''}`}>
-                10
+                    10
                 </button>
                 <button onClick={() => handleChange(20)} className={`selectItem2 ${limit === 20 ? 'selected2' : ''}`}>
                     20
