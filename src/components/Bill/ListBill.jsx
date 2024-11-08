@@ -1,26 +1,33 @@
 /* eslint-disable no-unused-vars */
-import Header from "../Header/Header"
-import "./ListRooms.css"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAnglesRight, faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
-import SelectDatePopup from "../SelectDatePopup/SelectDatePopup"
-import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
-import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup"
-import { withAuthorization } from "../../hoc"
-import { getListRoom } from "../../service/ManagerAPI/RoomAPI"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Header from "../Header/Header";
+import "./ListBill.css"
+import { faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useRef, useState } from "react";
+import SelectDatePopup from "../SelectDatePopup/SelectDatePopup";
+import { Link } from "react-router-dom";
+import { getListBill } from "../../service/ManagerAPI/BillAPI";
+import { formatDate } from "../../utils/DateUtils";
+import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup";
 
+const statusTab = [
+    { key: "all", label: "Tất cả hoá đơn", trangthai: null },
+    { key: "completed", label: "Đã đóng", trangthai: "Đã đóng" },
+    { key: "waiting", label: "Chờ xác nhận", trangthai: "Chờ xác nhận" },
+    { key: "incompleted", label: "Chưa đóng", trangthai: "Chưa đóng" },
+    { key: "overdue", label: "Quá hạn", trangthai: null }
+];
 
 const colsToRender = {
-    name: true,
+    room: true,
     department: true,
-    occupiedSlots: true,
-    capacity: true,
-    giatrangbi: true,
-    tinhtrang: true
+    thanhtien: true,
+    handong: true,
+    trangthai: true,
 };
+
 const col = {
-    name : {
+    room : {
       name: "Tên phòng",
       width: "80px",
       align: "text-center"
@@ -31,74 +38,105 @@ const col = {
       width: "80px",
       align: "text-center"
     },
-    occupiedSlots: {
-      name: "Số người hiện tại",
+    thanhtien: {
+      name: "Tổng tiền",
       width: "70px",
       align: "text-center"
     },
-    capacity: {
-      name: "Số người tối đa",
+    handong: {
+      name: "Hạn đóng",
       width: "70px",
       align: "text-center"
     },
-    giatrangbi: {
-      name: "Giá trang bị",
+    trangthai: {
+      name: "Trạng thái",
       width: "100px",
       align: "text-center"
-    },
-    tinhtrang: {
-      name: "Tình trạng",
-      width: "120px",
-      align: "text-center"
     }
-  
 }
-const ListRooms = () =>{
 
-    const [dataBody, setDataBody] = useState({
-        keyword : null,
-        created_date_from: null,
-        created_date_to: null,
-        department : null,
-    });
-    const [roomList, setRoomList] = useState([]);
+
+const ListBill = () =>{
+
     const limitBtnRef = useRef(null);
-    const [isOpenLimitPopup, setIsOpenLimitPopup] = useState(false);
-    const [limit, setLimit] = useState(10);
-    const [page,setPage] = useState(1);
-    const [roomQuantity, setRoomQuantity] = useState(0)
-    const [pageQuantity, setPageQuantity] = useState(3);
+    const [isOpenLimitPopup,setIsOpenLimitPopup] = useState(false);
+    const [filterBody, setFilterBody] = useState({
+        page: 1,
+        limit: 10,
+        trangthai: null,
+        room: null,
+        department:null,
+        overdue: false,
+        fromDate: null,
+        toDate: null,
+        sortOrder: -1
+    })
+    const [billList, setBillList] = useState([]);
 
-    const handlePrevPage = () => {
-		if (page > 1) {
-			setPage((prev) => prev - 1);
-		}
-	};
+    const [billQuantity, setBillQuantity] = useState();
+    const [pageQuantity, setPageQuantity] = useState();
+    const [tabActive, setTabActive] = useState("all");
+    const handleTabClick = (key, trangthai) => {
+        setTabActive(key);
+        setFilterBody(prev => ({
+            ...prev,
+            trangthai: trangthai,
+            overdue: false
+        }));
+    };
+
+    const toggleSortOrder = () => {
+        setFilterBody((prev) => ({
+            ...prev,
+            sortOrder: prev.sortOrder === -1 ? 1 : -1
+        }));
+    };
+
+    const handleTabClick1 = (key,trangthai) => {
+        setTabActive(key);
+        setFilterBody(prev => ({
+            ...prev,
+            trangthai: trangthai,
+            overdue: true
+        }));
+    };
 
     const handleNextPage = () => {
-		if (page < pageQuantity) {
-			setPage((prev) => prev + 1);
-		}
-	};
-
-    const fetchRoomList =  async () =>{
-        const rooms = await getListRoom({
-            page: page,
-            limit: limit,
-            department: dataBody.department
-        })
-        setRoomList(rooms.data.listRoom)
-        setPageQuantity(rooms.data.totalPages)
-        setRoomQuantity(rooms.data.total)
+        setFilterBody((prevFilterBody) => {
+            // Chỉ tăng trang khi trang hiện tại nhỏ hơn tổng số trang
+            if (prevFilterBody.page < pageQuantity) {
+                return {
+                    ...prevFilterBody,
+                    page: prevFilterBody.page + 1
+                };
+            }
+        });
+    };
+    const handlePrevPage = () => {
+        setFilterBody((prevFilterBody) => {
+            // Chỉ tăng trang khi trang hiện tại nhỏ hơn tổng số trang
+            if (prevFilterBody.page > 1) {
+                return {
+                    ...prevFilterBody,
+                    page: prevFilterBody.page - 1
+                };
+            }
+        });
+    };
+    const fetchListBill = async () =>{
+        const bills = await getListBill(filterBody);
+        console.log(bills)
+        setBillList(bills.data.listBill);
+        setBillQuantity(bills.data.total);
+        setPageQuantity(bills.data.totalPages);
+        console.log(billList)
     }
-
-    useEffect(() =>{
-        fetchRoomList();
-    }, [limit, page, dataBody.department])
-
+    useEffect(()=>{
+        fetchListBill();
+    }, [filterBody])
     return(
-        <div className="list-room">
-            <Header title={"Danh sách phòng"}/>
+        <div className="list-bill">
+            <Header title={"Danh sách hoá đơn"}/>
             <div className="right__listPage">
                 <div className="toolbar">
                     <button className="btn-base">
@@ -106,15 +144,29 @@ const ListRooms = () =>{
                             <FontAwesomeIcon icon={faPlus} style={{height: '15px'}}/>
                         </span>
                         <span className="btn-title">
-                            Tạo phòng mới
+                            Tạo hoá đơn
                         </span>
                     </button>
                 </div>
                 <div className="main_table">
                     <div className="main_table-scroller">
                         <div className="box-scroller">
-                            <div className="group-scroller-btns">
-                                <button className="btn-scroller active">Tất cả các phòng</button>
+                            <div  className="group-scroller-btns">
+                            {statusTab.map(({ key, label, trangthai }) => (
+                                <button
+                                    key={key}
+                                    className={`btn-scroller ${tabActive === key ? "active" : ""}`}
+                                    onClick={() => {
+                                        if (key === "overdue") {
+                                            handleTabClick1(key, trangthai);
+                                        } else {
+                                            handleTabClick(key, trangthai);
+                                        }
+                                    }}
+                                >
+                                    {label}
+                                </button>
+                            ))}
                             </div>
                         </div>
                     </div>
@@ -130,28 +182,41 @@ const ListRooms = () =>{
                                         type="text"
                                         name="search"
                                         id=""
-                                        autoComplete="on" 
+                                        autoComplete="on"
+                                        onChange={(e) =>
+											setFilterBody({ ...filterBody, room: e.target.value })
+										}
                                     />
                                     <fieldset className="input-field" />
                                 </div>
                             </div>
                             <div className="btn-group group-filter-btns">
-                                <button
-									className="btn btn_base btn_filter"
-								>
-									<span className="btn_label">
+                                <button className="btn btn_base btn_filter">
+                                    <span className="btn_label">
 										Khu
 										<span className="btn_icon">
 											<FontAwesomeIcon icon={faCaretDown} style={{color:"#A3A8AF" }}/>
 										</span>
 									</span>
-								</button>
+                                </button>
+                                <SelectDatePopup
+                                    title={"Hạn đóng"}
+                                    setDataFilters={(data) =>
+										setFilterBody((prev) => {
+											return {
+												...prev,
+												fromDate: data.date_from,
+												toDate: data.date_to,
+											};
+										})
+									}
+                                />
                                 <button className="btn btn_base btn_filter"
-                                    onClick={() => setDataBody({
-                                        keyword: null,
-                                        created_date_from: null,
-                                        created_date_to: null,
-                                        department: null,
+                                    onClick={() => setFilterBody({
+                                        ...filterBody,
+                                        department:null,
+                                        fromDate: null,
+                                        toDate: null
                                     })}
                                 >
 									<span className="btn_label">
@@ -160,22 +225,22 @@ const ListRooms = () =>{
 								</button>
                             </div>
                         </div>
-                        { ((dataBody.created_date_from && dataBody.created_date_to) || dataBody.department )&&(
+                        {((filterBody.fromDate && filterBody.toDate) || filterBody.department) && (
                             <div className="box-show-selected-filter">
                                 <div className="box-show-selected-container">
-                                    {dataBody.created_date_from && dataBody.created_date_to && (
+                                    {filterBody.fromDate && filterBody.toDate && (
                                         <div className="box-show-selected-item">
                                             <span>
-                                                Ngày tạo: (<span>{dataBody.created_date_from}</span> -
-                                                <span>{dataBody.created_date_to}</span>)
-											</span>
+                                                Ngày tạo: (<span>{filterBody.fromDate}</span> -
+                                                <span>{filterBody.toDate}</span>)
+                                            </span>
                                             <div className="box-remove-item">
                                                 <button
                                                     onClick={() =>
-                                                        setDataBody((prev) => ({
+                                                        setFilterBody((prev) => ({
                                                         ...prev,
-                                                        created_date_from: null,
-                                                        created_date_to: null,
+                                                        fromDate: null,
+                                                        toDate: null,
                                                         }))
                                                     }
                                                     className="btn-remove-item"
@@ -188,15 +253,15 @@ const ListRooms = () =>{
                                             </div>
                                         </div>      
                                     )}
-                                    {dataBody.department && (
+                                    {filterBody.department && (
                                         <div className="box-show-selected-item">
                                             <span>
-                                                Khu: <span>{dataBody.department}</span> 
-											</span>
+                                                Khu: <span>{filterBody.department}</span> 
+                                            </span>
                                             <div className="box-remove-item">
                                                 <button
                                                     onClick={() =>
-                                                        setDataBody((prev) => ({
+                                                        setFilterBody((prev) => ({
                                                         ...prev,
                                                         department: null
                                                         }))
@@ -222,22 +287,22 @@ const ListRooms = () =>{
                                 <col style={{width: "130px"}}></col>
                                 <col style={{width: "160px"}}></col>
                                 <col style={{width: "160px"}}></col>
-                                <col style={{width: "180px"}}></col>
                                 <col style={{width: "200px"}}></col>
                             </colgroup>
                             <thead>
                                 <tr className="group-table-headers">
                                     {Object.entries(colsToRender).map(([key, value]) => {
                                         if(value){
-                                            if (key === "created_at"){
+                                            if (key === "handong"){
                                                 return (
 													<th
 														key={key}
 														className="table-header-item"
+                                                        onClick={toggleSortOrder}
 													>
 														<div className="box-sort-date">
 															{col[key].name}
-															<span className="box-icon">
+															<span className="box-icon" style={{ transform: filterBody.sortOrder === -1 ? 'rotate(0deg)' : 'rotate(180deg)' }}>
 																<FontAwesomeIcon icon={faCaretDown} />
 															</span>
 														</div>
@@ -268,17 +333,16 @@ const ListRooms = () =>{
                                 <col style={{width: "130px"}}></col>
                                 <col style={{width: "160px"}}></col>
                                 <col style={{width: "160px"}}></col>
-                                <col style={{width: "180px"}}></col>
                                 <col style={{width: "200px"}}></col>
                             </colgroup>
                             <tbody>
-                                {roomList.map((room, index) =>{
+                                {billList.map((bill, index) =>{
                                     return(
                                         <tr key={index} className="table-data-row">
                                             {Object.entries(colsToRender).map(([key,value]) =>{
                                                 if(value){
-                                                    if(key === "tinhtrang"){
-                                                        if(room[key] === "Bình thường"){
+                                                    if(key === "trangthai"){
+                                                        if(bill[key] === "Đã đóng"){
                                                             return(
                                                                 <td
                                                                     key={key}
@@ -287,7 +351,21 @@ const ListRooms = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-green">
-                                                                        {room[key]}
+                                                                        {bill[key]}
+                                                                    </p>
+                                                                </td>
+                                                            )
+                                                        }
+                                                        else if(bill[key] === "Chờ xác nhận"){
+                                                            return(
+                                                                <td
+                                                                    key={key}
+                                                                    colSpan={1}
+                                                                    rowSpan={1}
+                                                                    className="table-data-item"
+                                                                >
+                                                                    <p className="box-blue">
+                                                                        {bill[key]}
                                                                     </p>
                                                                 </td>
                                                             )
@@ -301,13 +379,13 @@ const ListRooms = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-red">
-                                                                        {room[key]}
+                                                                        {bill[key]}
                                                                     </p>
                                                                 </td>
                                                             )
                                                         }
                                                     }
-                                                    else if(key === "giatrangbi"){
+                                                    else if(key === "thanhtien"){
                                                         return(
                                                             <td
                                                                 key={key}
@@ -316,11 +394,26 @@ const ListRooms = () =>{
                                                                 className="table-data-item"
                                                             >
                                                             <p className="box-text">
-                                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room[key])}
+                                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bill[key])}
                                                             </p>
                                                         </td>
                                                         )
                                                     }
+                                                    else if(key === "handong"){
+                                                        return(
+                                                            <td
+                                                                key={key}
+                                                                colSpan={1}
+                                                                rowSpan={1}
+                                                                className="table-data-item"
+                                                            >
+                                                            <p className="box-text">
+                                                                {formatDate(bill[key])}
+                                                            </p>
+                                                        </td>
+                                                        )
+                                                    }
+                                                    else
                                                     return(
                                                         <td
                                                             key={key}
@@ -329,13 +422,13 @@ const ListRooms = () =>{
                                                             className="table-data-item"
                                                         >
                                                             <p className="box-text">
-                                                                {key !== "name" ? (
-                                                                room[key]
+                                                                {key !== "room" ? (
+                                                                bill[key]
                                                                 ) : (
                                                                 <Link
                                                                     className="box-id"
                                                                 >
-                                                                    {room[key]}
+                                                                    {bill[key]}
                                                                 </Link>
                                                                 )}
                                                             </p>
@@ -348,7 +441,7 @@ const ListRooms = () =>{
                                     )
                                 })}
                             </tbody>
-                        </table>
+                        </table>     
                     </div>
                 </div>
                 <div className="right__table-pagination">
@@ -361,7 +454,7 @@ const ListRooms = () =>{
                             onClick={() => setIsOpenLimitPopup(!isOpenLimitPopup)}
                             className={`btn-page-limit ${isOpenLimitPopup ? 'selected' : ''}`}
                         >
-                            {limit}
+                            {filterBody.limit}
                             <span>
                                 <FontAwesomeIcon icon={faCaretDown} />
                             </span>
@@ -370,10 +463,13 @@ const ListRooms = () =>{
                             <LimitSelectPopup
                                 btnRef={limitBtnRef}
                                 closePopup={() => setIsOpenLimitPopup(false)}
-                                limit={limit}
+                                limit={filterBody.limit}
                                 handleChangeLimit={(limit) => {
-                                    setLimit(limit);
-                                    setPage(1);
+                                    setFilterBody({
+                                        ...filterBody,
+                                        limit: limit,
+                                        page: 1
+                                    })
                                 }}
                             />
 						)}
@@ -381,25 +477,25 @@ const ListRooms = () =>{
                     <div className="title-1" style={{display: "flex", flexDirection: "row", gap: '5px'}}>
                         <div>Kết quả.</div>
                         <div className="item-quantity">
-                            Từ {(page - 1) * limit + 1} đến{" "}
-                            {page * limit > roomQuantity ? roomQuantity : page * limit} trên tổng{" "}
-                            {roomQuantity}
+                            Từ {(filterBody.page - 1) * filterBody.limit + 1} đến{" "}
+                            {filterBody.page * filterBody.limit > billQuantity ? billQuantity : filterBody.page * filterBody.limit} trên tổng{" "}
+                            {billQuantity}
                         </div>
                     </div>
                     <div className="prev">
                         <button
-                            className={`btn_prev ${page === 1 ? 'inactive' : ''}`}
+                            className={`btn_prev ${filterBody.page === 1 ? 'inactive' : ''}`}
                             onClick={handlePrevPage}
                         >
                             <FontAwesomeIcon icon={faChevronLeft} />
                         </button>
                     </div>
                     <div className="page">
-                        {page}
+                        {filterBody.page}
                     </div>
                     <div className="next">
                         <button
-                            className={`btn_next ${page === pageQuantity ? 'inactive' : ''}`}
+                            className={`btn_next ${filterBody.page === billQuantity ? 'inactive' : ''}`}
                             onClick={handleNextPage}
                         >
                             <FontAwesomeIcon icon={faChevronRight} />
@@ -410,5 +506,4 @@ const ListRooms = () =>{
         </div>
     )
 }
-
-export default withAuthorization(ListRooms, ["Quản lý"])
+export default ListBill;

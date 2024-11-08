@@ -31,7 +31,7 @@ export const SidebarManagerData =[
     {
         title: "Hoá đơn",
         icon: <ReceiptLongIcon />,
-        link : "/manager/invoice"   
+        link : "/manager/bill"   
     },
     {
         title: "Báo cáo",
