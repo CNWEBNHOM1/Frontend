@@ -98,7 +98,7 @@ const Login = () =>{
                             />
                         </div>
                     </div>
-                    <div className='btn'>
+                    <div className='btn1'>
                         <div>Vai trò </div>
                         <div className='btn-wraper'>
                             <button onClick={handleLoginAsManager}>
