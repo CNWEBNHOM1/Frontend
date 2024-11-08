@@ -87,6 +87,7 @@ const ListRooms = () =>{
             limit: limit,
             department: dataBody.department
         })
+        console.log(rooms.data)
         setRoomList(rooms.data.listRoom)
         setPageQuantity(rooms.data.totalPages)
         setRoomQuantity(rooms.data.total)
@@ -95,7 +96,7 @@ const ListRooms = () =>{
     useEffect(() =>{
         fetchRoomList();
     }, [limit, page, dataBody.department])
-
+    console.log(pageQuantity)
     return(
         <div className="list-room">
             <Header title={"Danh sách phòng"}/>

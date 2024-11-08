@@ -5,6 +5,7 @@ import Area from "../pages/Area/Area";
 import "./Layout.css"
 import Room from "../pages/Room/Room.jsx";
 import Bill from "../pages/Bill/Bill.jsx";
+import Report from "../pages/Report/Report.jsx";
 const LayoutManager = () =>{
     return (
         <div className="layout">
@@ -15,6 +16,7 @@ const LayoutManager = () =>{
                     <Route path="/area/*"  element={<Area />}/>
                     <Route path="/room"  element={<Room />}/>
                     <Route path="/bill"  element={<Bill />}/>
+                    <Route path="/report"  element={<Report />}/>
                 </Routes>
             </div>
         </div>

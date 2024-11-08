@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../Header/Header";
-import "./ListBill.css"
+import "./ListReport.css"
 import { faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import SelectDatePopup from "../SelectDatePopup/SelectDatePopup";
@@ -9,20 +9,19 @@ import { Link } from "react-router-dom";
 import { getListBill } from "../../service/ManagerAPI/BillAPI";
 import { formatDate } from "../../utils/DateUtils";
 import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup";
+import { getListReport } from "../../service/ManagerAPI/ReportAPI";
 
 const statusTab = [
-    { key: "all", label: "Tất cả hoá đơn", trangthai: null },
-    { key: "completed", label: "Đã đóng", trangthai: "Đã đóng" },
-    { key: "waiting", label: "Chờ xác nhận", trangthai: "Chờ xác nhận" },
-    { key: "incompleted", label: "Chưa đóng", trangthai: "Chưa đóng" },
-    { key: "overdue", label: "Quá hạn", trangthai: null }
+    { key: "all", label: "Tất cả báo cáo", trangthai: null },
+    { key: "completed", label: "Đã xử lý", trangthai: "Đã xử lý" },
+    { key: "processing", label: "Đang xử lý", trangthai: "Đang xử lý" },
+    { key: "incompleted", label: "Chưa xử lý", trangthai: "Chưa xử lý" },
 ];
 
 const colsToRender = {
     room: true,
     department: true,
-    thanhtien: true,
-    handong: true,
+    ngaygui: true,
     trangthai: true,
 };
 
@@ -38,13 +37,8 @@ const col = {
       width: "80px",
       align: "text-center"
     },
-    thanhtien: {
-      name: "Tổng tiền",
-      width: "70px",
-      align: "text-center"
-    },
-    handong: {
-      name: "Hạn đóng",
+    ngaygui: {
+      name: "Ngày gửi",
       width: "70px",
       align: "text-center"
     },
@@ -56,7 +50,7 @@ const col = {
 }
 
 
-const ListBill = () =>{
+const ListReport = () =>{
 
     const limitBtnRef = useRef(null);
     const [isOpenLimitPopup,setIsOpenLimitPopup] = useState(false);
@@ -66,14 +60,13 @@ const ListBill = () =>{
         trangthai: null,
         room: null,
         department:null,
-        overdue: false,
         fromDate: null,
         toDate: null,
         sortOrder: -1
     })
-    const [billList, setBillList] = useState([]);
+    const [reportList, setReportList] = useState([]);
 
-    const [billQuantity, setBillQuantity] = useState();
+    const [reportQuantity, setreportQuantity] = useState();
     const [pageQuantity, setPageQuantity] = useState();
     const [tabActive, setTabActive] = useState("all");
     const handleTabClick = (key, trangthai) => {
@@ -119,20 +112,20 @@ const ListBill = () =>{
             return prevFilterBody;
         });
     };
-    const fetchListBill = async () =>{
-        const bills = await getListBill(filterBody);
-        console.log(bills)
-        setBillList(bills.data.listBill);
-        setBillQuantity(bills.data.total);
-        setPageQuantity(bills.data.totalPages);
-        console.log(billList)
+    const fetchListReport = async () =>{
+        const reports = await getListReport(filterBody);
+        console.log(reports)
+        setReportList(reports.data.listReport);
+        setreportQuantity(reports.data.total);
+        setPageQuantity(reports.data.totalPages);
+        console.log(reportList)
     }
     useEffect(()=>{
-        fetchListBill();
+        fetchListReport();
     }, [filterBody])
     console.log(filterBody)
     return(
-        <div className="list-bill">
+        <div className="list-report">
             <Header title={"Danh sách hoá đơn"}/>
             <div className="right__listPage">
                 <div className="toolbar">
@@ -141,7 +134,7 @@ const ListBill = () =>{
                             <FontAwesomeIcon icon={faPlus} style={{height: '15px'}}/>
                         </span>
                         <span className="btn-title">
-                            Tạo hoá đơn
+                            Xuất flie
                         </span>
                     </button>
                 </div>
@@ -154,11 +147,7 @@ const ListBill = () =>{
                                     key={key}
                                     className={`btn-scroller ${tabActive === key ? "active" : ""}`}
                                     onClick={() => {
-                                        if (key === "overdue") {
-                                            handleTabClick1(key, trangthai);
-                                        } else {
                                             handleTabClick(key, trangthai);
-                                        }
                                     }}
                                 >
                                     {label}
@@ -282,15 +271,14 @@ const ListBill = () =>{
                             <colgroup>
                                 <col style={{width: "130px"}}></col>
                                 <col style={{width: "130px"}}></col>
-                                <col style={{width: "160px"}}></col>
-                                <col style={{width: "160px"}}></col>
+                                <col style={{width: "200px"}}></col>
                                 <col style={{width: "200px"}}></col>
                             </colgroup>
                             <thead>
                                 <tr className="group-table-headers">
                                     {Object.entries(colsToRender).map(([key, value]) => {
                                         if(value){
-                                            if (key === "handong"){
+                                            if (key === "ngaygui"){
                                                 return (
 													<th
 														key={key}
@@ -328,18 +316,17 @@ const ListBill = () =>{
                             <colgroup>
                                 <col style={{width: "130px"}}></col>
                                 <col style={{width: "130px"}}></col>
-                                <col style={{width: "160px"}}></col>
-                                <col style={{width: "160px"}}></col>
+                                <col style={{width: "200px"}}></col>
                                 <col style={{width: "200px"}}></col>
                             </colgroup>
                             <tbody>
-                                {billList.map((bill, index) =>{
+                                {reportList.map((report, index) =>{
                                     return(
                                         <tr key={index} className="table-data-row">
                                             {Object.entries(colsToRender).map(([key,value]) =>{
                                                 if(value){
                                                     if(key === "trangthai"){
-                                                        if(bill[key] === "Đã đóng"){
+                                                        if(report[key] === "Đã xử lý"){
                                                             return(
                                                                 <td
                                                                     key={key}
@@ -348,12 +335,12 @@ const ListBill = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-green">
-                                                                        {bill[key]}
+                                                                        {report[key]}
                                                                     </p>
                                                                 </td>
                                                             )
                                                         }
-                                                        else if(bill[key] === "Chờ xác nhận"){
+                                                        else if(report[key] === "Đang xử lý"){
                                                             return(
                                                                 <td
                                                                     key={key}
@@ -362,7 +349,7 @@ const ListBill = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-blue">
-                                                                        {bill[key]}
+                                                                        {report[key]}
                                                                     </p>
                                                                 </td>
                                                             )
@@ -376,13 +363,13 @@ const ListBill = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-red">
-                                                                        {bill[key]}
+                                                                        {report[key]}
                                                                     </p>
                                                                 </td>
                                                             )
                                                         }
                                                     }
-                                                    else if(key === "thanhtien"){
+                                                    else if(key === "ngaygui"){
                                                         return(
                                                             <td
                                                                 key={key}
@@ -391,21 +378,7 @@ const ListBill = () =>{
                                                                 className="table-data-item"
                                                             >
                                                             <p className="box-text">
-                                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bill[key])}
-                                                            </p>
-                                                        </td>
-                                                        )
-                                                    }
-                                                    else if(key === "handong"){
-                                                        return(
-                                                            <td
-                                                                key={key}
-                                                                colSpan={1}
-                                                                rowSpan={1}
-                                                                className="table-data-item"
-                                                            >
-                                                            <p className="box-text">
-                                                                {formatDate(bill[key])}
+                                                                {formatDate(report[key])}
                                                             </p>
                                                         </td>
                                                         )
@@ -420,12 +393,12 @@ const ListBill = () =>{
                                                         >
                                                             <p className="box-text">
                                                                 {key !== "room" ? (
-                                                                bill[key]
+                                                                report[key]
                                                                 ) : (
                                                                 <Link
                                                                     className="box-id"
                                                                 >
-                                                                    {bill[key]}
+                                                                    {report[key]}
                                                                 </Link>
                                                                 )}
                                                             </p>
@@ -475,8 +448,8 @@ const ListBill = () =>{
                         <div>Kết quả.</div>
                         <div className="item-quantity">
                             Từ {(filterBody.page - 1) * filterBody.limit + 1} đến{" "}
-                            {filterBody.page * filterBody.limit > billQuantity ? billQuantity : filterBody.page * filterBody.limit} trên tổng{" "}
-                            {billQuantity}
+                            {filterBody.page * filterBody.limit > reportQuantity ? reportQuantity : filterBody.page * filterBody.limit} trên tổng{" "}
+                            {reportQuantity}
                         </div>
                     </div>
                     <div className="prev">
@@ -503,4 +476,4 @@ const ListBill = () =>{
         </div>
     )
 }
-export default ListBill;
+export default ListReport;
