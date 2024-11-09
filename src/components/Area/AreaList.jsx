@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState,useRef } from "react"
+import { useState,useRef, useEffect } from "react"
 import { withAuthorization } from "../../hoc"
 import Header from "../Header/Header"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,14 +9,10 @@ import SelectDatePopup from "../SelectDatePopup/SelectDatePopup"
 import { Link } from "react-router-dom"
 import cn from "classnames"
 import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup"
+import { getListDepartment } from "../../service/ManagerAPI/DepartmentAPI"
 
 
 const col = {
-  id : {
-    name: "Mã khu",
-    width: "50px",
-    align: "text-center"
-  },
 
   name: {
     name: "Tên khu",
@@ -33,30 +29,14 @@ const col = {
     width: "120px",
     align: "text-center"
   },
-  created_at: {
-    name: "Ngày tạo",
-    width: "100px",
-    align: "text-center"
-  },
-  updated_at: {
-    name: "Ngày cập nhật",
-    width: "100px",
-    align: "text-center"
-  }
 
 }
 
 const colsToRender = {
-  id: true,
   name: true,
   room_count: true,
   broken_room: true,
-  created_at: true,
-  updated_at: true
 };
-const areaList = [
-  
-]
 const AreaList = () => {
 
   const [dataBody, setDataBody] = useState({
@@ -66,6 +46,11 @@ const AreaList = () => {
 		updated_date_from: null,
 		updated_date_to: null
 	});
+
+
+  const [areaList, setAreaList] = useState([]);
+
+  const [name, setName] = useState("")
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const [areasQuantity, setAreasQuantity] = useState(20);
@@ -91,7 +76,18 @@ const AreaList = () => {
 		}
 	};
 
-  console.log(areaList)
+  const fetchAreaList = async () =>{
+    const areas = await getListDepartment({page: page, limit: limit, name: name});
+    console.log(areas);
+    setAreaList(areas.data.listDepartment);
+    setPageQuantity(areas.data.totalPages);
+    setAreasQuantity(areas.data.total);
+  };
+
+  useEffect(() => { 
+    fetchAreaList();
+  }, [page, limit, name])
+
   return (
     <div className="area-list">
       <Header title={"Khu ký túc xá"}/>
@@ -128,50 +124,11 @@ const AreaList = () => {
                     id=""
                     autoComplete="on"
                     onChange={(e) =>
-											setDataBody({ ...dataBody, keyword: e.target.value })
+											setName(e.target.value)
 										}
                   />
                   <fieldset className="input-field" />
                 </div>
-              </div>
-              <div className="btn-group group-filter-btns">
-                <SelectDatePopup 
-                  title={"Ngày tạo"}
-                  setDataFilters={(data) =>
-										setDataBody((prev) => {
-											return {
-												...prev,
-												created_date_from: data.date_from,
-												created_date_to: data.date_to,
-											};
-										})
-									}
-                />
-                <SelectDatePopup 
-                  title={"Ngày cập nhật"} 
-                  setDataFilters={(data) =>
-										setDataBody((prev) => {
-											return {
-												...prev,
-												updated_date_from: data.date_from,
-												updated_date_to: data.date_to,
-											};
-										})
-									}
-                />
-                <button className="btn btn_base btn_filter"
-                  onClick={() => setDataBody({
-                    keyword: null,
-                    created_date_from: null,
-                    created_date_to: null,
-                    updated_date_from: null,
-                    updated_date_to: null
-                  })}
-                >
-									<span className="btn_label">
-										Xóa bộ lọc
-									</span>
-								</button>
               </div>
             </div>
             {( (dataBody.created_date_from && dataBody.created_date_to) || (dataBody.updated_date_from && dataBody.updated_date_to) )
@@ -241,12 +198,9 @@ const AreaList = () => {
           >
             <table className="box-table-headers">
               <colgroup>
-                <col style={{width: "60px"}}/>
                 <col style={{width: "80px"}}/>
                 <col style={{width: "120px"}}/>
                 <col style={{width: "120px"}}/>
-                <col style={{width: "150px"}} />
-                <col style={{width: "150px"}} />
               </colgroup>
               <thead>
                 <tr className="group-table-headers">
@@ -293,12 +247,9 @@ const AreaList = () => {
           >
             <table className="box-table-data">
               <colgroup>
-                <col style={{width: "60px", alignItems: "center"}}/>
                 <col style={{width: "80px", alignItems: "center"}}/>
                 <col style={{width: "120px", alignItems: "center"}}/>
                 <col style={{width: "120px", alignItems: "center"}}/>
-                <col style={{width: "150px", alignItems: "center"}} />
-                <col style={{width: "150px", alignItems: "center"}} />
               </colgroup>
               <tbody>
                 {areaList.map((area,index) => {

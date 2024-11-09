@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { getListBill } from "../../service/ManagerAPI/BillAPI";
 import { formatDate } from "../../utils/DateUtils";
 import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup";
+import SelectFilter from "../SelectFilter/SelectFilter";
+import { getListDepartment } from "../../service/ManagerAPI/DepartmentAPI";
 
 const statusTab = [
     { key: "all", label: "Tất cả hoá đơn", trangthai: null },
@@ -59,6 +61,7 @@ const col = {
 const ListBill = () =>{
 
     const limitBtnRef = useRef(null);
+    const filterBtnRef = useRef(null);
     const [isOpenLimitPopup,setIsOpenLimitPopup] = useState(false);
     const [filterBody, setFilterBody] = useState({
         page: 1,
@@ -71,7 +74,11 @@ const ListBill = () =>{
         toDate: null,
         sortOrder: -1
     })
+
+
+    const [name, setName] = useState("");
     const [billList, setBillList] = useState([]);
+    const [isOpenFilter, setIsOpenFilter] = useState(false);
 
     const [billQuantity, setBillQuantity] = useState();
     const [pageQuantity, setPageQuantity] = useState();
@@ -119,6 +126,60 @@ const ListBill = () =>{
             return prevFilterBody;
         });
     };
+
+    const selectDepartment = (department) => {
+        setFilterBody((prev) => ({
+            ...prev,
+            department: department.name
+        }));
+        // Đóng filter popup sau khi chọn
+        setIsOpenFilter(false);
+    };
+
+    const [listDepartment, setListDepartment] = useState([]);
+    const [currentPageFilter, setCurrentPageFilter] = useState(1);
+    const [totalPageFilter, setTotalPageFilter] = useState();
+
+    const fetchListDepartment = async () =>{
+        const departments = await getListDepartment({page: currentPageFilter, limit: 10, name: name});
+        setListDepartment(departments.data.listDepartment);
+        setTotalPageFilter(departments.data.totalPages);
+    }
+
+    const fetchMoreListDepartment = async () => {
+		if (currentPageFilter < totalPageFilter) {
+			const departments = await getListDepartment({
+				page: currentPageFilter + 1,
+				limit: 10,
+                name: "",
+            }
+			);
+			setListDepartment((prev) => [...prev, ...departments.data.listDepartment]);
+			setCurrentPageFilter(currentPageFilter + 1);
+			setTotalPageFilter(departments.data.totalPages);
+		}
+	};
+
+    const handleFetchMoreListDepartment = () => {
+		if (isOpenFilter) {
+			fetchListDepartment();
+		} else {
+			setListDepartment([]);
+			setName("");
+			setCurrentPageFilter(1);
+			setTotalPageFilter(1);
+		}
+	};
+
+    useEffect(() => {
+		handleFetchMoreListDepartment();
+	}, [isOpenFilter]);
+
+    useEffect(() => {
+		setCurrentPageFilter(1);
+		handleFetchMoreListDepartment();
+	}, [name]);
+
     const fetchListBill = async () =>{
         const bills = await getListBill(filterBody);
         console.log(bills)
@@ -127,10 +188,14 @@ const ListBill = () =>{
         setPageQuantity(bills.data.totalPages);
         console.log(billList)
     }
+
     useEffect(()=>{
         fetchListBill();
     }, [filterBody])
-    console.log(filterBody)
+
+    useEffect
+
+    console.log(listDepartment)
     return(
         <div className="list-bill">
             <Header title={"Danh sách hoá đơn"}/>
@@ -188,7 +253,7 @@ const ListBill = () =>{
                                 </div>
                             </div>
                             <div className="btn-group group-filter-btns">
-                                <button className="btn btn_base btn_filter">
+                                <button className="btn btn_base btn_filter" onClick={() => setIsOpenFilter(!isOpenFilter)} ref={filterBtnRef}>
                                     <span className="btn_label">
 										Khu
 										<span className="btn_icon">
@@ -196,6 +261,21 @@ const ListBill = () =>{
 										</span>
 									</span>
                                 </button>
+                                { isOpenFilter && (
+                                    <SelectFilter 
+                                        btnRef={filterBtnRef}
+                                        closePopup={() => setIsOpenFilter(false)}
+                                        listObject={listDepartment}
+                                        currentPage={currentPageFilter}
+                                        totalPage={totalPageFilter}
+                                        keyword={name}
+                                        handleChangeKeyword={(e) => {
+											setName(e.target.value);
+										}}
+                                        loadMoreData={fetchMoreListDepartment}
+                                        onSelectDepartment={selectDepartment}
+                                    />
+                                )}
                                 <SelectDatePopup
                                     title={"Hạn đóng"}
                                     setDataFilters={(data) =>
