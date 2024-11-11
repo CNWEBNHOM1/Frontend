@@ -1,9 +1,11 @@
-
+import Header from "../../components/Header/Header"
 
 const DashboardUser = () => {
   return (
-    <div>
-        DASHBOARD USER
+    <div className="dashboard-user">
+      <Header title={"Trang chủ"} />
+      123
+      Dashboard User
     </div>
   )
 }

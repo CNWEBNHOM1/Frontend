@@ -6,41 +6,45 @@ import PeopleIcon from '@mui/icons-material/People';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ReportIcon from '@mui/icons-material/Report';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-export const SidebarManagerData =[
+export const SidebarUserData = [
     {
         title: "Trang chủ",
         icon: <HomeIcon />,
-        link: "/manager/dashboard"
-
+        link: "/user/dashboard"
     },
     {
         title: "Khu ký túc",
         icon: <DomainIcon />,
-        link : "/manager/area"
+        link: "/user/area"
     },
     {
         title: "Phòng",
         icon: <BedIcon />,
-        link : "/manager/room"   
+        link: "/user/room"
     },
     {
         title: "Thành viên",
         icon: <PeopleIcon />,
-        link : "/manager/people"   
+        link: "/user/people"
     },
     {
         title: "Hoá đơn",
         icon: <ReceiptLongIcon />,
-        link : "/manager/invoice"   
+        link: "/User/invoice"
     },
     {
         title: "Báo cáo",
         icon: <ReportIcon />,
-        link : "/manager/invoice"   
+        link: "/User/invoice"
     },
     {
         title: "Tài khoản",
         icon: <ManageAccountsIcon />,
-        link : "/manager/account"
+        link: "/user/account"
     },
+    {
+        title: "Form Đăng Ký Phòng",
+        icon: <ManageAccountsIcon />,
+        link: "/user/registration"
+    }
 ]
