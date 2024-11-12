@@ -1,0 +1,26 @@
+.bill-list {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.bill-list h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.bill-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.bill-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.bill-item p {
+    margin: 5px 0;
+}

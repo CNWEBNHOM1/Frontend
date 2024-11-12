@@ -6,6 +6,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ReportIcon from '@mui/icons-material/Report';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { FaHouseChimney } from "react-icons/fa6";
 export const SidebarUserData = [
     {
         title: "Trang chủ",
@@ -30,12 +31,12 @@ export const SidebarUserData = [
     {
         title: "Hoá đơn",
         icon: <ReceiptLongIcon />,
-        link: "/User/invoice"
+        link: "/user/invoice"
     },
     {
         title: "Báo cáo",
         icon: <ReportIcon />,
-        link: "/User/invoice"
+        link: "/user/report"
     },
     {
         title: "Tài khoản",
@@ -44,7 +45,7 @@ export const SidebarUserData = [
     },
     {
         title: "Form Đăng Ký Phòng",
-        icon: <ManageAccountsIcon />,
+        icon: <FaHouseChimney />,
         link: "/user/registration"
     }
 ]
