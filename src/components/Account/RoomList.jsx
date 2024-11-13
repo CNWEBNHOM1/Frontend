@@ -41,7 +41,7 @@ function RoomList() {
 
     return (
         <>
-            <Header title={"Trang chủ/Profile"} />
+            <Header title={"Trang chủ"} />
             <div className="room-list">
                 <h2>Danh Sách Các Phòng</h2>
                 {currentRooms.length > 0 ? (
@@ -85,3 +85,21 @@ function RoomList() {
 }
 
 export default RoomList;
+
+
+// const [rooms, setRooms] = useState([]);
+// // cach them api
+// useEffect(() => {
+//     // phai co async
+//     const get = async () => {
+//         // co await khi goi ham
+//         const result = await getRoom();
+//         setRooms(result.data);
+//     }
+//     get()
+// }, []);
+
+// useEffect(() => {
+//     console.log(rooms);
+// }, [rooms])
+

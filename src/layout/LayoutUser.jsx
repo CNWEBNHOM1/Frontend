@@ -7,6 +7,7 @@ import UserProfile from '../components/Account/UserProfile'
 import MemberList from "../components/Account/MemberList"
 import RoomList from "../components/Account/RoomList"
 import RoomBillPage from "../components/Account/RoomBillPage"
+import UserReport from "../components/Account/UserReport"
 const LayoutUser = () => {
   return (
     <div className="layout">
@@ -19,6 +20,7 @@ const LayoutUser = () => {
           <Route path='/people/*' element={<MemberList />} />
           <Route path='/room/*' element={<RoomList />} />
           <Route path='/invoice/*' element={<RoomBillPage />} />
+          <Route path='/report/*' element={<UserReport />} />
         </Routes>
       </div>
     </div>
