@@ -9,7 +9,7 @@ import Header from "../Header/Header";
 
 //     useEffect(() => {
 //         // Giả sử đây là API lấy danh sách thành viên trong cùng phòng
-//         axios.get(`/api/rooms/${roomId}/members`)
+//         axios.get(/api/rooms/${roomId}/members)
 //             .then(response => {
 //                 setMembers(response.data);
 //                 setLoading(false);
@@ -67,4 +67,4 @@ function MemberList() {
     );
 }
 
-export default MemberList;
+export default MemberList;  
