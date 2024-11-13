@@ -5,12 +5,13 @@ import "./ListBill.css"
 import { faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import SelectDatePopup from "../SelectDatePopup/SelectDatePopup";
-import { Link } from "react-router-dom";
-import { getListBill } from "../../service/ManagerAPI/BillAPI";
+import { Link, useNavigate } from "react-router-dom";
+import { createAllBill, getListBill } from "../../service/ManagerAPI/BillAPI";
 import { formatDate } from "../../utils/DateUtils";
 import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup";
 import SelectFilter from "../SelectFilter/SelectFilter";
 import { getListDepartment } from "../../service/ManagerAPI/DepartmentAPI";
+import { Button, notification, Space } from 'antd';
 
 const statusTab = [
     { key: "all", label: "Tất cả hoá đơn", trangthai: null },
@@ -182,26 +183,47 @@ const ListBill = () =>{
 
     const fetchListBill = async () =>{
         const bills = await getListBill(filterBody);
-        console.log(bills)
         setBillList(bills.data.listBill);
         setBillQuantity(bills.data.total);
         setPageQuantity(bills.data.totalPages);
-        console.log(billList)
     }
+
+    const [isRender, setIsRender] = useState(false);
 
     useEffect(()=>{
         fetchListBill();
-    }, [filterBody])
+    }, [filterBody , isRender])
 
-    useEffect
+    const [api, contextHolder] = notification.useNotification();
+    const openNotificationWithIcon = (type, message) => {
+        api[type]({
+            message: message,
+            description: message,
+        });
+    };
 
-    console.log(listDepartment)
+    const doCreateAllBill = async (role) => {
+        const result = await createAllBill();
+
+        if (result.status === "success") {
+            openNotificationWithIcon('success', "Tạo hoá đơn thành công");
+        } else {
+            openNotificationWithIcon('error', "Tạo hoá đơn thất bại");
+        }
+
+        setIsRender(!isRender);
+        
+    };
+
+    const navigate = useNavigate();
     return(
+        <>
+        {contextHolder}
         <div className="list-bill">
             <Header title={"Danh sách hoá đơn"}/>
             <div className="right__listPage">
                 <div className="toolbar">
-                    <button className="btn-base">
+                    <button className="btn-base" onClick={doCreateAllBill}>
                         <span className="btn-icon">
                             <FontAwesomeIcon icon={faPlus} style={{height: '15px'}}/>
                         </span>
@@ -497,12 +519,13 @@ const ListBill = () =>{
                                                             colSpan={1}
 													        rowSpan={1}
                                                             className="table-data-item"
+                                                            
                                                         >
                                                             <p className="box-text">
                                                                 {key !== "room" ? (
                                                                 bill[key]
                                                                 ) : (
-                                                                <Link
+                                                                <Link to= {`/manager/bill/detail/${bill._id}`}
                                                                     className="box-id"
                                                                 >
                                                                     {bill[key]}
@@ -581,6 +604,7 @@ const ListBill = () =>{
                 </div>
             </div>
         </div>
+        </>
     )
 }
 export default ListBill;

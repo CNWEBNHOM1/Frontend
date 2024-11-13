@@ -9,3 +9,34 @@ export const getListBill = async (data) =>{
         throw err;
     }
 }
+
+export const createAllBill = async () =>{
+    try {
+        const response = await axiosInstance.get("/user/createBills");
+        return response.data;
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export const getDetailBill = async (_id) =>{
+    try {
+        const response = await axiosInstance.get(`/user/detailBill/${_id}`);
+        return response.data;
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export const updateDetailBill = async(id, data) =>{
+    try {
+        const response = await axiosInstance.put(`/user/updateBill/${id}`, data);
+        return response.data;
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+

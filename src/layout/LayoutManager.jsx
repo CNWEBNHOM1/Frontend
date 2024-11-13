@@ -14,9 +14,9 @@ const LayoutManager = () =>{
                 <Routes>
                     <Route path="/dashboard/*" element={<DashboardManager />} />
                     <Route path="/area/*"  element={<Area />}/>
-                    <Route path="/room"  element={<Room />}/>
-                    <Route path="/bill"  element={<Bill />}/>
-                    <Route path="/report"  element={<Report />}/>
+                    <Route path="/room/*"  element={<Room />}/>
+                    <Route path="/bill/*"  element={<Bill />}/>
+                    <Route path="/report/*"  element={<Report />}/>
                 </Routes>
             </div>
         </div>
