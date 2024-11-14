@@ -1,0 +1,128 @@
+.create-department{
+    z-index: 6;
+    background-color: #FFFFFF;
+    position: absolute; /* Thêm position */
+    top: 20%;
+    left: 30%;
+    border-radius: 10px;
+}
+
+.box-create{
+    width: 600px;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-bottom: 20px;
+}
+.info-createHeader{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    font-style: normal;
+    border-bottom: 2px solid #e8eaeb;
+    box-sizing: border-box;
+    padding-left: 25px;
+    color: #3d3d3d;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 25px;
+    align-items: center;
+}
+.box-cancelCreate{
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.box-cancelCreate:hover{
+    background-color: #e4dede;
+    cursor: pointer;
+}
+.info-body{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    padding: 20px 25px;
+    border-bottom: 2px solid #e8eaeb;
+}
+.form-create{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form-label-create-department{
+    color: #747C87;
+    font-size: 14px;
+}
+.form-textfield-create-department{
+    width: 100%;
+}
+.form-textfield-create-department input{
+    width: 98%;
+    height: 35px;
+    border: 1px solid #d3d5d7;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+.form-textfield-create-department input:focus{
+    outline: none;
+}
+.row-createDepartment{
+    display: flex;
+    flex-direction: row;
+    gap: 47px;
+}
+.form-textfield-create-department1 input{
+    width: 235px;
+    height: 35px;
+    border: 1px solid #d3d5d7;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+.form-textfield-create-department1 input:focus{
+    outline: none;
+}
+.row-btn-create{
+    display: flex;
+    box-sizing: border-box;
+    padding-left: 25px;
+    padding-top: 20px;
+    align-items: center;
+    flex-direction: row;
+    gap: 30px;
+}
+.btn-cancel-department{
+    height: 35px;
+    width: 90px;
+    background-color: transparent;
+    border: 1px solid red;
+    color: red;
+}
+.btn-cancel-department:hover{
+    cursor: pointer;
+    background-color: #ffdfdf;
+}
+
+.btn-create-department{
+    height: 35px;
+    width: 90px;
+    background-color: transparent;
+    border: 1px solid #4d53e0;
+    color: #4d53e0;
+}
+.btn-create-department:hover{
+    background-color: #dfdfff;
+    cursor: pointer;
+}
+.ant-notification {
+    z-index: 1050; /* Đảm bảo rằng giá trị này cao hơn giá trị z-index của lớp overlay */
+}
+
+
