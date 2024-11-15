@@ -3,6 +3,7 @@
     height: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
+    position: relative;
 }
 .right__listPage{
     display: flex;

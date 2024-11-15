@@ -35,39 +35,23 @@ const DetailBill = () =>{
     };
 
     const {_id} = useParams();
+    console.log(_id)
 
     const [billDetail, setBillDetail] = useState({}); 
     const [isRender, setIsRender] = useState(false);
     
     const fetchDetailBill = async () =>{
         const detailBill = await getDetailBill(_id);
+        console.log(detailBill)
+        console.log("bkjbajfb")
         setBillDetail(detailBill.data);
-    }
-
-
-    const handleClickUpdate = async() =>{
-
-        if(billDetail.sodiencuoi > billDetail.sodiendau){
-            const updateBill = await updateDetailBill(_id, billDetail);
-            console.log(updateBill);
-            if(updateBill.status === "success"){
-                openNotificationWithIcon('success', "Cập nhật hoá đơn thành cônng");
-            }
-            else{
-                openNotificationWithIcon('error', "Cập nhật hoá đơn thất bại");
-            }
-            setIsRender(!isRender)
-        }
-        else{
-            openNotificationWithIcon('error', "Lỗi số điện cuối");
-        }
     }
 
     useEffect(() =>{
         fetchDetailBill();
-    }, [isRender])
+    }, [])
 
-    console.log(billDetail.trangthai)
+    console.log(billDetail)
     const navigate = useNavigate();
     return(
         <>
@@ -85,9 +69,6 @@ const DetailBill = () =>{
                     <div className="btn-toolbar">
                         <button className="btn-outline-primary-red" onClick={() => navigate("/manager/bill")}>
                             <span className="btn__title">Thoát</span>
-                        </button>
-                        <button className="btn-outline-primary-blue"  onClick={handleClickUpdate}>
-                            <span className="btn__title">Cập nhật</span>
                         </button>
                         <button 
                             className="btn-primary" 
@@ -225,7 +206,7 @@ const DetailBill = () =>{
                                             id="dongia"
                                             type="number"
                                             min="1"
-                                            value = {billDetail.dongia}
+                                            value={billDetail.room?.dongiadien || ''}
                                             disabled
                                         />
                                     </div>
@@ -248,7 +229,7 @@ const DetailBill = () =>{
                                             id="thanhtien"
                                             type="number"
                                             min="1"
-                                            value={(billDetail.sodiencuoi - billDetail.sodiendau) * billDetail.dongia}
+                                            value={(billDetail.sodiencuoi - billDetail.sodiendau) * (billDetail.room?.dongiadien || 0)}
                                             disabled
                                         />
                                     </div>
@@ -283,7 +264,7 @@ const DetailBill = () =>{
                                             name="department"
                                             id="department"
                                             type="text"
-                                            value={billDetail.department}
+                                            value={billDetail.room?.department.name}
                                             disabled
                                         />
                                     </div>
@@ -305,7 +286,7 @@ const DetailBill = () =>{
                                             name="room"
                                             id="room"
                                             type="text"
-                                            value={billDetail.room}
+                                            value={billDetail.room?.name}
                                             disabled
                                         />
                                     </div>

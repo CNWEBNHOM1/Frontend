@@ -10,9 +10,9 @@ export const getListBill = async (data) =>{
     }
 }
 
-export const createAllBill = async () =>{
+export const createBill = async (data) =>{
     try {
-        const response = await axiosInstance.get("/user/createBills");
+        const response = await axiosInstance.post("/user/createBill", data);
         return response.data;
     } catch (error) {
         console.log(error)

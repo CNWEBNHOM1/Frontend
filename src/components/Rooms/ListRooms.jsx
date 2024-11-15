@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAnglesRight, faCaretDown, faChevronLeft, faChevronRight, faL, faMagnifyingGlass, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import SelectDatePopup from "../SelectDatePopup/SelectDatePopup"
 import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup"
 import { withAuthorization } from "../../hoc"
 import { getListRoom } from "../../service/ManagerAPI/RoomAPI"
@@ -154,13 +154,15 @@ const ListRooms = () =>{
     useEffect(() =>{
         fetchRoomList();
     }, [limit, page, dataBody.department])
-    console.log(pageQuantity)
+
+    const navigate = useNavigate();
     return(
+        
         <div className="list-room">
             <Header title={"Danh sách phòng"}/>
             <div className="right__listPage">
                 <div className="toolbar">
-                    <button className="btn-base">
+                    <button className="btn-base" onClick={() => navigate("/manager/room/create")}>
                         <span className="btn-icon">
                             <FontAwesomeIcon icon={faPlus} style={{height: '15px'}}/>
                         </span>
@@ -392,6 +394,20 @@ const ListRooms = () =>{
                                                             >
                                                             <p className="box-text">
                                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room[key])}
+                                                            </p>
+                                                        </td>
+                                                        )
+                                                    }
+                                                    else if(key === "department"){
+                                                        return(
+                                                            <td
+                                                                key={key}
+                                                                colSpan={1}
+                                                                rowSpan={1}
+                                                                className="table-data-item"
+                                                            >
+                                                            <p className="box-text">
+                                                                {room[key].name}
                                                             </p>
                                                         </td>
                                                         )

@@ -6,12 +6,13 @@ import { faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, 
 import { useEffect, useRef, useState } from "react";
 import SelectDatePopup from "../SelectDatePopup/SelectDatePopup";
 import { Link, useNavigate } from "react-router-dom";
-import { createAllBill, getListBill } from "../../service/ManagerAPI/BillAPI";
+import {getListBill } from "../../service/ManagerAPI/BillAPI";
 import { formatDate } from "../../utils/DateUtils";
 import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup";
 import SelectFilter from "../SelectFilter/SelectFilter";
 import { getListDepartment } from "../../service/ManagerAPI/DepartmentAPI";
 import { Button, notification, Space } from 'antd';
+import CreateBill from "./CreateBill";
 
 const statusTab = [
     { key: "all", label: "Tất cả hoá đơn", trangthai: null },
@@ -190,10 +191,6 @@ const ListBill = () =>{
 
     const [isRender, setIsRender] = useState(false);
 
-    useEffect(()=>{
-        fetchListBill();
-    }, [filterBody , isRender])
-
     const [api, contextHolder] = notification.useNotification();
     const openNotificationWithIcon = (type, message) => {
         api[type]({
@@ -202,28 +199,43 @@ const ListBill = () =>{
         });
     };
 
-    const doCreateAllBill = async (role) => {
-        const result = await createAllBill();
+    const [isCreateBill, setIsCreateBill] = useState(false);
 
-        if (result.status === "success") {
-            openNotificationWithIcon('success', "Tạo hoá đơn thành công");
+    const closePopupCreate = () =>{
+        setIsCreateBill(false);
+    }
+
+    useEffect(() => {
+        if (isCreateBill) {
+          document.body.style.overflow = 'hidden';
         } else {
-            openNotificationWithIcon('error', "Tạo hoá đơn thất bại");
+          document.body.style.overflow = 'auto';
         }
+        // Clean-up khi component bị hủy bỏ
+        return () => {
+          document.body.style.overflow = 'auto';
+        };
+      }, [isCreateBill]);
 
-        setIsRender(!isRender);
-        
-    };
+      useEffect(()=>{
+        fetchListBill();
+    }, [filterBody , isRender, isCreateBill])
 
     const navigate = useNavigate();
     return(
         <>
         {contextHolder}
+        {isCreateBill && (
+            <>
+                <div className="overlay"></div>
+                <CreateBill close = {closePopupCreate}/>
+            </>
+        )}
         <div className="list-bill">
             <Header title={"Danh sách hoá đơn"}/>
             <div className="right__listPage">
                 <div className="toolbar">
-                    <button className="btn-base" onClick={doCreateAllBill}>
+                    <button className="btn-base" onClick={() => setIsCreateBill(true)}>
                         <span className="btn-icon">
                             <FontAwesomeIcon icon={faPlus} style={{height: '15px'}}/>
                         </span>
@@ -512,6 +524,20 @@ const ListBill = () =>{
                                                         </td>
                                                         )
                                                     }
+                                                    else if(key === "department"){
+                                                        return(
+                                                            <td
+                                                                key={key}
+                                                                colSpan={1}
+                                                                rowSpan={1}
+                                                                className="table-data-item"
+                                                            >
+                                                            <p className="box-text">
+                                                                {bill["room"].department.name}
+                                                            </p>
+                                                        </td>
+                                                        )
+                                                    }
                                                     else
                                                     return(
                                                         <td
@@ -528,7 +554,7 @@ const ListBill = () =>{
                                                                 <Link to= {`/manager/bill/detail/${bill._id}`}
                                                                     className="box-id"
                                                                 >
-                                                                    {bill[key]}
+                                                                    {bill[key].name}
                                                                 </Link>
                                                                 )}
                                                             </p>
