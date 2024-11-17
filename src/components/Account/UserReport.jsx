@@ -1,25 +1,42 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import './UserReport.css'; // Tạo file CSS nếu muốn tùy chỉnh giao diện
+import axiosInstance from "../../service/axiosInstance"
+import './UserReport.css';
 
 function Report() {
-    const [noidung, setNoidung] = useState('');
-    const [message, setMessage] = useState('');
+    const [noidung, setNoidung] = useState(''); // Nội dung báo cáo
+    const [message, setMessage] = useState(''); // Thông báo thành công
+    const [error, setError] = useState(''); // Thông báo lỗi
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const token = localStorage.getItem('token'); // Giả sử token được lưu trong localStorage
-            const response = await axios.post('/api/createReport', { noidung }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
+            const token = localStorage.getItem('token'); // Lấy token từ localStorage
+            if (!token) {
+                setError('Bạn cần đăng nhập để gửi báo cáo.');
+                return;
+            }
+
+            const response = await axiosInstance.post(
+                'user/createReport', // Gửi yêu cầu tới đúng endpoint
+                { noidung },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}` // Token xác thực
+                    }
                 }
-            });
+            );
+
             setMessage('Báo cáo đã được gửi thành công!');
-            setNoidung(''); // Xóa nội dung sau khi gửi
-        } catch (error) {
-            setMessage('Lỗi khi gửi báo cáo. Vui lòng thử lại.');
-            console.error("Lỗi khi gửi báo cáo:", error);
+            setNoidung(''); // Xóa nội dung báo cáo
+            setError(''); // Xóa thông báo lỗi
+        } catch (err) {
+            // Xử lý lỗi
+            if (err.response) {
+                setError(`Lỗi: ${err.response.data.error || 'Không rõ lỗi'}`);
+            } else {
+                setError('Lỗi không kết nối được đến server.');
+            }
+            setMessage('');
         }
     };
 
@@ -40,7 +57,8 @@ function Report() {
                 </div>
                 <button type="submit" className="submit-button">Gửi Báo Cáo</button>
             </form>
-            {message && <p className="message">{message}</p>}
+            {message && <p className="message success">{message}</p>}
+            {error && <p className="message error">{error}</p>}
         </div>
     );
 }

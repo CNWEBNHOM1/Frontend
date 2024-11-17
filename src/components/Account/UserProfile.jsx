@@ -13,7 +13,7 @@ function UserProfile() {
         const fetchProfile = async () => {
             try {
                 const result = await getProfile();
-                setProfile(result.data[0]); // Gán dữ liệu đầu tiên trong mảng vào profile
+                setProfile(result.data); // Gán dữ liệu đầu tiên trong mảng vào profile
             } catch (error) {
                 console.error("Lỗi khi tải thông tin cá nhân:", error);
             }
@@ -69,7 +69,7 @@ function UserProfile() {
                                     <input
                                         type="text"
                                         name="name"
-                                        value={profile.name}
+                                        value={profile?.name}
                                         onChange={handleInputChange}
                                     />
                                 ) : (
@@ -78,7 +78,7 @@ function UserProfile() {
                             </div>
                             <div>
                                 <label>Email:</label>
-                                <span>{profile.email}</span>
+                                <span>{profile?.email}</span>
                             </div>
                             <div>
                                 <label>Số điện thoại:</label>
@@ -90,12 +90,12 @@ function UserProfile() {
                                         onChange={handleInputChange}
                                     />
                                 ) : (
-                                    <span>{profile.phone}</span>
+                                    <span>{profile?.phone}</span>
                                 )}
                             </div>
                             <div>
                                 <label>Địa chỉ:</label>
-                                <span>{`${profile.address.tinh}, ${profile.address.thanh}, ${profile.address.xa}`}</span>
+                                <span>{`${profile?.address?.tinh}, ${profile?.address?.thanh}, ${profile?.address?.xa}`}</span>
                             </div>
                             <div>
                                 <label>Ngày sinh:</label>

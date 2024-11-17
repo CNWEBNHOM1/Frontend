@@ -8,6 +8,7 @@ import MemberList from "../components/Account/MemberList"
 import RoomList from "../components/Account/RoomList"
 import RoomBillPage from "../components/Account/RoomBillPage"
 import UserReport from "../components/Account/UserReport"
+import Upanhhoadon from "../components/Account/Upanhhoadon"
 const LayoutUser = () => {
   return (
     <div className="layout">
@@ -21,6 +22,7 @@ const LayoutUser = () => {
           <Route path='/room/*' element={<RoomList />} />
           <Route path='/invoice/*' element={<RoomBillPage />} />
           <Route path='/report/*' element={<UserReport />} />
+          <Route path='/anhhhoadon/*' element={<Upanhhoadon />} />
         </Routes>
       </div>
     </div>

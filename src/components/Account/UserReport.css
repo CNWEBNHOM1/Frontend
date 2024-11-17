@@ -1,95 +1,62 @@
-/* Report.css */
-
-/* Container chính của form */
 .report-container {
-    width: 400px;
-    margin: 50px auto;
+    max-width: 600px;
+    margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Tiêu đề của form */
-.report-container h2 {
+h2 {
     text-align: center;
-    color: #333;
-    font-size: 24px;
     margin-bottom: 20px;
-    font-weight: 600;
 }
 
-/* Form chính */
-.report-form {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Nhóm input */
-.form-group {
+.report-form .form-group {
     margin-bottom: 15px;
 }
 
-/* Label cho các input */
-label {
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 5px;
+.report-form label {
     display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
-/* Textarea để nhập nội dung báo cáo */
-textarea {
+.report-form textarea {
     width: 100%;
     padding: 10px;
-    font-size: 14px;
-    border-radius: 4px;
     border: 1px solid #ccc;
-    resize: vertical;
-    /* Cho phép người dùng thay đổi chiều cao */
-    min-height: 100px;
-    transition: border-color 0.3s;
-}
-
-/* Thay đổi màu viền khi focus vào textarea */
-textarea:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0px 0px 4px rgba(0, 123, 255, 0.4);
-}
-
-/* Nút gửi báo cáo */
-.submit-button {
-    padding: 12px;
+    border-radius: 4px;
+    resize: none;
     font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 10px;
     border: none;
     border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
 }
 
 .submit-button:hover {
-    background-color: #0056b3;
+    background-color: #45a049;
 }
 
-/* Thông báo lỗi hoặc thành công */
 .message {
     margin-top: 15px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
     text-align: center;
 }
 
-/* Màu sắc thông báo thành công */
 .message.success {
     color: green;
 }
 
-/* Màu sắc thông báo lỗi */
 .message.error {
     color: red;
 }
