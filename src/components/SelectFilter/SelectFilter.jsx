@@ -10,8 +10,6 @@ const SelectFilter = ({
     closePopup, 
     listObject, 
     btnRef, 
-    currentPage,
-    totalPage,
     keyword,
     handleChangeKeyword,
     loadMoreData,
