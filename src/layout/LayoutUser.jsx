@@ -5,7 +5,6 @@ import FormRegistrationForm from '../components/Form_DK/FormRegistrationForm'
 import "./Layout.css"
 import UserProfile from '../components/Account/UserProfile'
 import MemberList from "../components/Account/MemberList"
-import RoomList from "../components/Account/RoomList"
 import RoomBillPage from "../components/Account/RoomBillPage"
 import UserReport from "../components/Account/UserReport"
 import Upanhhoadon from "../components/Account/Upanhhoadon"
@@ -19,7 +18,6 @@ const LayoutUser = () => {
           <Route path='/registration/*' element={<FormRegistrationForm />} />
           <Route path='/account/*' element={<UserProfile />} />
           <Route path='/people/*' element={<MemberList />} />
-          <Route path='/room/*' element={<RoomList />} />
           <Route path='/invoice/*' element={<RoomBillPage />} />
           <Route path='/report/*' element={<UserReport />} />
           <Route path='/anhhhoadon/*' element={<Upanhhoadon />} />
