@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Upanhhoadon.css";
 
 const Upanhhoadon = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { billId } = location.state || {}; // Lấy billId từ state
+
     const [selectedFile, setSelectedFile] = useState(null);
     const [message, setMessage] = useState("");
-    const [uploadedImages, setUploadedImages] = useState([]);
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -21,17 +25,21 @@ const Upanhhoadon = () => {
 
         try {
             const formData = new FormData();
-            formData.append("billImage", selectedFile);
+            formData.append("minhchung", selectedFile); // Tên trường file phải khớp với Multer
+            formData.append("id", billId); // Gửi billId qua body
+            const token = localStorage.getItem("token"); // Lấy token nếu cần xác thực
 
-            const response = await axios.post("/api/uploadBill", formData, {
+            await axios.post("/uploadProof", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`, // Nếu backend yêu cầu xác thực
                 },
             });
 
-            setUploadedImages([...uploadedImages, response.data.imageUrl]);
             setMessage("Hóa đơn đã được tải lên thành công!");
-            setSelectedFile(null);
+            setTimeout(() => {
+                navigate("/invoice"); // Quay lại trang hóa đơn
+            }, 2000);
         } catch (error) {
             console.error("Lỗi khi tải lên hóa đơn:", error);
             setMessage("Đã xảy ra lỗi khi tải lên. Vui lòng thử lại.");
@@ -41,28 +49,12 @@ const Upanhhoadon = () => {
     return (
         <div className="upload-container">
             <h2>Tải Lên Hóa Đơn Chuyển Khoản</h2>
+            {billId && <p>Hóa đơn ID: {billId}</p>}
             <form onSubmit={handleUpload}>
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                />
+                <input type="file" accept="image/*" onChange={handleFileChange} />
                 <button type="submit">Tải Lên</button>
             </form>
-            {message && (
-                <p className={message.includes("thành công") ? "success" : "error"}>{message}</p>
-            )}
-
-            <h3>Hóa Đơn Cũ</h3>
-            <div className="uploaded-images">
-                {uploadedImages.map((image, index) => (
-                    <img
-                        key={index}
-                        src={image}
-                        alt={`Hóa đơn ${index + 1}`}
-                    />
-                ))}
-            </div>
+            {message && <p className="message">{message}</p>}
         </div>
     );
 };

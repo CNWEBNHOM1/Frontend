@@ -20,7 +20,7 @@ const LayoutUser = () => {
           <Route path='/people/*' element={<MemberList />} />
           <Route path='/invoice/*' element={<RoomBillPage />} />
           <Route path='/report/*' element={<UserReport />} />
-          <Route path='/anhhhoadon/*' element={<Upanhhoadon />} />
+          <Route path="/anhhhoadon" element={<Upanhhoadon />} />
         </Routes>
       </div>
     </div>

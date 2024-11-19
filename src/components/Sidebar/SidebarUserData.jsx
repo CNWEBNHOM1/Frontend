@@ -48,9 +48,9 @@ export const SidebarUserData = [
         icon: <FaHouseChimney />,
         link: "/user/registration"
     },
-    {
-        title: "Up Load Hóa Đơn",
-        icon: <FaHouseChimney />,
-        link: "/user/anhhhoadon"
-    }
+    // {
+    //     title: "Up Load Hóa Đơn",
+    //     icon: <FaHouseChimney />,
+    //     link: "/user/anhhhoadon"
+    // }
 ]
