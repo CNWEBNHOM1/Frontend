@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './BillList.css';
-import { getListBills } from '../../service/room';
+import { getListBills } from '../../service/bills.jsx';
 
 function BillList({ roomId, month, year }) {
     const [listBills, setListBills] = useState(null);

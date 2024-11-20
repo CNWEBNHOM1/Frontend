@@ -23,17 +23,7 @@ export const getRoomMates = async () => {
     }
 }
 
-export const getListBills = async () => {
-    try {
-        //get phai dung axiosInstance.get
-        const response = await axiosInstance.get("/user/listBills");
-        return response.data;
 
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
 
 // cho post axiosInstance.post
 // data trong async (data) =>

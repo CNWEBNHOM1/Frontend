@@ -7,7 +7,7 @@ function RoomBillPage() {
     const year = 2024; // Năm cần xem
 
     return (
-        <>   <Header title={"Trang chủ/Profile"} />
+        <>   <Header title={"Trang chủ"} />
             <div>
                 <BillList roomId={roomId} month={month} year={year} />
             </div>

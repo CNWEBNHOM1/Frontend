@@ -11,10 +11,6 @@ const Upanhhoadon = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [message, setMessage] = useState("");
 
-    const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]);
-    };
-
     const handleUpload = async (e) => {
         e.preventDefault();
 
@@ -29,7 +25,7 @@ const Upanhhoadon = () => {
             formData.append("id", billId); // Gửi billId qua body
             const token = localStorage.getItem("token"); // Lấy token nếu cần xác thực
 
-            await axios.post("/uploadProof", formData, {
+            await axios.post("http://localhost:5000/user/uploadProof", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`, // Nếu backend yêu cầu xác thực
@@ -38,7 +34,7 @@ const Upanhhoadon = () => {
 
             setMessage("Hóa đơn đã được tải lên thành công!");
             setTimeout(() => {
-                navigate("/invoice"); // Quay lại trang hóa đơn
+                navigate("/user/invoice"); // Quay lại trang hóa đơn
             }, 2000);
         } catch (error) {
             console.error("Lỗi khi tải lên hóa đơn:", error);
@@ -51,7 +47,7 @@ const Upanhhoadon = () => {
             <h2>Tải Lên Hóa Đơn Chuyển Khoản</h2>
             {billId && <p>Hóa đơn ID: {billId}</p>}
             <form onSubmit={handleUpload}>
-                <input type="file" accept="image/*" onChange={handleFileChange} />
+                <input type="file" accept="image/*" onChange={(e) => setSelectedFile(e.target.files[0])}/>
                 <button type="submit">Tải Lên</button>
             </form>
             {message && <p className="message">{message}</p>}
