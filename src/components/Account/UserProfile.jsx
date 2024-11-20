@@ -13,7 +13,7 @@ function UserProfile() {
         const fetchProfile = async () => {
             try {
                 const result = await getProfile();
-                setProfile(result.data); // Gán dữ liệu đầu tiên trong mảng vào profile
+                setProfile(result.data); // Gán dữ liệu profile từ API
             } catch (error) {
                 console.error("Lỗi khi tải thông tin cá nhân:", error);
             }
@@ -69,7 +69,7 @@ function UserProfile() {
                                     <input
                                         type="text"
                                         name="name"
-                                        value={profile?.name}
+                                        value={profile.name}
                                         onChange={handleInputChange}
                                     />
                                 ) : (
@@ -77,8 +77,18 @@ function UserProfile() {
                                 )}
                             </div>
                             <div>
-                                <label>Email:</label>
-                                <span>{profile?.email}</span>
+                                <label>Ngày sinh:</label>
+                                <span>
+                                    {profile?.ngaysinh?.$date
+                                        ? new Date(profile.ngaysinh.$date).toLocaleDateString()
+                                        : profile?.ngaysinh
+                                            ? new Date(profile.ngaysinh).toLocaleDateString()
+                                            : "Không có dữ liệu"}
+                                </span>
+                            </div>
+                            <div>
+                                <label>Giới tính:</label>
+                                <span>{profile.gender}</span>
                             </div>
                             <div>
                                 <label>Số điện thoại:</label>
@@ -90,16 +100,12 @@ function UserProfile() {
                                         onChange={handleInputChange}
                                     />
                                 ) : (
-                                    <span>{profile?.phone}</span>
+                                    <span>{profile.phone}</span>
                                 )}
                             </div>
                             <div>
                                 <label>Địa chỉ:</label>
-                                <span>{`${profile?.address?.tinh}, ${profile?.address?.thanh}, ${profile?.address?.xa}`}</span>
-                            </div>
-                            <div>
-                                <label>Ngày sinh:</label>
-                                <span>{new Date(profile.ngaysinh).toLocaleDateString()}</span>
+                                <span>{`${profile.address?.tinh}, ${profile.address?.thanh}, ${profile.address?.xa}`}</span>
                             </div>
                             <div>
                                 <label>CCCD:</label>
@@ -115,20 +121,16 @@ function UserProfile() {
                                 )}
                             </div>
                             <div>
-                                <label>Khoa:</label>
+                                <label>Ưu tiên:</label>
+                                <span>{profile.priority ? "Có" : "Không"}</span>
+                            </div>
+                            <div>
+                                <label>Khóa:</label>
                                 <span>{profile.khoa}</span>
                             </div>
                             <div>
-                                <label>Lớp:</label>
-                                <span>{profile.lop}</span>
-                            </div>
-                            <div>
-                                <label>Mã ngành:</label>
-                                <span>{profile.ma_nganh}</span>
-                            </div>
-                            <div>
-                                <label>Ngành:</label>
-                                <span>{profile.nganh}</span>
+                                <label>Trường:</label>
+                                <span>{profile.school}</span>
                             </div>
                         </>
                     ) : (
@@ -138,58 +140,12 @@ function UserProfile() {
                                 <span>{profile.trangthai}</span>
                             </div>
                             <div>
-                                <label>Trường Khoa/Viện:</label>
-                                <span>{profile.truong_khoa_vien}</span>
+                                <label>Phòng:</label>
+                                <span>{profile.kyhoc[0]?.phong || "Chưa có phòng"}</span>
                             </div>
                             <div>
-                                <label>Tên người thân:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        name="familyname"
-                                        value={profile.familyname}
-                                        onChange={handleInputChange}
-                                    />
-                                ) : (
-                                    <span>{profile.familyname}</span>
-                                )}
-                            </div>
-                            <div>
-                                <label>Quan hệ người thân:</label>
-                                <span>{profile.family}</span>
-                            </div>
-                            <div>
-                                <label>Số điện thoại người thân:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        name="familyphone"
-                                        value={profile.familyphone}
-                                        onChange={handleInputChange}
-                                    />
-                                ) : (
-                                    <span>{profile.familyphone}</span>
-                                )}
-                            </div>
-                            <div>
-                                <label>Ngày hết hạn:</label>
-                                <span>{new Date(profile.holdexpirity).toLocaleDateString()}</span>
-                            </div>
-                            <div>
-                                <label>Số ID sinh viên:</label>
-                                <span>{profile.sid}</span>
-                            </div>
-                            <div>
-                                <label>Phòng đã chọn:</label>
-                                <span>{profile.roomselected}</span>
-                            </div>
-                            <div>
-                                <label>Khu đã chọn:</label>
-                                <span>{profile.departmentselected}</span>
-                            </div>
-                            <div>
-                                <label>Ngày đăng ký:</label>
-                                <span>{new Date(profile.ngaydangky).toLocaleDateString()}</span>
+                                <label>Kỳ học:</label>
+                                <span>{profile.kyhoc[0]?.ky}</span>
                             </div>
                         </>
                     )}

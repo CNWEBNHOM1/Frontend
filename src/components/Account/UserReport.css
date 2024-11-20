@@ -1,62 +1,54 @@
-.report-container {
+.upload-container {
     max-width: 600px;
-    margin: 20px auto;
+    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
     background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    text-align: center;
+.upload-container h2 {
     margin-bottom: 20px;
 }
 
-.report-form .form-group {
+.upload-container .form-group {
     margin-bottom: 15px;
 }
 
-.report-form label {
+.upload-container .form-group label {
     display: block;
-    margin-bottom: 5px;
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.report-form textarea {
+.upload-container .form-group textarea,
+.upload-container .form-group input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    resize: none;
-    font-size: 16px;
+    margin-top: 5px;
 }
 
-.submit-button {
-    width: 100%;
-    padding: 10px;
+.upload-container .submit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
     cursor: pointer;
 }
 
-.submit-button:hover {
-    background-color: #45a049;
+.upload-container .submit-button:hover {
+    background-color: #0056b3;
 }
 
-.message {
-    margin-top: 15px;
-    font-size: 16px;
-    text-align: center;
-}
-
-.message.success {
+.upload-container .message {
+    margin-top: 10px;
+    font-weight: bold;
     color: green;
 }
 
-.message.error {
+.upload-container .message.error {
     color: red;
 }

@@ -1,49 +1,54 @@
-import React, { useState } from 'react';
-import axiosInstance from "../../service/axiosInstance"
-import './UserReport.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./UserReport.css";
 
-function Report() {
-    const [noidung, setNoidung] = useState(''); // Nội dung báo cáo
-    const [message, setMessage] = useState(''); // Thông báo thành công
-    const [error, setError] = useState(''); // Thông báo lỗi
+const Upanhreport = () => {
+    const navigate = useNavigate();
+    const [selectedFile, setSelectedFile] = useState(null); // File ảnh
+    const [noidung, setNoidung] = useState(""); // Nội dung báo cáo
+    const [message, setMessage] = useState(""); // Thông báo
 
-    const handleSubmit = async (e) => {
+    const handleUpload = async (e) => {
         e.preventDefault();
+
+        if (!selectedFile) {
+            setMessage("Vui lòng chọn một tệp trước khi tải lên.");
+            return;
+        }
+
+        if (!noidung.trim()) {
+            setMessage("Vui lòng nhập nội dung báo cáo.");
+            return;
+        }
+
         try {
-            const token = localStorage.getItem('token'); // Lấy token từ localStorage
-            if (!token) {
-                setError('Bạn cần đăng nhập để gửi báo cáo.');
-                return;
-            }
+            const formData = new FormData();
+            formData.append("minhchung", selectedFile); // Tên trường file phải khớp với Multer
+            formData.append("noidung", noidung); // Gửi nội dung báo cáo
+            const token = localStorage.getItem("token"); // Lấy token nếu cần xác thực
 
-            const response = await axiosInstance.post(
-                'user/createReport', // Gửi yêu cầu tới đúng endpoint
-                { noidung },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}` // Token xác thực
-                    }
-                }
-            );
+            await axios.post("http://localhost:5000/user/createReport", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`, // Nếu backend yêu cầu xác thực
+                },
+            });
 
-            setMessage('Báo cáo đã được gửi thành công!');
-            setNoidung(''); // Xóa nội dung báo cáo
-            setError(''); // Xóa thông báo lỗi
-        } catch (err) {
-            // Xử lý lỗi
-            if (err.response) {
-                setError(`Lỗi: ${err.response.data.error || 'Không rõ lỗi'}`);
-            } else {
-                setError('Lỗi không kết nối được đến server.');
-            }
-            setMessage('');
+            setMessage("Báo cáo đã được gửi thành công!");
+            setTimeout(() => {
+                navigate("/user/report"); // Quay lại trang danh sách báo cáo
+            }, 2000);
+        } catch (error) {
+            console.error("Lỗi khi gửi báo cáo:", error);
+            setMessage("Đã xảy ra lỗi khi gửi báo cáo. Vui lòng thử lại.");
         }
     };
 
     return (
-        <div className="report-container">
+        <div className="upload-container">
             <h2>Tạo Báo Cáo</h2>
-            <form onSubmit={handleSubmit} className="report-form">
+            <form onSubmit={handleUpload}>
                 <div className="form-group">
                     <label htmlFor="noidung">Nội dung báo cáo:</label>
                     <textarea
@@ -55,12 +60,21 @@ function Report() {
                         required
                     />
                 </div>
+                <div className="form-group">
+                    <label htmlFor="file">Tải lên minh chứng:</label>
+                    <input
+                        type="file"
+                        id="file"
+                        accept="image/*"
+                        onChange={(e) => setSelectedFile(e.target.files[0])}
+                        required
+                    />
+                </div>
                 <button type="submit" className="submit-button">Gửi Báo Cáo</button>
             </form>
-            {message && <p className="message success">{message}</p>}
-            {error && <p className="message error">{error}</p>}
+            {message && <p className="message">{message}</p>}
         </div>
     );
-}
+};
 
-export default Report;
+export default Upanhreport;

@@ -7,16 +7,16 @@ function RoomMates() {
     const [roomMates, setRoomMates] = useState([]);
 
     useEffect(() => {
-        const get = async () => {
-            const result = await getRoomMates();
-            setRoomMates(result.data); // Sửa thành setRoomMates
+        const fetchRoomMates = async () => {
+            try {
+                const result = await getRoomMates();
+                setRoomMates(result.data); // Lưu danh sách thành viên vào state
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách thành viên:", error);
+            }
         };
-        get();
+        fetchRoomMates();
     }, []);
-
-    useEffect(() => {
-        console.log(roomMates);
-    }, [roomMates]);
 
     return (
         <>
@@ -27,9 +27,15 @@ function RoomMates() {
                     {roomMates.map((member, index) => (
                         <li key={index} className="member-item">
                             <p><strong>Tên:</strong> {member.name}</p>
-                            <p><strong>MSSV:</strong> {member.mssv}</p>
-                            <p><strong>Khoa/Viện:</strong> {member.khoaVien}</p>
-                            <p><strong>Khóa:</strong> {member.khoa}</p>
+                            <p><strong>Giới tính:</strong> {member.gender}</p>
+                            <p><strong>MSSV:</strong> {member.sid}</p>
+                            <p><strong>CCCD:</strong> {member.cccd}</p>
+                            <p><strong>Số điện thoại:</strong> {member.phone}</p>
+                            <p><strong>Địa chỉ:</strong> {`${member.address?.tinh}, ${member.address?.thanh}, ${member.address?.xa}`}</p>
+                            <p><strong>Khoa:</strong> {member.khoa}</p>
+                            <p><strong>Trường:</strong> {member.school}</p>
+                            <p><strong>Kỳ học:</strong> {member.kyhoc[0]?.ky || "Chưa có kỳ học"}</p>
+                            <p><strong>Phòng:</strong> {member.kyhoc[0]?.phong || "Chưa có phòng"}</p>
                         </li>
                     ))}
                 </ul>

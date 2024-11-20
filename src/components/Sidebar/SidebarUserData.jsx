@@ -13,11 +13,11 @@ export const SidebarUserData = [
         icon: <HomeIcon />,
         link: "/user/dashboard"
     },
-    {
-        title: "Khu ký túc",
-        icon: <DomainIcon />,
-        link: "/user/area"
-    },
+    // {
+    //     title: "Khu ký túc",
+    //     icon: <DomainIcon />,
+    //     link: "/user/area"
+    // },
     // {
     //     title: "Phòng",
     //     icon: <BedIcon />,
