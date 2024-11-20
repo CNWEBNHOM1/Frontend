@@ -1,6 +1,6 @@
 import React from 'react';
 import BillList from './BillList.jsx';
-import Header from "../Header/Header";
+import Header from "../Header/Header.jsx";
 function RoomBillPage() {
     const roomId = "101"; // ID của phòng
     const month = 11; // Tháng cần xem

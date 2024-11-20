@@ -41,6 +41,11 @@ const Login = () => {
         doLogin("Sinh viên");
     };
 
+    const handleLoginAsGuest = () => {
+        doLogin("Khách");
+    };
+
+
     const [formLogin, setFormLogin] = useState({
         email: "",
         password: "",
@@ -53,7 +58,10 @@ const Login = () => {
                 navigate("/manager")
             } else if (role === "Sinh viên") {
                 navigate("/user")
+            } else if (role === "Khách") {
+                navigate("/auth");
             }
+
         }
     }, [isAuthenticated, navigate, role])
     return (
@@ -109,6 +117,7 @@ const Login = () => {
                                     Manager
                                 </button>
                                 <button onClick={handleLoginAsUser}>User</button>
+                                <button onClick={handleLoginAsGuest}>Guest</button> {/* Thêm nút cho Khách */}
                             </div>
                         </div>
                         <div className='guest'>
