@@ -35,23 +35,18 @@ const DetailBill = () =>{
     };
 
     const {_id} = useParams();
-    console.log(_id)
 
     const [billDetail, setBillDetail] = useState({}); 
     const [isRender, setIsRender] = useState(false);
     
     const fetchDetailBill = async () =>{
         const detailBill = await getDetailBill(_id);
-        console.log(detailBill)
-        console.log("bkjbajfb")
         setBillDetail(detailBill.data);
     }
 
     useEffect(() =>{
         fetchDetailBill();
     }, [])
-
-    console.log(billDetail)
     const navigate = useNavigate();
     return(
         <>

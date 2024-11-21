@@ -1,189 +1,129 @@
 /* eslint-disable no-unused-vars */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Header from "../Header/Header";
-import "./ListReport.css"
-import { faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import "./ListRequest.css"
+import Header from "../Header/Header"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useRef, useState } from "react";
-import SelectDatePopup from "../SelectDatePopup/SelectDatePopup";
-import { Link } from "react-router-dom";
-import { getListBill } from "../../service/ManagerAPI/BillAPI";
 import { formatDate, formatDateWithHour } from "../../utils/DateUtils";
+import { Link } from "react-router-dom";
+import { getListRequest } from "../../service/ManagerAPI/RequestAPI";
 import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup";
-import { getListReport } from "../../service/ManagerAPI/ReportAPI";
-import SelectFilter from "../SelectFilter/SelectFilter";
-import { getListDepartment } from "../../service/ManagerAPI/DepartmentAPI";
+import SelectRoomOfBill from "../Bill/SelectRoomOfBill";
+import { getListRoom } from "../../service/ManagerAPI/RoomAPI";
+import SelectRoomOfRequest from "./SelectRoomOfRequest";
 
 const statusTab = [
-    { key: "all", label: "Tất cả báo cáo", trangthai: null },
-    { key: "completed", label: "Đã xử lý", trangthai: "Đã xử lý" },
-    { key: "processing", label: "Đang xử lý", trangthai: "Đang xử lý" },
-    { key: "incompleted", label: "Chưa xử lý", trangthai: "Chưa xử lý" },
+    { key: "all", label: "Tất cả yêu cầu", trangthai: null },
+    { key: "pending", label: "Đang chờ", trangthai: "pending" },
+    { key: "approved", label: "Đã chấp nhận", trangthai: "approved" },
+    { key: "declined", label: "Đã từ chối", trangthai: "declined" }
 ];
-
 const colsToRender = {
+    name: true,
+    sid: true,
+    phone: true,
+    gender: true,
     room: true,
-    department: true,
-    noidung: true,
-    ghichu: true,
-    ngaygui: true,
-    trangthai: true,
+    createdAt: true,
+    trangthai: true
 };
 
 const col = {
-    room : {
-      name: "Tên phòng",
+    name : {
+        name: "Họ và tên"
     },
-  
-    department: {
-      name: "Tên khu",
+    sid: {
+        name: "Mã số sinh viên"
     },
-    noidung: {
-        name: "Nội dung",
+    phone: {
+        name: "Số điện thoại"
     },
-    ghichu: {
-        name: "Ghi chú"
+    gender: {
+        name: "Giới tính"
     },
-    ngaygui: {
-      name: "Ngày gửi hoá đơn",
+    room: {
+        name: "Phòng đăng ký"
+    },
+    createdAt: {
+        name: "Ngày gửi"
     },
     trangthai: {
-      name: "Trạng thái",
+        name: "Trạng thái"
     }
 }
 
+const ListRequest = () =>{
 
-const ListReport = () =>{
-
-
-    const [isOpenFilter, setIsOpenFilter] = useState(false);
-    const filterBtnRef = useRef(null);
-    const [name,setName] = useState("");
-    const [listDepartment, setListDepartment] = useState([]);
-    const [currentPageFilter, setCurrentPageFilter] = useState(1);
-    const [totalPageFilter, setTotalPageFilter] = useState();
-    const selectDepartment = (department) => {
-        console.log(department)
-        setFilterBody((prev) => ({
-            ...prev,
-            department: department._id
-        }));
-        // Đóng filter popup sau khi chọn
-        setIsOpenFilter(false);
-    };
-    const fetchListDepartment = async () =>{
-        const departments = await getListDepartment({page: currentPageFilter, limit: 10, name: name});
-        setListDepartment(departments.data.listDepartment);
-        setTotalPageFilter(departments.data.totalPages);
-    }
-
-    const fetchMoreListDepartment = async () => {
-		if (currentPageFilter < totalPageFilter) {
-			const departments = await getListDepartment({
-				page: currentPageFilter + 1,
-				limit: 10,
-                name: "",
-            }
-			);
-			setListDepartment((prev) => [...prev, ...departments.data.listDepartment]);
-			setCurrentPageFilter(currentPageFilter + 1);
-			setTotalPageFilter(departments.data.totalPages);
-		}
-	};
-
-    const handleFetchMoreListDepartment = () => {
-		if (isOpenFilter) {
-			fetchListDepartment();
-		} else {
-			setListDepartment([]);
-			setName("");
-			setCurrentPageFilter(1);
-			setTotalPageFilter(1);
-		}
-	};
-
-    useEffect(() => {
-		handleFetchMoreListDepartment();
-	}, [isOpenFilter]);
-
-    useEffect(() => {
-		setCurrentPageFilter(1);
-		handleFetchMoreListDepartment();
-	}, [name]);
-    const limitBtnRef = useRef(null);
-    const [isOpenLimitPopup,setIsOpenLimitPopup] = useState(false);
-    const [filterBody, setFilterBody] = useState({
-        page: 1,
-        limit: 10,
-        trangthai: null,
-        room: null,
-        department:null,
-        fromDate: null,
-        toDate: null,
-        sortOrder: -1
-    })
-    const [reportList, setReportList] = useState([]);
-
-    const [reportQuantity, setreportQuantity] = useState();
-    const [pageQuantity, setPageQuantity] = useState();
     const [tabActive, setTabActive] = useState("all");
+    const [listRequest, setListRequest] = useState([]);
+
+    // phan trang va loc
+    const [status, setStatus] = useState(null);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [room, setRoom] = useState(null);
+    const [name, setName] = useState(null);
+    const [pageQuantity, setPageQuantity] = useState(null);
     const handleTabClick = (key, trangthai) => {
         setTabActive(key);
-        setFilterBody(prev => ({
-            ...prev,
-            trangthai: trangthai,
-            overdue: false
-        }));
+        setStatus(trangthai);
     };
 
-    const toggleSortOrder = () => {
-        setFilterBody((prev) => ({
-            ...prev,
-            sortOrder: prev.sortOrder === -1 ? 1 : -1
-        }));
-    };
-    
+    //pagination
+    const limitBtnRef = useRef(null);
+    const [isOpenLimitPopup,setIsOpenLimitPopup] = useState(false);
+    const [requestQuantity, setRequestQuantity] = useState(null);
 
-    const handleTabClick1 = (key,trangthai) => {
-        setTabActive(key);
-        setFilterBody(prev => ({
-            ...prev,
-            trangthai: trangthai,
-            overdue: true
-        }));
-    };
-
-    const handleNextPage = () => {
-        setFilterBody((prevFilterBody) => {
-            if (prevFilterBody.page < pageQuantity) {
-                return { ...prevFilterBody, page: prevFilterBody.page + 1 };
-            }
-            return prevFilterBody;
-        });
-    };
-    
     const handlePrevPage = () => {
-        setFilterBody((prevFilterBody) => {
-            if (prevFilterBody.page > 1) {
-                return { ...prevFilterBody, page: prevFilterBody.page - 1 };
-            }
-            return prevFilterBody;
-        });
+        setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
     };
-    const fetchListReport = async () =>{
-        const reports = await getListReport(filterBody);
-        console.log(reports)
-        setReportList(reports.data.listReport);
-        setreportQuantity(reports.data.total);
-        setPageQuantity(reports.data.totalPages);
-        console.log(reportList)
+    const handleNextPage = () => {
+        setPage((prevPage) => (prevPage < pageQuantity ? prevPage + 1 : prevPage));
+    };
+
+    //selectRooom
+    const btnRef = useRef(null);
+    const [isOpenSelectRoom, setIsOpenSelectRoom] = useState(false);
+    const closePopupSelectRoom = () =>{
+        setIsOpenSelectRoom(false);
     }
-    useEffect(()=>{
-        fetchListReport();
-    }, [filterBody])
-    console.log(filterBody)
+    const [selectedRoom, setSelectedRoom] = useState(null);
+    const selectRoom = (select) => {
+        setRoom(select._id);
+        setSelectedRoom(select);
+        setIsOpenSelectRoom(false);  // Đóng popup sau khi chọn phòng
+    };
+    const [listRoom, setListRoom] = useState([]);
+    const [datafetchRoomList, setDatafetchRoomList] = useState({
+        "page": 1,
+        "limit": 10000,
+        "department": null
+    })
+
+    const fetchListRomm = async () =>{
+        const rooms = await getListRoom(datafetchRoomList)
+        setListRoom(rooms.data.listRoom);
+    }
+ 
+
+    const fetchListRequest = async () =>{
+        const request = await getListRequest({page: page, limit: limit, status: status,room: room, name: name })
+        setListRequest(request.data);
+        setRequestQuantity(request.totalRequests)
+        setPageQuantity(request.totalPages);
+    }
+
+    useEffect(() =>{
+        fetchListRomm()
+    }, [isOpenSelectRoom])
+
+    useEffect(() =>{
+        fetchListRequest()
+    }, [page, limit, name, room, status])
+    console.log(selectedRoom)
     return(
-        <div className="list-report">
-            <Header title={"Danh sách báo cáo"}/>
+        <div className="list-request">
+            <Header title={"Danh sách yêu cầu đăng ký phòng"}/>
             <div className="right__listPage">
                 <div className="toolbar">
                     <button className="btn-base">
@@ -199,17 +139,17 @@ const ListReport = () =>{
                     <div className="main_table-scroller">
                         <div className="box-scroller">
                             <div  className="group-scroller-btns">
-                            {statusTab.map(({ key, label, trangthai }) => (
-                                <button
-                                    key={key}
-                                    className={`btn-scroller ${tabActive === key ? "active" : ""}`}
-                                    onClick={() => {
-                                            handleTabClick(key, trangthai);
-                                    }}
-                                >
-                                    {label}
-                                </button>
-                            ))}
+                                {statusTab.map(({ key, label, trangthai }) => (
+                                    <button
+                                        key={key}
+                                        className={`btn-scroller ${tabActive === key ? "active" : ""}`}
+                                        onClick={() => {
+                                                handleTabClick(key, trangthai);
+                                        }}
+                                    >
+                                        {label}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -221,49 +161,32 @@ const ListReport = () =>{
                                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                                     </div>
                                     <input 
-                                        placeholder="Tìm kiếm theo tên phòng" 
+                                        placeholder="Tìm kiếm theo tên người đăng ký" 
                                         type="text"
                                         name="search"
                                         id=""
                                         autoComplete="on"
-                                        onChange={(e) =>
-											setFilterBody({ ...filterBody, room: e.target.value })
-										}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                     <fieldset className="input-field" />
                                 </div>
                             </div>
                             <div className="btn-group group-filter-btns">
-                                <button className="btn btn_base btn_filter" onClick={() => setIsOpenFilter(!isOpenFilter)} ref={filterBtnRef}>
+                                <button className="btn btn_base btn_filter"  ref={btnRef} onClick={() => setIsOpenSelectRoom(!isOpenSelectRoom)}>
                                     <span className="btn_label">
-										Khu
+										Phòng đăng ký
 										<span className="btn_icon">
 											<FontAwesomeIcon icon={faCaretDown} style={{color:"#A3A8AF" }}/>
 										</span>
 									</span>
                                 </button>
-                                { isOpenFilter && (
-                                    <SelectFilter
-                                        btnRef={filterBtnRef}
-                                        closePopup={() => setIsOpenFilter(false)}
-                                        listObject={listDepartment}
-                                        currentPage={currentPageFilter}
-                                        totalPage={totalPageFilter}
-                                        keyword={name}
-                                        handleChangeKeyword={(e) => {
-											setName(e.target.value);
-										}}
-                                        loadMoreData={fetchMoreListDepartment}
-                                        onSelectDepartment={selectDepartment}
-                                    />
-                                )}
+                                {isOpenSelectRoom && <SelectRoomOfRequest closePopup={closePopupSelectRoom} btnRef={btnRef} listObject={listRoom} onSelectRoom = {selectRoom}/>}
                                 <button className="btn btn_base btn_filter"
-                                    onClick={() => setFilterBody({
-                                        ...filterBody,
-                                        department:null,
-                                        fromDate: null,
-                                        toDate: null
-                                    })}
+                                    onClick={() =>{
+                                        setRoom(null);
+                                        setSelectedRoom(null);
+                                    }
+                                }
                                 >
 									<span className="btn_label">
 										Xóa bộ lọc
@@ -271,23 +194,21 @@ const ListReport = () =>{
 								</button>
                             </div>
                         </div>
-                        {((filterBody.fromDate && filterBody.toDate) || filterBody.department) && (
+                        { selectedRoom && (
                             <div className="box-show-selected-filter">
                                 <div className="box-show-selected-container">
-                                    {filterBody.fromDate && filterBody.toDate && (
+                                    {selectRoom && (
                                         <div className="box-show-selected-item">
                                             <span>
-                                                Ngày tạo: (<span>{filterBody.fromDate}</span> -
-                                                <span>{filterBody.toDate}</span>)
+                                                Phòng đăng ký: (<span>{selectedRoom?.department?.name}</span> -
+                                                <span>{selectedRoom?.name}</span>)
                                             </span>
                                             <div className="box-remove-item">
                                                 <button
-                                                    onClick={() =>
-                                                        setFilterBody((prev) => ({
-                                                        ...prev,
-                                                        fromDate: null,
-                                                        toDate: null,
-                                                        }))
+                                                    onClick={() =>{
+                                                            setRoom(null);
+                                                            setSelectedRoom(null);
+                                                        }
                                                     }
                                                     className="btn-remove-item"
                                                     type="button"
@@ -299,29 +220,6 @@ const ListReport = () =>{
                                             </div>
                                         </div>      
                                     )}
-                                    {filterBody.department && (
-                                        <div className="box-show-selected-item">
-                                            <span>
-                                                Khu: <span>{filterBody.department}</span> 
-                                            </span>
-                                            <div className="box-remove-item">
-                                                <button
-                                                    onClick={() =>
-                                                        setFilterBody((prev) => ({
-                                                        ...prev,
-                                                        department: null
-                                                        }))
-                                                    }
-                                                    className="btn-remove-item"
-                                                    type="button"
-                                                >
-                                                    <span>
-                                                        <FontAwesomeIcon icon={faXmark} />
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </div>  
-                                    )}
                                 </div>
                             </div>
                         )}
@@ -329,33 +227,18 @@ const ListReport = () =>{
                     <div className="main_table-headers">
                         <table className="box-table-headers">
                             <colgroup>
-                                <col style={{width: "130px"}}></col>
-                                <col style={{width: "130px"}}></col>
-                                <col style={{width: "200px"}}></col>
                                 <col style={{width: "150px"}}></col>
                                 <col style={{width: "150px"}}></col>
                                 <col style={{width: "200px"}}></col>
+                                <col style={{width: "120px"}}></col>
+                                <col style={{width: "200px"}}></col>
+                                <col style={{width: "150px"}}></col>
+                                <col style={{width: "120px"}}></col>
                             </colgroup>
                             <thead>
                                 <tr className="group-table-headers">
                                     {Object.entries(colsToRender).map(([key, value]) => {
                                         if(value){
-                                            if (key === "ngaygui"){
-                                                return (
-													<th
-														key={key}
-														className="table-header-item"
-                                                        onClick={toggleSortOrder}
-													>
-														<div className="box-sort-date">
-															{col[key].name}
-															<span className="box-icon" style={{ transform: filterBody.sortOrder === -1 ? 'rotate(0deg)' : 'rotate(180deg)' }}>
-																<FontAwesomeIcon icon={faCaretDown} />
-															</span>
-														</div>
-													</th>
-												);
-                                            } 
                                             return (
                                                 <th
 													key={key}
@@ -363,7 +246,7 @@ const ListReport = () =>{
 													rowSpan={1}
 													className="table-header-item"
 												>
-													{col[key].name}
+													{col[key]?.name}
 												</th>
                                             )
                                         }
@@ -376,21 +259,22 @@ const ListReport = () =>{
                     <div className="table-data__container">
                         <table className="box-table-data">
                             <colgroup>
-                                <col style={{width: "130px"}}></col>
-                                <col style={{width: "130px"}}></col>
-                                <col style={{width: "200px"}}></col>
                                 <col style={{width: "150px"}}></col>
                                 <col style={{width: "150px"}}></col>
                                 <col style={{width: "200px"}}></col>
+                                <col style={{width: "120px"}}></col>
+                                <col style={{width: "200px"}}></col>
+                                <col style={{width: "150px"}}></col>
+                                <col style={{width: "120px"}}></col>
                             </colgroup>
                             <tbody>
-                                {reportList.map((report, index) =>{
+                                {listRequest.map((request, index) =>{
                                     return(
                                         <tr key={index} className="table-data-row">
                                             {Object.entries(colsToRender).map(([key,value]) =>{
                                                 if(value){
                                                     if(key === "trangthai"){
-                                                        if(report[key] === "Đã xử lý"){
+                                                        if(request[key] === "approved"){
                                                             return(
                                                                 <td
                                                                     key={key}
@@ -399,12 +283,12 @@ const ListReport = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-green">
-                                                                        {report[key]}
+                                                                        {"Chấp nhận"}
                                                                     </p>
                                                                 </td>
                                                             )
                                                         }
-                                                        else if(report[key] === "Đang xử lý"){
+                                                        else if(request[key] === "pending"){
                                                             return(
                                                                 <td
                                                                     key={key}
@@ -413,7 +297,7 @@ const ListReport = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-blue">
-                                                                        {report[key]}
+                                                                        {"Thanh toán"}
                                                                     </p>
                                                                 </td>
                                                             )
@@ -427,13 +311,13 @@ const ListReport = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-red">
-                                                                        {report[key]}
+                                                                        {"Từ chối"}
                                                                     </p>
                                                                 </td>
                                                             )
                                                         }
                                                     }
-                                                    else if(key === "ngaygui"){
+                                                    else if(key === "createdAt"){
                                                         return(
                                                             <td
                                                                 key={key}
@@ -442,12 +326,13 @@ const ListReport = () =>{
                                                                 className="table-data-item"
                                                             >
                                                             <p className="box-text">
-                                                                {formatDateWithHour(report?.createdAt)}
+                                                                {formatDateWithHour(request[key])}
                                                             </p>
                                                         </td>
                                                         )
                                                     }
-                                                    else if(key === "department"){
+                                                    else if(key === "room"){
+                                                        console.log(request.room)
                                                         return(
                                                             <td
                                                                 key={key}
@@ -456,7 +341,7 @@ const ListReport = () =>{
                                                                 className="table-data-item"
                                                             >
                                                             <p className="box-text">
-                                                                {report?.room?.department?.name}
+                                                                {`${request?.room?.department?.name} - ${request?.room?.name}`}
                                                             </p>
                                                         </td>
                                                         )
@@ -470,13 +355,13 @@ const ListReport = () =>{
                                                             className="table-data-item"
                                                         >
                                                             <p className="box-text">
-                                                                {key !== "room" ? (
-                                                                report[key]
+                                                                {key !== "name" ? (
+                                                                request[key]
                                                                 ) : (
                                                                 <Link
                                                                     className="box-id"
                                                                 >
-                                                                    {report.room.name}
+                                                                    {request[key]}
                                                                 </Link>
                                                                 )}
                                                             </p>
@@ -489,11 +374,11 @@ const ListReport = () =>{
                                     )
                                 })}
                             </tbody>
-                        </table>     
+                        </table>
                     </div>
                 </div>
                 <div className="right__table-pagination">
-                    <div className="display-title" style={{color: "#0F1824;"}}>
+                    <div className="display-title" style={{color: "#0F1824"}}>
                         Hiển thị
                     </div>
                     <div className="box-page-limit">
@@ -502,7 +387,7 @@ const ListReport = () =>{
                             onClick={() => setIsOpenLimitPopup(!isOpenLimitPopup)}
                             className={`btn-page-limit ${isOpenLimitPopup ? 'selected' : ''}`}
                         >
-                            {filterBody.limit}
+                            {limit}
                             <span>
                                 <FontAwesomeIcon icon={faCaretDown} />
                             </span>
@@ -511,13 +396,10 @@ const ListReport = () =>{
                             <LimitSelectPopup
                                 btnRef={limitBtnRef}
                                 closePopup={() => setIsOpenLimitPopup(false)}
-                                limit={filterBody.limit}
+                                limit={limit}
                                 handleChangeLimit={(limit) => {
-                                    setFilterBody({
-                                        ...filterBody,
-                                        limit: limit,
-                                        page: 1
-                                    })
+                                    setLimit(limit);
+                                    setPage(1);
                                 }}
                             />
 						)}
@@ -525,25 +407,25 @@ const ListReport = () =>{
                     <div className="title-1" style={{display: "flex", flexDirection: "row", gap: '5px'}}>
                         <div>Kết quả.</div>
                         <div className="item-quantity">
-                            Từ {(filterBody.page - 1) * filterBody.limit + 1} đến{" "}
-                            {filterBody.page * filterBody.limit > reportQuantity ? reportQuantity : filterBody.page * filterBody.limit} trên tổng{" "}
-                            {reportQuantity}
+                            Từ {(page - 1) * limit + 1} đến{" "}
+                            {page * limit > requestQuantity ? requestQuantity : page * limit} trên tổng{" "}
+                            {requestQuantity}
                         </div>
                     </div>
                     <div className="prev">
                         <button
-                            className={`btn_prev ${filterBody.page === 1 ? 'inactive' : ''}`}
+                            className={`btn_prev ${page === 1 ? 'inactive' : ''}`}
                             onClick={handlePrevPage}
                         >
                             <FontAwesomeIcon icon={faChevronLeft} />
                         </button>
                     </div>
                     <div className="page">
-                        {filterBody.page}
+                        {page}
                     </div>
                     <div className="next">
                         <button
-                            className={`btn_next ${filterBody.page === pageQuantity ? 'inactive' : ''}`}
+                            className={`btn_next ${page === pageQuantity ? 'inactive' : ''}`}
                             onClick={handleNextPage}
                         >
                             <FontAwesomeIcon icon={faChevronRight} />
@@ -554,4 +436,5 @@ const ListReport = () =>{
         </div>
     )
 }
-export default ListReport;
+
+export default ListRequest

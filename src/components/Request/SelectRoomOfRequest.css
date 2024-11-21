@@ -1,0 +1,62 @@
+.container-select-room-of-request {
+    z-index: 7;
+    border: 1px solid rgb(211, 213, 215);
+    box-shadow: rgba(168, 168, 168, 0.25) 0px 0.571429rem 1.14286rem;
+    border-radius: 3px;
+    background: rgb(255, 255, 255);
+    box-sizing: border-box;
+    position: absolute;
+    inset: auto auto 0px 0px;
+    transform: translate3d(0px, 140px, 0px);
+}
+.wrapper-select-room-of-request {
+    width: 150px;
+    border-radius: 3px;
+    padding: 4px 4px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+}
+.wrapper_select_room{
+    display: flex;
+    flex-direction: column;
+    max-height: 270px;
+    overflow: auto;
+    justify-content: center;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    /* Phần của thanh cuộn */
+    &::-webkit-scrollbar-thumb {
+        background-color: #A0A5AC; /* Màu xám của thanh cuộn */
+        border-radius: 10px; /* Bo tròn góc */
+    }
+
+    /* Nền của thanh cuộn */
+    &::-webkit-scrollbar-track {
+        background-color: transparent; /* Nền trong suốt hoặc có thể đổi màu theo ý bạn */
+    }
+}
+.select-room{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 4px 4px;
+    border-radius: 3px;
+    min-height: 35px;
+    align-items: center;
+    padding-left: 10px;
+    justify-content: center;
+    
+}
+.select-room:hover{
+    background-color: rgba(77, 83, 224, 0.1);
+}

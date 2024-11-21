@@ -1,10 +1,10 @@
-.container {
+.container-UnauthorizedPage {
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
 
-.wrapper {
+.wrapper-UnauthorizedPage {
     margin: 80px auto;
     text-align: center;
     display: flex;

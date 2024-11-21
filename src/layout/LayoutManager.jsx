@@ -6,6 +6,10 @@ import "./Layout.css"
 import Room from "../pages/Room/Room.jsx";
 import Bill from "../pages/Bill/Bill.jsx";
 import Report from "../pages/Report/Report.jsx";
+import Account from "../pages/Account/Account.jsx";
+import Request from "../pages/Request/Request.jsx";
+import withAuthorization from "../hoc/withAuthorization.jsx";
+import Student from "../pages/Student/Student.jsx";
 const LayoutManager = () =>{
     return (
         <div className="layout">
@@ -17,10 +21,13 @@ const LayoutManager = () =>{
                     <Route path="/room/*"  element={<Room />}/>
                     <Route path="/bill/*"  element={<Bill />}/>
                     <Route path="/report/*"  element={<Report />}/>
+                    <Route path="/account/*"  element={<Account />}/>
+                    <Route path="/request/*"  element={<Request />}/>
+                    <Route path="/people/*"  element={<Student />}/>
                 </Routes>
             </div>
         </div>
     )
 }
 
-export default LayoutManager
+export default withAuthorization(LayoutManager, ["Quản lý"])

@@ -5,8 +5,8 @@ import "./UnauthorizedPage.css"
 const UnauthorizedPage = () =>{
     const navigate = useNavigate();
     return(
-        <div className="container">
-            <div className="wrapper">
+        <div className="container-UnauthorizedPage">
+            <div className="wrapper-UnauthorizedPage">
                 <div className="errorImage">
                     <img  src={errorImage} alt="" />
                 </div>
