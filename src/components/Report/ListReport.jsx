@@ -16,7 +16,6 @@ import { getListDepartment } from "../../service/ManagerAPI/DepartmentAPI";
 const statusTab = [
     { key: "all", label: "Tất cả báo cáo", trangthai: null },
     { key: "completed", label: "Đã xử lý", trangthai: "Đã xử lý" },
-    { key: "processing", label: "Đang xử lý", trangthai: "Đang xử lý" },
     { key: "incompleted", label: "Chưa xử lý", trangthai: "Chưa xử lý" },
 ];
 
@@ -62,7 +61,6 @@ const ListReport = () =>{
     const [currentPageFilter, setCurrentPageFilter] = useState(1);
     const [totalPageFilter, setTotalPageFilter] = useState();
     const selectDepartment = (department) => {
-        console.log(department)
         setFilterBody((prev) => ({
             ...prev,
             department: department._id
@@ -171,16 +169,13 @@ const ListReport = () =>{
     };
     const fetchListReport = async () =>{
         const reports = await getListReport(filterBody);
-        console.log(reports)
         setReportList(reports.data.listReport);
         setreportQuantity(reports.data.total);
         setPageQuantity(reports.data.totalPages);
-        console.log(reportList)
     }
     useEffect(()=>{
         fetchListReport();
     }, [filterBody])
-    console.log(filterBody)
     return(
         <div className="list-report">
             <Header title={"Danh sách báo cáo"}/>
@@ -474,6 +469,7 @@ const ListReport = () =>{
                                                                 report[key]
                                                                 ) : (
                                                                 <Link
+                                                                    to={`/manager/report/detailReport/${report._id}`}
                                                                     className="box-id"
                                                                 >
                                                                     {report.room.name}
