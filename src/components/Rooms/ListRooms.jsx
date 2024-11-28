@@ -425,6 +425,7 @@ const ListRooms = () =>{
                                                                 ) : (
                                                                 <Link
                                                                     className="box-id"
+                                                                    to={`/manager/room/detail/${room._id}`}
                                                                 >
                                                                     {room[key]}
                                                                 </Link>

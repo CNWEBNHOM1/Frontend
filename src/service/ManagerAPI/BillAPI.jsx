@@ -40,3 +40,13 @@ export const updateDetailBill = async(id, data) =>{
     }
 }
 
+export const handleBill = async(id, action) =>{
+    try {
+        const response = await axiosInstance.put(`/user/handleBill/${id}/${action}`);
+        return response.data;
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+

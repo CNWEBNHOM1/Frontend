@@ -14,7 +14,7 @@ import SelectRoomOfRequest from "./SelectRoomOfRequest";
 
 const statusTab = [
     { key: "all", label: "Tất cả yêu cầu", trangthai: null },
-    { key: "pending", label: "Đang chờ", trangthai: "pending" },
+    { key: "pending", label: "Đã thanh toán", trangthai: "pending" },
     { key: "approved", label: "Đã chấp nhận", trangthai: "approved" },
     { key: "declined", label: "Đã từ chối", trangthai: "declined" }
 ];
@@ -359,6 +359,7 @@ const ListRequest = () =>{
                                                                 request[key]
                                                                 ) : (
                                                                 <Link
+                                                                    to={`/manager/request/detail/${request._id}`}
                                                                     className="box-id"
                                                                 >
                                                                     {request[key]}

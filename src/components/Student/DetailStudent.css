@@ -1,4 +1,3 @@
-
 .right__navbar{
     width: 100%;
 }
@@ -80,6 +79,24 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
+.btn-primary-red{
+    height: 35px;
+    width: 80px;
+    border: none;
+    background-color: red;
+    color: #FFFFFF;
+    border: 1px solid red;
+    border-radius: 5px;
+}
+.btn-primary-red:hover{
+    background-color: #ffc2c2;
+    cursor: pointer;
+}
+.btn-primary-red:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .right__DetailPage{
     display: flex;
     flex-direction: row;
@@ -92,7 +109,7 @@
     flex-direction: column;
     gap: 20px;
 }
-.box-general{
+.box-general-request{
     background-color: #FFFFFF;
     width: 650px;
     box-sizing: border-box;
@@ -100,7 +117,7 @@
     border-radius: 3px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.info-header{
+.info-header-request{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 400;
     font-size: 16px;
@@ -110,41 +127,35 @@
     padding-left: 25px;
     color: #3d3d3d;
 }
-.info-content{
+.info-content-student{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     box-sizing: border-box;
     padding: 20px 25px;
 }
-.form-item{
+.row-request{
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    gap: 45px;
 }
 
 .form-label{
     color: #747C87;
     font-size: 14px;
 }
-.form-textfield{
-    width: 100%;
-}
-.form-textfield input{
-    width: 98%;
-    height: 35px;
-    border: 1px solid #d3d5d7;
-    padding: 0px 10px;
-    font-size: 15px;
-}
-.form-textfield input:focus{
-    outline: none;
-}
-.row-bill{
+.row-report{
     display: flex;
     flex-direction: row;
     gap: 45px;
+}
+.box-request-name, .box-request-ngaysinh, .box-request-sdt, .box-request-cccd, .box-request-gender, .box-request-khoa, .box-request-diachi, .box-request-school, .box-request-class, .box-request-room, .box-request-room_gender,
+.box-request-trangthai, .box-request-sotien,.box-request-ngaygui, .box-request-ngaypheduyet,.box-request-anhminhchung,.box-student-huyen, .box-student-xa, .box-student-tinh
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 .form-textfield1 input{
     width: 260px;
@@ -156,24 +167,8 @@
 .form-textfield1 input:focus{
     outline: none;
 }
-.form-textfield2 input{
-    width: 180px;
-    height: 35px;
-    border: 1px solid #d3d5d7;
-    padding: 0px 10px;
-    font-size: 15px;
-}
-.form-textfield2 input:focus{
-    outline: none;
-}
-.box-image{
-    background-color: #FFFFFF;
-    width: 500px;
-    box-sizing: border-box;
-    border-radius: 3px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.box-detail{
+
+.box-detail-request{
     background-color: #FFFFFF;
     width: 500px;
     box-sizing: border-box;
@@ -181,18 +176,50 @@
     border-radius: 3px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.box-bill-image{
-    display: flex;
-    justify-content: center;
-}
-.box-bill-image img{
-    width: 200px;
-    height: 180px;
+.form-textfield-request1 input{
+    width: 180px;
+    height: 35px;
     border: 1px solid #d3d5d7;
-    border-radius: 3px;
+    padding: 0px 10px;
+    font-size: 15px;
 }
-.box-bill-department{
+.form-textfield-request1 input:focus{
+    outline: none;
+}
+
+.form-textfiel-vung input{
+    width: 150px;
+    height: 35px;
+    border: 1px solid #d3d5d7;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+.form-textfiel-vung input:focus{
+    outline: none;
+}
+
+.form-textfiel-an input{
+    width: 100px;
+    height: 35px;
+    border: 1px solid #d3d5d7;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+.form-textfiel-an input:focus{
+    outline: none;
+}
+.form-image-request {
+    border: 1px solid #747C87;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center; /* Đảm bảo hình ảnh được căn giữa theo chiều dọc */
+    overflow: hidden; /* Đảm bảo phần ảnh thừa không tràn ra ngoài */
+}
+
+.form-image-request img {
+    width: 200px; /* Đảm bảo chiều rộng bao phủ cha */
+    height: 200px; /* Đảm bảo chiều cao bao phủ cha */
+    object-fit: cover; /* Giữ tỷ lệ và cắt ảnh nếu cần */
+    object-position: center; /* Căn giữa hình ảnh */
 }

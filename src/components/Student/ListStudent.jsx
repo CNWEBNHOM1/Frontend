@@ -322,6 +322,7 @@ const ListStudent = () =>{
                                                                 ) : (
                                                                 <Link
                                                                     className="box-id"
+                                                                    to={`/manager/people/detail/${student._id}`}
                                                                 >
                                                                     {student[key]}
                                                                 </Link>

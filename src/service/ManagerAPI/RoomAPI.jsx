@@ -20,3 +20,23 @@ export const createRoom = async (data) =>{
         throw err;
     }
 }
+
+export const getDetailRoom = async (id) =>{
+    try {
+        const response = await axiosInstance.get(`/user/detailRoom/${id}`)
+        return response.data
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+export const updateDetailRoom = async (id, data) =>{
+    try {
+        const response = await axiosInstance.put(`/user/updateRoom/${id}`,data)
+        return response.data
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}

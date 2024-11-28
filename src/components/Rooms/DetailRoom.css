@@ -1,0 +1,390 @@
+.right__navbar{
+    width: 100%;
+}
+.box-navbar{
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    padding: 15px 32px;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1366px;
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0;
+    color: #747C87;
+}
+.btn-back svg {
+    margin-right: 12px;
+}
+.btn-back h4 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    line-height: 20px;
+    margin: 0;
+}
+.btn-toolbar {
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 16px;
+    position: relative;
+    display: flex;
+}
+.btn-outline-primary-red{
+    height: 35px;
+    width: 80px;
+    border: 1px solid red;
+    background-color: transparent;
+    color: red;
+    border-radius: 5px;
+}
+.btn-outline-primary-red:hover{
+    cursor: pointer;
+    background-color: #ffdfdf;
+}
+.btn-outline-primary-blue{
+    height: 35px;
+    width: 80px;
+    border: 1px solid #4d53e0;
+    background-color: transparent;
+    color: #4d53e0;
+    border-radius: 5px;
+}
+.btn-outline-primary-blue:hover{
+    cursor: pointer;
+    background-color: #dfdfff;
+}
+.btn-primary{
+    height: 35px;
+    width: 80px;
+    border: none;
+    background-color: #4d53e0;
+    color: #FFFFFF;
+    border: 1px solid #4d53e0;
+    border-radius: 5px;
+}
+.btn-primary:hover{
+    background-color: #6265E0;
+    cursor: pointer;
+}
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.right__DetailPage{
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
+.box-maininfo {
+    display: flex;
+    padding-left: 32px;
+    padding-top: 30px;
+    flex-direction: column;
+    gap: 20px;
+}
+.box-general-detail-room{
+    background-color: #FFFFFF;
+    width: 550px;
+    box-sizing: border-box;
+    padding-bottom: 20px;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.info-header-detail-room{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    font-style: normal;
+    border-bottom: 2px solid #e8eaeb;
+    box-sizing: border-box;
+    padding-left: 25px;
+    color: #3d3d3d;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 25px;
+}
+.btn-removeAllStudent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-rmv-all{
+    width: 100px;
+    height: 35px;
+    background-color: transparent;
+    border: 1px solid red;
+    color: red;
+    border-radius: 5px;
+}
+
+.btn-rmv-all:hover{
+    cursor: pointer;
+    background-color: #ffdfdf;
+}
+.info-content-detail-room{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    padding: 20px 25px;
+}
+.row-detail-room{
+    display: flex;
+    flex-direction: row;
+    gap: 45px;
+}
+
+.box-detail-room-name,.box-detail-room-department, .box-detail-room-gender, .box-detail-room-tinhtrang, .box-detail-room-capacity, .box-detail-room-occupiedSlots
+,.box-detail-room-giatrangbi, .box-detail-room-tieno, .box-detail-room-tiennuoc, .box-detail-room-dongiadien, .box-detail-room-sophongvs, .box-detail-room-binhnuocnong, .box-detail-room-dieuhoa
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form-textfield-detail-room input{
+    width: 200px;
+    height: 35px;
+    border: 1px solid #d3d5d7;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+.form-textfield-detail-room input:focus{
+    outline: none;
+}
+.form-textfield-detail-room select {
+    width: 222px;
+    height: 37px;
+    border: 1px solid #d3d5d7;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+.form-textfield-detail-room select:focus{
+    outline: none;
+}
+
+.form-textfield-detail-room2 input{
+    width: 112px;
+    height: 35px;
+    border: 1px solid #d3d5d7;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+.form-textfield-detail-room2 input:focus{
+    outline: none;
+}
+
+.box-detail-room-dssv{
+    background-color: #FFFFFF;
+    width: 600px;
+    box-sizing: border-box;
+    padding-bottom: 20px;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 570px;
+}
+.info-table-dssv{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    padding: 20px 25px;
+}
+
+.toolbar-table{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    justify-content: space-between;
+    color: #555555;
+}
+.show-limit-dssv{
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    align-items: center;
+    text-align: center;
+    color: #555555;
+    font-size: 14px;
+}
+.limit-select-dssv{
+    border: 1px solid rgb(211, 213, 215);
+    width: 40px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.limit-select-dssv:hover{
+    cursor: pointer;
+    border: 1px solid #747C87;
+    color: #555555;
+}
+.serach-name-dssv{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    font-size: 14px;
+    align-items: center;
+}
+.input-search{
+    height: 35px;
+    width: 200px;
+    border: 1px solid rgb(211, 213, 215);
+    color: #555555;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.input-search:focus{
+    outline: none;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 1rem;
+    margin-top: 10px;
+    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.custom-table th, .custom-table td {
+    padding: 5px 5px; /* Giảm padding giữa nội dung và viền ô */
+    border: 1px solid #e9ecef;
+}
+
+.custom-table th {
+    background-color: #6c757d;
+    color: #ffffff;
+    font-weight: bold;
+    height: 35px; /* Chiều cao cố định cho header */
+    text-transform: none; /* Không chuyển đổi chữ */
+    font-size: 14px; /* Giữ font-size vừa phải */
+    padding: 5px 10px; /* Giảm padding để header gọn hơn */
+}
+
+.custom-table td {
+    height: 30px; /* Chiều cao cố định cho các ô dữ liệu */
+}
+
+.custom-table tbody tr:nth-child(odd) {
+    background-color: #f1f3f5;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.action-btn-transfer {
+    padding: 2px 6px; /* Giảm padding để nút nhỏ hơn */
+    font-size: 0.8rem; /* Giảm kích thước chữ trong nút */
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    height: 25px; /* Chiều cao cố định của nút */
+    margin-right: 10px; /* Thêm khoảng cách giữa các nút */
+}
+
+.action-btn-transfer:hover {
+    background-color: #0056b3;
+}
+.action-btn-view {
+    padding: 2px 6px; /* Giảm padding để nút nhỏ hơn */
+    font-size: 0.8rem; /* Giảm kích thước chữ trong nút */
+    color: #ffffff;
+    background-color: #26e25f;
+    border: none;
+    cursor: pointer;
+    height: 25px; /* Chiều cao cố định của nút */
+    margin-right: 10px; /* Thêm khoảng cách giữa các nút */
+}
+
+.action-btn-view:hover {
+    background-color: #00b354;
+}
+.action-btn-delete {
+    padding: 2px 6px; /* Giảm padding để nút nhỏ hơn */
+    font-size: 0.8rem; /* Giảm kích thước chữ trong nút */
+    color: #ffffff;
+    background-color: #e22626;
+    border: none;
+    cursor: pointer;
+    height: 25px; /* Chiều cao cố định của nút */
+    margin-right: 10px; /* Thêm khoảng cách giữa các nút */
+}
+
+.action-btn-delete:hover {
+    background-color: #b30000;
+}
+.main-table-dssv{
+    max-height: 300px; /* Chiều cao tối đa của bảng */
+    overflow-y: auto; /* Hiển thị thanh cuộn dọc khi cần */
+}
+.footer-dssv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    color: #555555;
+    align-items: center;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+.pagination-dssv{
+    display: flex;
+    flex-direction: row;
+}
+.prev-page-dssv{
+    border: 1px solid rgb(211, 213, 215);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 70px;
+    height: 30px;
+}
+.prev-page-dssv:hover{
+    cursor: pointer;
+    border: 1px solid #747C87;
+}
+.page-dssv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 40px;
+    height: 30px;
+    background-color: #6c757d;
+    color: #FFF;
+}
+.next-page-dssv{
+    border: 1px solid rgb(211, 213, 215);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 70px;
+    height: 30px;
+}
+.next-page-dssv:hover{
+    cursor: pointer;
+    border: 1px solid #747C87;
+}

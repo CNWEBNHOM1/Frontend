@@ -45,7 +45,7 @@ const DetailReport= () =>{
                 openNotificationWithIcon('success', "Xử lý hoá đơn thành công");
                 setTimeout(() => {
                     navigate('/manager/report');
-                }, 1000); // Chờ 2 giây
+                }, 1000);
             } else {
                 openNotificationWithIcon('error', "Có lỗi xảy ra");
             }

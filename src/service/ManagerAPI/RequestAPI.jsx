@@ -20,3 +20,23 @@ export const getListRequest = async (data) => {
         throw err;
     }
 };
+
+export const getDetailRequet = async(id) =>{
+    try {
+        const respone = await axiosInstance.get(`/user/detailRequest/${id}`);
+        return respone.data;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+export const handleDetailRequest = async(id, action) =>{
+    try {
+        const respone = await axiosInstance.put(`/user/handleRequest/${id}/${action}`);
+        return respone.data;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}

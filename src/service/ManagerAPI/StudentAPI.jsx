@@ -20,3 +20,54 @@ export const getListStudent = async (data) => {
         throw err;
     }
 };
+
+export const getDetailStudent = async (id) =>{
+    try {
+        const response = await axiosInstance.get(`/user/detailStudent/${id}`);
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+export const updateStudent = async(id,data) =>{
+    try {
+        const response = await axiosInstance.put(`/user/updateStudent/${id}`, data)
+        return response;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+export const declinedStudent = async(data) =>{
+    try {
+        const response = await axiosInstance.post("/user/declineStundet", data)
+        return response;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+export const kickStudentOfRoom = async(data) =>{
+    try {
+        const response = await axiosInstance.post("/user/kickOne", data)
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+export const kickAllStudentOfRoom = async() =>{
+    try {
+        const response = await axiosInstance.post("/user/kickAll")
+        console.log(response.data)
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useNavigate, useParams } from "react-router";
-import { getDetailBill, updateDetailBill } from "../../service/ManagerAPI/BillAPI";
+import { getDetailBill, handleBill, updateDetailBill } from "../../service/ManagerAPI/BillAPI";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +10,7 @@ import infoIcon from "../../assets/icons/InfoIcon";
 import "./DetailBill.css"
 import logoSoict from "../../assets/logo-soict.png";
 import NotPayment from "../../assets/chuachuyenkhoan.jpg"
-import { formatDate } from "../../utils/DateUtils";
+import { formatDate, formatDateWithHour } from "../../utils/DateUtils";
 import { notification} from 'antd';
 
 
@@ -44,10 +44,25 @@ const DetailBill = () =>{
         setBillDetail(detailBill.data);
     }
 
+    const handleClickUpdate = async () =>{
+        const action = "Đã đóng"
+        const updateBill = await handleBill(_id, action);
+        if(updateBill.data){
+            openNotificationWithIcon("success", "Xác nhận hoá đơn thành công")
+            setTimeout(() => {
+                navigate('/manager/bill');
+            }, 1000);
+        }
+        else{
+            openNotificationWithIcon("error", "Có lỗi xảy ra")
+        }
+    }
+
     useEffect(() =>{
         fetchDetailBill();
     }, [])
     const navigate = useNavigate();
+    console.log(billDetail)
     return(
         <>
             {contextHolder}
@@ -68,6 +83,7 @@ const DetailBill = () =>{
                         <button 
                             className="btn-primary" 
                             disabled={billDetail.trangthai !== "Chờ xác nhận"}
+                            onClick={handleClickUpdate}
                         >
                             <span className="btn__title">Xác nhận</span>
                         </button>
@@ -178,6 +194,7 @@ const DetailBill = () =>{
                                                 ...billDetail,
                                                 sodiencuoi: parseInt(e.target.value) 
                                             })}
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -287,27 +304,69 @@ const DetailBill = () =>{
                                     </div>
                                 </div>
                             </div>
-                            <div className="box-bill-name">
-                                <div className="form-item">
-                                    <label htmlFor="trangthai" className="form-label">
-                                        Trạng thái
-                                        <span
-                                            id='nameCaption'
-                                            className="caption-icon"
-                                            style={{color: "#4d53e0"}}
-                                        >
-                                            {infoIcon}
-                                        </span>
-                                        <span className="asterisk-icon">*</span>
-                                    </label>
-                                    <div className="form-textfield">
-                                        <input 
-                                            name="trangthai"
-                                            id="trangthai"
-                                            type="text"
-                                            value={billDetail.trangthai}
-                                            disabled
-                                        />
+                            <div className="row-bill">
+                                <div className="box-bill-name">
+                                    <div className="form-item">
+                                        <label htmlFor="trangthai" className="form-label">
+                                            Trạng thái
+                                            <span
+                                                id='nameCaption'
+                                                className="caption-icon"
+                                                style={{color: "#4d53e0"}}
+                                            >
+                                                {infoIcon}
+                                            </span>
+                                            <span className="asterisk-icon">*</span>
+                                        </label>
+                                        <div className="form-textfield2">
+                                            <input 
+                                                name="trangthai"
+                                                id="trangthai"
+                                                type="text"
+                                                value={billDetail.trangthai}
+                                                disabled
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="box-bill-name">
+                                    <div className="form-item">
+                                        <label htmlFor="trangthai" className="form-label">
+                                            Ngày xác nhận
+                                            <span
+                                                id='nameCaption'
+                                                className="caption-icon"
+                                                style={{color: "#4d53e0"}}
+                                            >
+                                                {infoIcon}
+                                            </span>
+                                            <span className="asterisk-icon">*</span>
+                                        </label>
+                                        {
+                                            billDetail?.trangthai === "Đã đóng" ? 
+                                            (
+                                                <div className="form-textfield2">
+                                                    <input 
+                                                        name="trangthai"
+                                                        id="trangthai"
+                                                        type="text"
+                                                        value={formatDateWithHour(billDetail?.updatedAt)}
+                                                        disabled
+                                                    />
+                                                </div>
+                                            )
+                                            :
+                                            (
+                                                <div className="form-textfield2">
+                                                    <input 
+                                                        name="trangthai"
+                                                        id="trangthai"
+                                                        type="text"
+                                                        disabled
+                                                    />
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>
