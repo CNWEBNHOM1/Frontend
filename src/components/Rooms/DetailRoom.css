@@ -1,5 +1,6 @@
 .right__navbar{
     width: 100%;
+    position: relative;
 }
 .box-navbar{
     width: 100%;
@@ -387,4 +388,14 @@
 .next-page-dssv:hover{
     cursor: pointer;
     border: 1px solid #747C87;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
 }

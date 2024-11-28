@@ -71,3 +71,13 @@ export const kickAllStudentOfRoom = async() =>{
         throw err;
     }
 }
+
+export const TransferStudent = async(student_id, new_room_id) =>{
+    try {
+        const response = await axiosInstance.put(`/user/transferRoom/${student_id}/${new_room_id}`)
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}

@@ -11,6 +11,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import { getListStudent, kickAllStudentOfRoom, kickStudentOfRoom } from "../../service/ManagerAPI/StudentAPI";
 import { notification} from 'antd';
 import { Button, Modal, Space } from 'antd';
+import TransferRoom from "./TransferRoom";
 
 const DetailRoom = () =>{
 
@@ -36,6 +37,8 @@ const DetailRoom = () =>{
     const [pageQuantity,setPageQuantity] = useState(null);
     const [page, setPage] = useState(1);
     const [render, setRender] = useState(false);
+
+    const [isTransfer, setIsTransfer] = useState(false)
 
     const fetchListStudent = async () =>{
         const students = await getListStudent({page: page, limit: limit, name: name, room: id, trangthai: null});
@@ -86,6 +89,13 @@ const DetailRoom = () =>{
             },
             onCancel: () => {},
         });
+    }
+
+    const [selectPeople, setSelectPeople] = useState(null)
+
+    const handleClickTransfer = (people) =>{
+        setSelectPeople(people);
+        setIsTransfer(true);
     }
 
     const handleDelete = (email) => {
@@ -141,6 +151,10 @@ const DetailRoom = () =>{
         });
     }
 
+    const closePopup = () =>{
+        setIsTransfer(false);
+    }
+
 
     useEffect(() =>{
         fetchDetailStudent();
@@ -148,11 +162,29 @@ const DetailRoom = () =>{
     
     useEffect(()=>{
         fetchListStudent();
-    }, [page, limit, name, render])
+    }, [page, limit, name, render, isTransfer])
+
+    useEffect(() => {
+        if (isTransfer) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = 'auto';
+        }
+        // Clean-up khi component bị hủy bỏ
+        return () => {
+          document.body.style.overflow = 'auto';
+        };
+      }, [isTransfer]);
 
     return(
         <>
             {contextHolder}
+            {isTransfer && (
+                <>
+                    <div className="overlay"></div>
+                    <TransferRoom close = {closePopup} detailRoom = {detailRoom} people = {selectPeople}/>
+                </>
+            )}
             <div className="right__navbar">
                 <div className="box-navbar">
                     <div className="btn-toolbar">
@@ -608,6 +640,7 @@ const DetailRoom = () =>{
                                                     <button className="action-btn-view" onClick={() => navigate(`/manager/people/detail/${student._id}`)}>Xem</button>
                                                     <button
                                                         className="action-btn-transfer"
+                                                        onClick={ () => handleClickTransfer(student)}
                                                     >
                                                         Chuyển
                                                     </button>
