@@ -1,26 +1,86 @@
-.member-list {
-    max-width: 600px;
-    margin: auto;
+.roommates-container {
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
 }
 
-.member-list h2 {
-    text-align: center;
+.member-detail-view {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
     margin-bottom: 20px;
 }
 
-.member-list ul {
-    list-style-type: none;
-    padding: 0;
+.member-card {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
-.member-item {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
+.member-avatar {
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.member-item p {
-    margin: 5px 0;
+.avatar-icon {
+    color: #888;
+}
+
+.member-info h2 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.info-item .icon {
+    color: #666;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagination button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination button:hover {
+    background-color: #ddd;
 }
