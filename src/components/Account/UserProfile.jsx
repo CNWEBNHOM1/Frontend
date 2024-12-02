@@ -54,122 +54,136 @@ function UserProfile() {
     if (!profile) {
         return <p>Đang tải thông tin cá nhân...</p>;
     }
-
     return (
         <>
             <Header title={"Trang chủ/Profile"} />
-            <div className="user-profile">
-                <h2>Thông Tin Cá Nhân</h2>
-                <form>
-                    {currentPage === 1 ? (
-                        <>
-                            <div>
-                                <label>Tên:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={profile.name}
-                                        onChange={handleInputChange}
-                                    />
-                                ) : (
-                                    <span>{profile.name}</span>
-                                )}
-                            </div>
-                            <div>
-                                <label>Ngày sinh:</label>
-                                <span>
-                                    {profile?.ngaysinh?.$date
-                                        ? new Date(profile.ngaysinh.$date).toLocaleDateString()
-                                        : profile?.ngaysinh
-                                            ? new Date(profile.ngaysinh).toLocaleDateString()
-                                            : "Không có dữ liệu"}
-                                </span>
-                            </div>
-                            <div>
-                                <label>Giới tính:</label>
-                                <span>{profile.gender}</span>
-                            </div>
-                            <div>
-                                <label>Số điện thoại:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        value={profile.phone}
-                                        onChange={handleInputChange}
-                                    />
-                                ) : (
-                                    <span>{profile.phone}</span>
-                                )}
-                            </div>
-                            <div>
-                                <label>Địa chỉ:</label>
-                                <span>{`${profile.address?.tinh}, ${profile.address?.thanh}, ${profile.address?.xa}`}</span>
-                            </div>
-                            <div>
-                                <label>CCCD:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        name="cccd"
-                                        value={profile.cccd}
-                                        onChange={handleInputChange}
-                                    />
-                                ) : (
-                                    <span>{profile.cccd}</span>
-                                )}
-                            </div>
-                            <div>
-                                <label>Ưu tiên:</label>
-                                <span>{profile.priority ? "Có" : "Không"}</span>
-                            </div>
-                            <div>
-                                <label>Khóa:</label>
-                                <span>{profile.khoa}</span>
-                            </div>
-                            <div>
-                                <label>Trường:</label>
-                                <span>{profile.school}</span>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div>
-                                <label>Trạng thái:</label>
-                                <span>{profile.trangthai}</span>
-                            </div>
-                            <div>
-                                <label>Phòng:</label>
-                                <span>{profile.kyhoc[0]?.phong || "Chưa có phòng"}</span>
-                            </div>
-                            <div>
-                                <label>Kỳ học:</label>
-                                <span>{profile.kyhoc[0]?.ky}</span>
-                            </div>
-                        </>
-                    )}
-                </form>
+            {!profile ? (
+                <div className="loading">Đang tải thông tin cá nhân...</div>
+            ) : (
+                <div className="user-profile">
+                    <h2>Thông Tin Cá Nhân</h2>
+                    <form>
+                        {currentPage === 1 ? (
+                            <>
+                                <div>
+                                    <label>Tên:</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={profile.name}
+                                            onChange={handleInputChange}
+                                        />
+                                    ) : (
+                                        <span>{profile.name}</span>
+                                    )}
+                                </div>
+                                <div>
+                                    <label>Ngày sinh:</label>
+                                    <span>
+                                        {profile?.ngaysinh?.$date
+                                            ? new Date(profile.ngaysinh.$date).toLocaleDateString()
+                                            : profile?.ngaysinh
+                                                ? new Date(profile.ngaysinh).toLocaleDateString()
+                                                : "Không có dữ liệu"}
+                                    </span>
+                                </div>
+                                <div>
+                                    <label>Giới tính:</label>
+                                    <span>{profile.gender}</span>
+                                </div>
+                                <div>
+                                    <label>Số điện thoại:</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            value={profile.phone}
+                                            onChange={handleInputChange}
+                                        />
+                                    ) : (
+                                        <span>{profile.phone}</span>
+                                    )}
+                                </div>
+                                <div>
+                                    <label>Địa chỉ:</label>
+                                    <span>{`${profile.address?.tinh}, ${profile.address?.thanh}, ${profile.address?.xa}`}</span>
+                                </div>
+                                <div>
+                                    <label>CCCD:</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            name="cccd"
+                                            value={profile.cccd}
+                                            onChange={handleInputChange}
+                                        />
+                                    ) : (
+                                        <span>{profile.cccd}</span>
+                                    )}
+                                </div>
+                                <div>
+                                    <label>Ưu tiên:</label>
+                                    <span>{profile.priority ? "Có" : "Không"}</span>
+                                </div>
+                                <div>
+                                    <label>Khóa:</label>
+                                    <span>{profile.khoa}</span>
+                                </div>
+                                <div>
+                                    <label>Trường:</label>
+                                    <span>{profile.school}</span>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div>
+                                    <label>Trạng thái:</label>
+                                    <span>{profile.trangthai}</span>
+                                </div>
+                                <div>
+                                    <label>Phòng:</label>
+                                    <span>{profile.kyhoc[0]?.phong || "Chưa có phòng"}</span>
+                                </div>
+                                <div>
+                                    <label>Kỳ học:</label>
+                                    <span>{profile.kyhoc[0]?.ky}</span>
+                                </div>
+                            </>
+                        )}
+                    </form>
 
-                <div className="pagination">
-                    {currentPage > 1 && (
-                        <button onClick={goToPreviousPage}>Trang trước</button>
-                    )}
-                    {currentPage < 2 && (
-                        <button onClick={goToNextPage}>Trang sau</button>
-                    )}
-                </div>
-
-                {/* Nút Chỉnh sửa, Lưu, Hủy */}
-                {isEditing ? (
-                    <div>
-                        <button onClick={handleSaveClick}>Lưu</button>
-                        <button onClick={handleCancelClick}>Hủy</button>
+                    <div className="pagination">
+                        {currentPage > 1 && (
+                            <button onClick={goToPreviousPage}>
+                                Trang trước
+                            </button>
+                        )}
+                        {currentPage < 2 && (
+                            <button onClick={goToNextPage}>
+                                Trang sau
+                            </button>
+                        )}
                     </div>
-                ) : (
-                    <button onClick={handleEditClick}>Chỉnh sửa</button>
-                )}
-            </div>
+
+                    <div className="action-buttons">
+                        {isEditing ? (
+                            <>
+                                <button className="save-btn" onClick={handleSaveClick}>
+                                    Lưu thay đổi
+                                </button>
+                                <button className="cancel-btn" onClick={handleCancelClick}>
+                                    Hủy
+                                </button>
+                            </>
+                        ) : (
+                            <button className="edit-btn" onClick={handleEditClick}>
+                                Chỉnh sửa
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
         </>
     );
 }

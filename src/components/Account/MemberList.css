@@ -1,26 +1,144 @@
-.member-list {
-    max-width: 600px;
-    margin: auto;
+.roommates-container {
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+    overflow: hidden;
 }
 
-.member-list h2 {
+.title {
     text-align: center;
+    color: #2c3e50;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 20px 0 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #3498db;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.member-container {
+    display: flex;
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.member-detail-view {
+    flex: 0 0 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
     margin-bottom: 20px;
 }
 
-.member-list ul {
-    list-style-type: none;
-    padding: 0;
+.member-card {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
-.member-item {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
+.member-avatar {
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
 }
 
-.member-item p {
-    margin: 5px 0;
+.avatar-text {
+    font-size: 64px;
+    color: #666;
+    font-weight: bold;
+}
+
+.member-info h2 {
+    color: #3498db;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+    /* Thêm khoảng cách phía dưới grid */
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagination button.active {
+    background-color: #3498db;
+    color: white;
+}
+
+.pagination button:hover {
+    background-color: #ddd;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .member-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .member-avatar {
+        width: 150px;
+        height: 150px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .title {
+        font-size: 24px;
+    }
 }
