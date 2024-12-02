@@ -29,3 +29,13 @@ export const handleReport = async(data, id, action) => {
         throw err;
     }
 }
+
+export const getStatisticReports = async () =>{
+    try {
+        const response = await axiosInstance.get("/user/statisticReports")
+        return response.data
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}

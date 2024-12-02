@@ -8,11 +8,13 @@ import { faBook, faFileInvoice, faHouse, faPerson } from "@fortawesome/free-soli
 import Detail from "./Detail";
 import { getListDepartment } from "../../service/ManagerAPI/DepartmentAPI";
 import { useEffect, useState } from "react";
-import { getListRoom } from "../../service/ManagerAPI/RoomAPI";
-import { getListStudent } from "../../service/ManagerAPI/StudentAPI";
-import { getListBill } from "../../service/ManagerAPI/BillAPI";
-import { getListReport } from "../../service/ManagerAPI/ReportAPI";
-import { getListRequest } from "../../service/ManagerAPI/RequestAPI";
+import { getListRoom, getStatisticRooms } from "../../service/ManagerAPI/RoomAPI";
+import { getListStudent, getstatisticStudents } from "../../service/ManagerAPI/StudentAPI";
+import { getListBill, getStatisticBills } from "../../service/ManagerAPI/BillAPI";
+import { getListReport, getStatisticReports } from "../../service/ManagerAPI/ReportAPI";
+import { getListRequest, getStatisticRequests } from "../../service/ManagerAPI/RequestAPI";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 const filterBody = {
   page: 1,
   limit: 1000,
@@ -27,74 +29,119 @@ const filterBody = {
 
 const DashboardManager = () => {
 
+  const [isLoading, setIsLoading] = useState(true);
   const [totalDepartment, setTotalDepartment] = useState(null);
   const [totalRoom, setTotalRoom] = useState(null)
   const [totalStudent,setTotalStudent] = useState(null)
   const [totalBill, setTotalBill] = useState(null)
   const [totalReprt,setTotalReprt] = useState(null)
   const [totalRequest,setTotalRequest] = useState(null)
-  const {title, setTitle} = useState("Thông tin khu ký túc")
+  const [title, setTitle] = useState("Thông tin tất cả phòng")
+  const [listObject, setListObject] = useState({});
+  const [urlLink, setUrlLink] = useState("/room");
 
-  const fetchAreaList = async () =>{
-    const areas = await getListDepartment({page: 1, limit: 1000, name: null});
-    setTotalDepartment(areas.data.total);
+  const fetchAllData = async () => {
+    try {
+      const [areas, rooms, students, bills, reports, requests] = await Promise.all([
+        getListDepartment({ page: 1, limit: 1000, name: null }),
+        getListRoom({ page: 1, limit: 1000, department: null }),
+        getListStudent({ page: 1, limit: 1000, name: null, room: null, trangthai: null }),
+        getListBill(filterBody),
+        getListReport(filterBody),
+        getListRequest({ page: 1, limit: 1000, status: null, room: null, name: null }),
+      ]);
+
+      setTotalDepartment(areas.data.total);
+      setTotalRoom(rooms.data.total);
+      setTotalStudent(students.totalStudents);
+      setTotalBill(bills.data.total);
+      setTotalReprt(reports.data.total);
+      setTotalRequest(requests.totalRequests);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      // Giữ hiệu ứng tải ít nhất 0.5 giây
+      setTimeout(() => setIsLoading(false), 200);
+    }
   };
 
-  const fetchRoomList =  async () =>{
-    const rooms = await getListRoom({
-        page: 1,
-        limit: 1000,
-        department: null
-    })
-    setTotalRoom(rooms.data.total)
+  const fetchDataToDisplayDetail = async () =>{
+    if(title === "Thông tin tất cả phòng"){
+      setUrlLink("room")
+      const res = await getStatisticRooms();
+      setListObject([
+        {label: "Số phòng bình thường", number: res.data.count_male_available + res.data.count_female_available},
+        {label: "Số phòng bị hỏng", number: res.data.count_male_unavailable + res.data.count_female_unavailable},
+        {label: "Số phòng cho nam", number: res.data.count_male_available + res.data.count_male_unavailable},
+        {label: "Số phòng cho nữ", number: res.data.count_female_available + res.data.count_female_unavailable}
+      ])
+    }
+    else if(title === "Thông tin tất cả thành viên"){
+      setUrlLink("people")
+      const res = await getstatisticStudents();
+      setListObject([
+        {label: "Đang ở", number: res.data.count_male_living + res.data.count_female_living},
+        {label: "Dừng ở", number: res.data.count_male_stop_living + res.data.count_female_stop_living},
+        {label: "Thành viên nam", number: res.data.count_male_living + res.data.count_male_stop_living},
+        {label: "Thành viên nữ", number: res.data.count_female_living + res.data.count_female_stop_living}
+      ])
+    }
+    else if(title === "Thông tin tất cả hoá đơn"){
+      setUrlLink("bill")
+      const res = await getStatisticBills();
+      setListObject([
+        {label: "Chờ xác nhận", number: res.data.count_pending},
+        {label: "Đã đóng", number: res.data.count_paid},
+        {label: "Chưa đóng", number: res.data.count_notYetPaid},
+        {label: "Quá hạn", number: res.data.count_overdue}
+      ])
+    }
+    else if(title === "Thông tin tất cả báo cáo"){
+      setUrlLink("report")
+      const res = await getStatisticReports();
+      setListObject([
+        {label: "Đã xử lý", number: res.data.count_done},
+        {label: "Chưa xử lý", number: res.data.count_pending},
+      ])
+    }
+    else if(title === "Thông tin tất cả yêu cầu"){
+      setUrlLink("request")
+      const res = await getStatisticRequests();
+      setListObject([
+        {label: "Đã thanh toán", number: res.data.count_pending},
+        {label: "Đã chấp nhận", number: res.data.count_approved},
+        {label: "Đã từ chối", number: res.data.count_declined},
+      ])
+    }
   }
 
-  const fetchListStudent = async () =>{
-    const students = await getListStudent({page: 1, limit: 1000, name: null, room: null, trangthai: null});
-    setTotalStudent(students.totalStudents)
-  }
-
-  const fetchListBill = async () =>{
-    const bills = await getListBill(filterBody);
-    setTotalBill(bills.data.total);
-  }
-  const fetchListReport = async () =>{
-    const reports = await getListReport(filterBody);
-    setTotalReprt(reports.data.total);
-  }
-
-  const fetchListRequest = async () =>{
-    const request = await getListRequest({page: 1, limit: 1000, status: null,room: null, name: null })
-    setTotalRequest(request.totalRequests)
-  }
 
 
-
-  useEffect(()=>{
-    fetchListRequest();
-  }, [])
-
-  useEffect(()=>{
-      fetchListReport();
-  }, [])
+  useEffect(() => {
+    fetchAllData();
+  }, []);
 
   useEffect(() =>{
-    fetchAreaList();
-  }, [])
-  useEffect(() =>{
-    fetchRoomList();
-  }, [])
-  useEffect(() =>{
-    fetchListStudent();
-  }, [])
-  useEffect(() =>{
-    fetchListBill();
-  }, [])
+    fetchDataToDisplayDetail()
+  }, [title])
 
 
-
-  
-
+  if (isLoading) {
+    return (
+      <Flex align="center" gap="middle" className="loading">
+        <Spin
+          indicator={
+            <LoadingOutlined
+              style={{
+                fontSize: 60,
+              }}
+              spin
+            />
+          }
+        />
+      </Flex>
+    );
+  }
   return (
     <div className="dashboard-manager">
         <Header title={"Trang chủ"}/>
@@ -113,7 +160,7 @@ const DashboardManager = () => {
                   <div className="title-department2">{totalDepartment}</div>
                 </div>
               </div>
-              <div className="menu-room">
+              <div className="menu-room" onClick={() => setTitle("Thông tin tất cả phòng")}>
                 <div className="menu-icon-room">
                   <FontAwesomeIcon icon={faHouse} style={{color: "#FFFFFF", width: "25px", height: "25px"}}/>
                 </div>
@@ -122,7 +169,7 @@ const DashboardManager = () => {
                   <div className="title-room2">{totalRoom}</div>
                 </div>
               </div>
-              <div className="menu-people">
+              <div className="menu-people" onClick={() => setTitle("Thông tin tất cả thành viên")}>
                 <div className="menu-icon-people">
                   <FontAwesomeIcon icon={faPerson} style={{color: "#FFFFFF", width: "25px", height: "25px"}}/>
                 </div>
@@ -131,7 +178,7 @@ const DashboardManager = () => {
                   <div className="title-people2">{totalStudent}</div>
                 </div>
               </div>
-              <div className="menu-invoice">
+              <div className="menu-invoice" onClick={() => setTitle("Thông tin tất cả hoá đơn")}>
                 <div className="menu-icon-invoice">
                   <FontAwesomeIcon icon={faFileInvoice} style={{color: "#FFFFFF", width: "25px", height: "25px"}}/>
                 </div>
@@ -140,7 +187,7 @@ const DashboardManager = () => {
                   <div className="title-invoice2">{totalBill}</div>
                 </div>
               </div>
-              <div className="menu-report">
+              <div className="menu-report" onClick={() => setTitle("Thông tin tất cả báo cáo")}>
                 <div className="menu-icon-report">
                   <FontAwesomeIcon icon={faBook} style={{color: "#FFFFFF", width: "25px", height: "25px"}}/>
                 </div>
@@ -149,7 +196,7 @@ const DashboardManager = () => {
                   <div className="title-report2">{totalReprt}</div>
                 </div>
               </div>
-              <div className="menu-request">
+              <div className="menu-request" onClick={() => setTitle("Thông tin tất cả yêu cầu")}>
                 <div className="menu-icon-request">
                   <FontAwesomeIcon icon={faFile}  style={{color: "#FFFFFF", width: "25px", height: "25px"}}/>
                 </div>
@@ -160,7 +207,7 @@ const DashboardManager = () => {
               </div>
             </div>
           </div>
-          <Detail title={"Thông tin kho"} />
+          <Detail title={title}  listObject={listObject} urlLink = {urlLink}/>
         </div>
     </div>
   )

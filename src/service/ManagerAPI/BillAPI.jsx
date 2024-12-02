@@ -50,3 +50,13 @@ export const handleBill = async(id, action) =>{
     }
 }
 
+export const getStatisticBills = async () =>{
+    try {
+        const response = await axiosInstance.get("/user/statisticBills")
+        return response.data
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+

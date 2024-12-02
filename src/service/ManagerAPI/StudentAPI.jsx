@@ -81,3 +81,13 @@ export const TransferStudent = async(student_id, new_room_id) =>{
         throw err;
     }
 }
+
+export const getstatisticStudents = async () =>{
+    try {
+        const response = await axiosInstance.get("/user/statisticStudents")
+        return response.data
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}

@@ -7,7 +7,7 @@
     box-sizing: border-box;
     position: absolute;
     inset: auto auto 0px 0px;
-    transform: translate3d(330px, -57px, 0px);
+    transform: translate3d(330px, -80px, 0px);
 }
 .wrapper-select-room-transfer {
     width: 240px;

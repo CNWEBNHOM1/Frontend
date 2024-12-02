@@ -4,14 +4,14 @@ import { faEye } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 
-const Detail = ({title , listObject}) =>{
+const Detail = ({title , listObject, urlLink}) =>{
     return(
         <div className="detail-menu">
             <div className="detail-header">
                 <div className="detail-title">
                     {title}
                 </div>
-                <div className="icon-screen">
+                <div className="icon-screen" onClick={() => window.open(`/manager/${urlLink}`, '_blank')}>
                     <FontAwesomeIcon icon={faEye} style={{color: "#FFFFFF"}}/>
                 </div>
             </div>

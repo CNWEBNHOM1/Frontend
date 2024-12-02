@@ -40,3 +40,13 @@ export const handleDetailRequest = async(id, action) =>{
         throw err;
     }
 }
+
+export const getStatisticRequests = async () =>{
+    try {
+        const response = await axiosInstance.get("/user/statisticRequests")
+        return response.data
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}

@@ -40,3 +40,13 @@ export const updateDetailRoom = async (id, data) =>{
         throw err;
     }
 }
+
+export const getStatisticRooms = async () =>{
+    try {
+        const response = await axiosInstance.get("/user/statisticRooms")
+        return response.data
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}

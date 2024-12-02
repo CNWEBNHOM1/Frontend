@@ -12,6 +12,8 @@ import { getListStudent, kickAllStudentOfRoom, kickStudentOfRoom } from "../../s
 import { notification} from 'antd';
 import { Button, Modal, Space } from 'antd';
 import TransferRoom from "./TransferRoom";
+import { Flex, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const DetailRoom = () =>{
 
@@ -26,9 +28,18 @@ const DetailRoom = () =>{
     const navigate = useNavigate();
     const {id} = useParams();
     const [detailRoom, setDetailRoom] = useState(null);
-    const fetchDetailStudent = async () =>{
-        const res = await getDetailRoom(id);
-        setDetailRoom(res.data);
+    const [isLoading, setIsLoading] = useState(true);
+    const fetchDetailRoom = async () =>{
+        try{
+            const res = await getDetailRoom(id);
+            setDetailRoom(res.data);
+        }
+        catch(error){
+            console.error("Error fetching data:", error);
+        }
+        finally{
+            setTimeout(() => setIsLoading(false), 200);
+        }
     }
     const [limit, setLimit] = useState(5);
     const [name, setName] = useState("");
@@ -157,8 +168,8 @@ const DetailRoom = () =>{
 
 
     useEffect(() =>{
-        fetchDetailStudent();
-    }, [])
+        fetchDetailRoom();
+    }, [isTransfer])
     
     useEffect(()=>{
         fetchListStudent();
@@ -175,6 +186,23 @@ const DetailRoom = () =>{
           document.body.style.overflow = 'auto';
         };
       }, [isTransfer]);
+
+    if (isLoading) {
+        return (
+            <Flex align="center" gap="middle" className="loading">
+            <Spin
+                indicator={
+                <LoadingOutlined
+                    style={{
+                    fontSize: 60,
+                    }}
+                    spin
+                />
+                }
+            />
+            </Flex>
+        );
+    }
 
     return(
         <>
@@ -637,7 +665,7 @@ const DetailRoom = () =>{
                                                 <td>{student?.name}</td>
                                                 <td>{student?.gender}</td>
                                                 <td>
-                                                    <button className="action-btn-view" onClick={() => navigate(`/manager/people/detail/${student._id}`)}>Xem</button>
+                                                    <button className="action-btn-view" onClick={() => window.open(`/manager/people/detail/${student._id}`, '_blank')}>Xem</button>
                                                     <button
                                                         className="action-btn-transfer"
                                                         onClick={ () => handleClickTransfer(student)}
