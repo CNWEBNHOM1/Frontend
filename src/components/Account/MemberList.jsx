@@ -46,7 +46,7 @@ function RoomMates() {
 
     return (
         <>
-            <Header title={"Trang chủ/Thành viên"} />
+
             <div className="roommates-container">
                 <h1 className="title">Danh Sách Thành Viên Cùng Phòng</h1>
                 <div className="member-container" ref={containerRef}>

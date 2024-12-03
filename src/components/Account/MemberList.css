@@ -1,22 +1,18 @@
+/* MemberList.css */
 .roommates-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    margin-left: 270px;
+    /* Tăng margin-left lên để khớp với sidebar */
+    padding: 15px;
     background-color: #f4f4f4;
-    min-height: 100vh;
-    overflow: hidden;
 }
 
 .title {
-    text-align: center;
     color: #2c3e50;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: bold;
-    margin: 20px 0 30px;
-    padding-bottom: 15px;
-    border-bottom: 3px solid #3498db;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3498db;
 }
 
 .member-container {
@@ -24,7 +20,6 @@
     overflow-x: hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
 }
 
 .member-detail-view {
@@ -32,23 +27,22 @@
     width: 100%;
     scroll-snap-align: start;
     background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 .member-card {
     display: flex;
-    align-items: center;
-    gap: 30px;
+    gap: 20px;
+    align-items: flex-start;
 }
 
 .member-avatar {
-    background-color: #e0e0e0;
+    background-color: #e8f0fe;
     border-radius: 50%;
-    width: 200px;
-    height: 200px;
+    width: 120px;
+    height: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,56 +50,63 @@
 }
 
 .avatar-text {
-    font-size: 64px;
-    color: #666;
+    font-size: 40px;
+    color: #3498db;
     font-weight: bold;
 }
 
+.member-info {
+    flex: 1;
+}
+
 .member-info h2 {
-    color: #3498db;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 10px;
-    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 20px;
     font-weight: bold;
-    text-transform: capitalize;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 25px;
-    /* Thêm khoảng cách phía dưới grid */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .info-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background-color: #f9f9f9;
+    background-color: #f8fafc;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.info-item strong {
+    color: #2c3e50;
+    margin-right: 8px;
+    min-width: 90px;
 }
 
 .pagination {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    padding: 20px 0;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+    gap: 8px;
+    padding: 15px 0;
+    margin-top: 15px;
 }
 
 .pagination button {
-    background-color: #f0f0f0;
+    padding: 6px 12px;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    border-radius: 4px;
+    background-color: #e8f0fe;
+    color: #3498db;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s;
+    font-size: 14px;
 }
 
 .pagination button.active {
@@ -113,8 +114,9 @@
     color: white;
 }
 
-.pagination button:hover {
-    background-color: #ddd;
+.pagination button:hover:not(:disabled) {
+    background-color: #3498db;
+    color: white;
 }
 
 .pagination button:disabled {
@@ -122,23 +124,30 @@
     cursor: not-allowed;
 }
 
-/* Responsive styles */
+/* Responsive */
 @media (max-width: 768px) {
-    .member-card {
-        flex-direction: column;
-        text-align: center;
+    .roommates-container {
+        margin-left: 0;
+        padding: 10px;
     }
 
-    .member-avatar {
-        width: 150px;
-        height: 150px;
+    .member-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
     .info-grid {
         grid-template-columns: 1fr;
     }
 
-    .title {
-        font-size: 24px;
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .info-item strong {
+        min-width: auto;
+        margin-bottom: 4px;
     }
 }

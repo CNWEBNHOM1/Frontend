@@ -60,45 +60,43 @@ const Upanhreport = () => {
     };
 
     return (
-        <div className="upload-container">
-            <h2>Tạo Báo Cáo</h2>
-            <form onSubmit={handleUpload}>
-                <div className="form-group">
-                    <label htmlFor="noidung">Nội dung báo cáo:</label>
-                    <textarea
-                        id="noidung"
-                        value={noidung}
-                        onChange={(e) => setNoidung(e.target.value)}
-                        placeholder="Nhập nội dung báo cáo của bạn ở đây..."
-                        rows="5"
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="file">Minh chứng:</label>
-                    <div className="file-upload-wrapper">
-                        <input
-                            type="file"
-                            id="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
+        <div className="main-container">
+            <div className="upload-container">
+                <form onSubmit={handleUpload}>
+                    <h2>Tạo Báo Cáo</h2>
+                    <div className="form-group">
+                        <label htmlFor="noidung">Nội dung báo cáo:</label>
+                        <textarea
+                            id="noidung"
+                            value={noidung}
+                            onChange={(e) => setNoidung(e.target.value)}
+                            placeholder="Nhập nội dung báo cáo của bạn ở đây..."
+                            rows="5"
                             required
                         />
-                        <label htmlFor="file" className="file-upload-label">
-                            <i className="fas fa-cloud-upload-alt"></i>
-                            {fileName ? fileName : "Chọn file minh chứng"}
-                        </label>
                     </div>
-                </div>
-                <button type="submit" className="submit-button">
-                    Gửi Báo Cáo
-                </button>
-            </form>
-            {message && (
-                <p className={`message ${messageType}`}>
-                    {message}
-                </p>
-            )}
+                    <div className="form-group">
+                        <label htmlFor="file">Minh chứng:</label>
+                        <div className="file-upload-wrapper">
+                            <input
+                                type="file"
+                                id="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <button type="submit" className="submit-button">
+                        Gửi Báo Cáo
+                    </button>
+                </form>
+                {message && (
+                    <div className={`message ${messageType}`}>
+                        {message}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

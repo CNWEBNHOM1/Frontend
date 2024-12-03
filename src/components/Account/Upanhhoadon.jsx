@@ -45,12 +45,20 @@ const Upanhhoadon = () => {
     return (
         <div className="upload-container">
             <h2>Tải Lên Hóa Đơn Chuyển Khoản</h2>
-            {billId && <p>Hóa đơn ID: {billId}</p>}
+            {billId && <div className="bill-id">Mã hóa đơn: {billId}</div>}
             <form onSubmit={handleUpload}>
-                <input type="file" accept="image/*" onChange={(e) => setSelectedFile(e.target.files[0])}/>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setSelectedFile(e.target.files[0])}
+                />
                 <button type="submit">Tải Lên</button>
             </form>
-            {message && <p className="message">{message}</p>}
+            {message && (
+                <div className={`message ${message.includes('thành công') ? 'success' : 'error'}`}>
+                    {message}
+                </div>
+            )}
         </div>
     );
 };
