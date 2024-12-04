@@ -1,21 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Upload, File, X } from 'lucide-react';
 import "./UserReport.css";
+import Header from "../../components/Header/Header";
 
-const Upanhreport = () => {
+const UserReport = () => {
     const navigate = useNavigate();
+    const fileInputRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [noidung, setNoidung] = useState("");
     const [message, setMessage] = useState("");
-    const [messageType, setMessageType] = useState(""); // 'success' or 'error'
-    const [fileName, setFileName] = useState(""); // Để hiển thị tên file đã chọn
+    const [messageType, setMessageType] = useState("");
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setSelectedFile(file);
-            setFileName(file.name);
+        }
+    };
+
+    const handleFileRemove = () => {
+        setSelectedFile(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
         }
     };
 
@@ -50,7 +58,7 @@ const Upanhreport = () => {
             setMessage("Báo cáo đã được gửi thành công!");
             setMessageType("success");
             setTimeout(() => {
-                navigate("/user/report");
+                navigate("/user/dashboard");
             }, 2000);
         } catch (error) {
             console.error("Lỗi khi gửi báo cáo:", error);
@@ -59,46 +67,87 @@ const Upanhreport = () => {
         }
     };
 
+    const triggerFileInput = () => {
+        fileInputRef.current.click();
+    };
+
     return (
-        <div className="main-container">
-            <div className="upload-container">
-                <form onSubmit={handleUpload}>
-                    <h2>Tạo Báo Cáo</h2>
-                    <div className="form-group">
-                        <label htmlFor="noidung">Nội dung báo cáo:</label>
-                        <textarea
-                            id="noidung"
-                            value={noidung}
-                            onChange={(e) => setNoidung(e.target.value)}
-                            placeholder="Nhập nội dung báo cáo của bạn ở đây..."
-                            rows="5"
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="file">Minh chứng:</label>
-                        <div className="file-upload-wrapper">
-                            <input
-                                type="file"
-                                id="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
+        <> <Header title={"Trang chủ"} />
+            <div className="report-container">
+                <div className="report-card">
+                    <h2 className="report-title">Tạo Báo Cáo</h2>
+                    <form onSubmit={handleUpload} className="report-form">
+                        <div className="form-group">
+                            <label htmlFor="noidung">Nội dung báo cáo</label>
+                            <textarea
+                                id="noidung"
+                                value={noidung}
+                                onChange={(e) => setNoidung(e.target.value)}
+                                placeholder="Nhập nội dung báo cáo của bạn ở đây..."
+                                rows="5"
                                 required
                             />
                         </div>
-                    </div>
-                    <button type="submit" className="submit-button">
-                        Gửi Báo Cáo
-                    </button>
-                </form>
-                {message && (
-                    <div className={`message ${messageType}`}>
-                        {message}
-                    </div>
-                )}
+
+                        <div className="form-group">
+                            <label>Minh chứng</label>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className="hidden-input"
+                                required
+                            />
+                            <div
+                                onClick={triggerFileInput}
+                                className="file-upload-area"
+                            >
+                                {selectedFile ? (
+                                    <div className="file-selected">
+                                        <div className="file-info">
+                                            <File className="file-icon" />
+                                            <span className="file-name">{selectedFile.name}</span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleFileRemove();
+                                            }}
+                                            className="remove-file-btn"
+                                        >
+                                            <X />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="file-upload-placeholder">
+                                        <Upload className="upload-icon" />
+                                        <p className="upload-text">
+                                            Kéo và thả hoặc nhấp để tải tệp
+                                        </p>
+                                        <p className="upload-subtext">
+                                            Chỉ chấp nhận file ảnh
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <button type="submit" className="submit-btn">
+                            Gửi Báo Cáo
+                        </button>
+                    </form>
+
+                    {message && (
+                        <div className={`message ${messageType}`}>
+                            {message}
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
-export default Upanhreport;
+export default UserReport;

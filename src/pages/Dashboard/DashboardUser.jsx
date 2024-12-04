@@ -8,8 +8,9 @@ import room from '../../assets/icons/room.jpg'; // Import ảnh
 
 const DashboardUser = () => {
   return (
-    <div className="dashboard-user">
+    <>
       <Header title={"Trang chủ"} />
+    <div className="dashboard-user">
 
       <div className="max-w-7xl">
         {/* Welcome Banner */}
@@ -75,6 +76,8 @@ const DashboardUser = () => {
         </div>
       </div>
     </div>
+    </>
+
   );
 };
 

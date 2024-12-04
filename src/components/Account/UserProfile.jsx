@@ -56,7 +56,7 @@ function UserProfile() {
     }
     return (
         <>
-            <Header title={"Trang chủ/Profile"} />
+            <Header title={"Trang chủ"} />
             {!profile ? (
                 <div className="loading">Đang tải thông tin cá nhân...</div>
             ) : (
@@ -143,12 +143,9 @@ function UserProfile() {
                                 </div>
                                 <div>
                                     <label>Phòng:</label>
-                                    <span>{profile.kyhoc[0]?.phong || "Chưa có phòng"}</span>
+                                    <span>{profile.room ? profile.room.name : "Chưa có phòng"}</span>
                                 </div>
-                                <div>
-                                    <label>Kỳ học:</label>
-                                    <span>{profile.kyhoc[0]?.ky}</span>
-                                </div>
+
                             </>
                         )}
                     </form>

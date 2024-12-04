@@ -1,13 +1,12 @@
+// DormRequestFlow.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DormRequestFlow.css';
 import Header from '../Header/Header';
 import { useNavigate } from "react-router-dom";
 
-
 const DormRequestFlow = () => {
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
@@ -17,12 +16,32 @@ const DormRequestFlow = () => {
         cccd: '',
         priority: '',
         phone: '',
-        address: '',
+        address: {
+            tinh: '',
+            thanh: '',
+            xa: '',
+            tinhCode: '',
+            thanhCode: '',
+            xaCode: ''
+        },
         khoa: '',
         school: '',
         lop: '',
         roomId: ''
     });
+
+    // Location states
+    const [provinces, setProvinces] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
+    const [locationLoading, setLocationLoading] = useState(false);
+    const [locationError, setLocationError] = useState({
+        province: '',
+        district: '',
+        ward: ''
+    });
+
+    // Other states
     const [rooms, setRooms] = useState([]);
     const [proofImage, setProofImage] = useState(null);
     const [requests, setRequests] = useState([]);
@@ -30,6 +49,42 @@ const DormRequestFlow = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [imageURL, setImageURL] = useState(null);
+
+
+    useEffect(() => {
+        fetchProvinces();
+    }, []);
+
+    useEffect(() => {
+        if (formData.address.tinhCode) {
+            fetchDistricts(formData.address.tinhCode);
+            setFormData(prev => ({
+                ...prev,
+                address: {
+                    ...prev.address,
+                    thanh: '',
+                    thanhCode: '',
+                    xa: '',
+                    xaCode: ''
+                }
+            }));
+            setWards([]);
+        }
+    }, [formData.address.tinhCode]);
+
+    useEffect(() => {
+        if (formData.address.thanhCode) {
+            fetchWards(formData.address.thanhCode);
+            setFormData(prev => ({
+                ...prev,
+                address: {
+                    ...prev.address,
+                    xa: '',
+                    xaCode: ''
+                }
+            }));
+        }
+    }, [formData.address.thanhCode]);
 
     useEffect(() => {
         if (step === 2) {
@@ -40,15 +95,72 @@ const DormRequestFlow = () => {
         }
     }, [step]);
 
+    const fetchProvinces = async () => {
+        setLocationLoading(true);
+        setLocationError(prev => ({ ...prev, province: '' }));
+        try {
+            const response = await axios.get('https://provinces.open-api.vn/api/p/');
+            setProvinces(response.data);
+        } catch (error) {
+            setLocationError(prev => ({
+                ...prev,
+                province: 'Không thể tải danh sách tỉnh/thành phố. Vui lòng thử lại sau.'
+            }));
+        } finally {
+            setLocationLoading(false);
+        }
+    };
+
+    const fetchDistricts = async (provinceCode) => {
+        setLocationLoading(true);
+        setLocationError(prev => ({ ...prev, district: '' }));
+        try {
+            const response = await axios.get(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`);
+            setDistricts(response.data.districts);
+        } catch (error) {
+            setLocationError(prev => ({
+                ...prev,
+                district: 'Không thể tải danh sách quận/huyện. Vui lòng thử lại sau.'
+            }));
+        } finally {
+            setLocationLoading(false);
+        }
+    };
+
+    const fetchWards = async (districtCode) => {
+        setLocationLoading(true);
+        setLocationError(prev => ({ ...prev, ward: '' }));
+        try {
+            const response = await axios.get(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`);
+            if (response.data && response.data.wards) {
+                setWards(response.data.wards);
+            } else {
+                setWards([]);
+                setLocationError(prev => ({
+                    ...prev,
+                    ward: 'Không có dữ liệu phường/xã'
+                }));
+            }
+        } catch (error) {
+            console.error('Error fetching wards:', error);
+            setLocationError(prev => ({
+                ...prev,
+                ward: 'Lỗi khi tải danh sách phường/xã. Vui lòng thử lại sau.'
+            }));
+            setWards([]);
+        } finally {
+            setLocationLoading(false);
+        }
+    };
+
     const fetchRooms = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:5000/user/roomAvailable', {  // Sửa từ rooms/available thành roomAvailable
+            const response = await axios.get('http://localhost:5000/user/roomAvailable', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            console.log('Room response:', response.data);
             if (Array.isArray(response.data)) {
                 setRooms(response.data);
             } else if (response.data.data && Array.isArray(response.data.data)) {
@@ -58,7 +170,6 @@ const DormRequestFlow = () => {
                 setError('Không thể tải danh sách phòng');
             }
         } catch (error) {
-            console.error('Error:', error);
             setError('Lỗi khi tải danh sách phòng');
             setRooms([]);
         } finally {
@@ -66,14 +177,88 @@ const DormRequestFlow = () => {
         }
     };
 
-
-    const handleInputChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+    const fetchMyRequests = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get('http://localhost:5000/user/myRequests', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setRequests(response.data);
+        } catch (error) {
+            setError('Lỗi khi tải yêu cầu');
+        } finally {
+            setLoading(false);
+        }
     };
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        if (name.startsWith('address.')) {
+            const addressField = name.split('.')[1];
+            setFormData(prev => ({
+                ...prev,
+                address: {
+                    ...prev.address,
+                    [addressField]: value
+                }
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
+    };
+
+    const handleProvinceChange = (e) => {
+        const { value } = e.target;
+        const selectedProvince = provinces.find(p => p.code === parseInt(value));
+
+        if (selectedProvince) {
+            setFormData(prev => ({
+                ...prev,
+                address: {
+                    ...prev.address,
+                    tinh: selectedProvince.name,
+                    tinhCode: selectedProvince.code
+                }
+            }));
+        }
+    };
+
+    const handleDistrictChange = (e) => {
+        const { value } = e.target;
+        const selectedDistrict = districts.find(d => d.code === parseInt(value));
+
+        if (selectedDistrict) {
+            setFormData(prev => ({
+                ...prev,
+                address: {
+                    ...prev.address,
+                    thanh: selectedDistrict.name,
+                    thanhCode: selectedDistrict.code
+                }
+            }));
+        }
+    };
+
+    const handleWardChange = (e) => {
+        const { value } = e.target;
+        const selectedWard = wards.find(w => w.code === parseInt(value));
+
+        if (selectedWard) {
+            setFormData(prev => ({
+                ...prev,
+                address: {
+                    ...prev.address,
+                    xa: selectedWard.name,
+                    xaCode: selectedWard.code
+                }
+            }));
+        }
+    };
     const handleFileSelect = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -91,15 +276,41 @@ const DormRequestFlow = () => {
         }
     };
 
-    const validateForm = () => {
-        const required = ['name', 'ngaysinh', 'gender', 'sid', 'cccd', 'phone', 'address', 'school'];
-        const missing = required.filter(field => !formData[field]);
-        if (missing.length > 0) {
-            setError('Vui lòng điền đầy đủ thông tin bắt buộc');
+    const validateLocation = () => {
+        if (!formData.address.tinh) {
+            setLocationError(prev => ({
+                ...prev,
+                province: 'Vui lòng chọn tỉnh/thành phố'
+            }));
             return false;
         }
-        if (!proofImage) {
-            setError('Vui lòng tải lên ảnh chứng minh chuyển khoản');
+        if (!formData.address.thanh) {
+            setLocationError(prev => ({
+                ...prev,
+                district: 'Vui lòng chọn quận/huyện'
+            }));
+            return false;
+        }
+        if (!formData.address.xa) {
+            setLocationError(prev => ({
+                ...prev,
+                ward: 'Vui lòng chọn phường/xã'
+            }));
+            return false;
+        }
+        return true;
+    };
+
+    const validateForm = () => {
+        const required = ['name', 'ngaysinh', 'gender', 'sid', 'cccd', 'phone', 'school'];
+        const missing = required.filter(field => !formData[field]);
+
+        if (!validateLocation()) {
+            return false;
+        }
+
+        if (missing.length > 0) {
+            setError('Vui lòng điền đầy đủ thông tin bắt buộc');
             return false;
         }
         return true;
@@ -143,6 +354,95 @@ const DormRequestFlow = () => {
         }
     };
 
+
+
+    //     if (!validateForm()) return;
+
+    //     try {
+    //         setLoading(true);
+    //         const formDataObj = new FormData();
+
+    //         Object.keys(formData).forEach(key => {
+    //             if (key === 'address') {
+    //                 formDataObj.append('address', JSON.stringify(formData.address));
+    //             } else {
+    //                 formDataObj.append(key, formData[key]);
+    //             }
+    //         });
+
+    //         if (proofImage) {
+    //             formDataObj.append('minhchung', proofImage);
+    //         }
+
+    //         const response = await axios.post('http://localhost:5000/user/createRequest', formDataObj, {
+    //             headers: {
+    //                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+
+    //         if (response.data.status === "success") {
+    //             if (timer) {
+    //                 clearTimeout(timer);
+    //             }
+    //             navigate("/auth/CheckRequest");
+    //             setError('');
+    //         }
+    //     } catch (error) {
+    //         setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.error || error.message));
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+    // const submitRequest = async () => {
+    //     if (!validateForm()) return;
+
+    //     try {
+    //         setLoading(true);
+    //         const formDataObj = new FormData();
+
+    //         // Tách address ra khỏi formData chính
+    //         const { address, ...otherData } = formData;
+
+    //         // Append các trường dữ liệu khác
+    //         Object.keys(otherData).forEach(key => {
+    //             formDataObj.append(key, otherData[key]);
+    //         });
+
+    //         // Append address như một object JSON
+    //         formDataObj.append('address', JSON.stringify({
+    //             tinh: formData.address.tinh,
+    //             thanh: formData.address.thanh,
+    //             xa: formData.address.xa
+    //         }));
+
+    //         // Append file ảnh nếu có
+    //         if (proofImage) {
+    //             formDataObj.append('minhchung', proofImage);
+    //         }
+
+    //         const response = await axios.post('http://localhost:5000/user/createRequest', formDataObj, {
+    //             headers: {
+    //                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+
+    //         if (response.data.status === "success") {
+    //             if (timer) {
+    //                 clearTimeout(timer);
+    //             }
+    //             navigate("/auth/CheckRequest");
+    //             setError('');
+    //         }
+    //     } catch (error) {
+    //         setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.error || error.message));
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
     const submitRequest = async () => {
         if (!validateForm()) return;
 
@@ -150,10 +450,23 @@ const DormRequestFlow = () => {
             setLoading(true);
             const formDataObj = new FormData();
 
-            Object.keys(formData).forEach(key => {
-                formDataObj.append(key, formData[key]);
+            // Thêm các trường dữ liệu cơ bản
+            const { address, ...otherData } = formData;
+            Object.keys(otherData).forEach(key => {
+                // Set priority luôn là false
+                if (key === 'priority') {
+                    formDataObj.append(key, false);
+                } else {
+                    formDataObj.append(key, formData[key]);
+                }
             });
 
+            // Thử gửi từng trường của address riêng
+            formDataObj.append('address[tinh]', formData.address.tinh);
+            formDataObj.append('address[thanh]', formData.address.thanh);
+            formDataObj.append('address[xa]', formData.address.xa);
+
+            // Thêm file ảnh
             if (proofImage) {
                 formDataObj.append('minhchung', proofImage);
             }
@@ -173,13 +486,11 @@ const DormRequestFlow = () => {
                 setError('');
             }
         } catch (error) {
-            console.error('Submit error:', error);
             setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.error || error.message));
         } finally {
             setLoading(false);
         }
     };
-
     const renderPersonalInfoForm = () => (
         <div className="form-container">
             <h2>Thông tin cá nhân</h2>
@@ -241,16 +552,68 @@ const DormRequestFlow = () => {
                         placeholder="Nhập số điện thoại"
                     />
                 </div>
+
+                {/* Location selection */}
                 <div className="form-group">
-                    <label>Địa chỉ *</label>
-                    <input
-                        type="text"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        placeholder="Nhập địa chỉ"
-                    />
+                    <label>Tỉnh/Thành phố *</label>
+                    <select
+                        value={formData.address.tinhCode}
+                        onChange={handleProvinceChange}
+                        className={`location-select ${locationError.province ? 'error' : ''}`}
+                        disabled={locationLoading}
+                    >
+                        <option value="">Chọn Tỉnh/Thành phố</option>
+                        {provinces.map(province => (
+                            <option key={province.code} value={province.code}>
+                                {province.name}
+                            </option>
+                        ))}
+                    </select>
+                    {locationError.province && (
+                        <div className="error-message">{locationError.province}</div>
+                    )}
                 </div>
+
+                <div className="form-group">
+                    <label>Quận/Huyện *</label>
+                    <select
+                        value={formData.address.thanhCode}
+                        onChange={handleDistrictChange}
+                        className={`location-select ${locationError.district ? 'error' : ''}`}
+                        disabled={!formData.address.tinhCode || locationLoading}
+                    >
+                        <option value="">Chọn Quận/Huyện</option>
+                        {districts.map(district => (
+                            <option key={district.code} value={district.code}>
+                                {district.name}
+                            </option>
+                        ))}
+                    </select>
+                    {locationError.district && (
+                        <div className="error-message">{locationError.district}</div>
+                    )}
+                </div>
+
+                <div className="form-group">
+                    <label>Phường/Xã *</label>
+                    <select
+                        value={formData.address.xaCode}
+                        onChange={handleWardChange}
+                        className={`location-select ${locationError.ward ? 'error' : ''}`}
+                        disabled={!formData.address.thanhCode || locationLoading}
+                    >
+                        <option value="">Chọn Phường/Xã</option>
+                        {wards.map(ward => (
+                            <option key={ward.code} value={ward.code}>
+                                {ward.name}
+                            </option>
+                        ))}
+                    </select>
+                    {locationError.ward && (
+                        <div className="error-message">{locationError.ward}</div>
+                    )}
+                </div>
+
                 <div className="form-group">
                     <label>Khoa</label>
                     <input
@@ -281,47 +644,14 @@ const DormRequestFlow = () => {
                         placeholder="Nhập lớp"
                     />
                 </div>
-                <div className="form-group full-width">
-                    <label>Ảnh chuyển khoản *</label>
-                    <div className="upload-container">
-                        <input
-                            type="file"
-                            id="file-upload"
-                            accept="image/*"
-                            onChange={handleFileSelect}
-                            style={{ display: 'none' }}
-                        />
-                        <label htmlFor="file-upload" className="upload-button">
-                            Chọn ảnh
-                        </label>
-                    </div>
-                    {imageURL && (
-                        <div className="image-preview">
-                            <img
-                                src={imageURL}
-                                alt="Preview"
-                                className="preview-image"
-                            />
-                            <button
-                                onClick={() => {
-                                    setProofImage(null);
-                                    setImageURL(null);
-                                }}
-                                className="remove-image"
-                            >
-                                Xóa
-                            </button>
-                        </div>
-                    )}
-                </div>
             </div>
             {error && <div className="error-message">{error}</div>}
             <button
                 onClick={() => validateForm() && setStep(2)}
                 className="btn-next"
-                disabled={loading}
+                disabled={loading || locationLoading}
             >
-                {loading ? 'Đang xử lý...' : 'Tiếp theo: Chọn phòng'}
+                {loading || locationLoading ? 'Đang xử lý...' : 'Tiếp theo: Chọn phòng'}
             </button>
         </div>
     );
@@ -341,7 +671,7 @@ const DormRequestFlow = () => {
                                 onClick={() => handleRoomSelection(room._id)}
                             >
                                 <h3>Phòng {room.name}</h3>
-                                <p> Toa {room.department.name} </p>
+                                <p>Toa {room.department.name}</p>
                                 <p>Còn trống: {room.capacity - room.occupiedSlots}</p>
                                 <p>Giá: {(room.giatrangbi + room.tieno + room.tiennuoc).toLocaleString('vi-VN')} VNĐ</p>
                             </div>
@@ -349,6 +679,39 @@ const DormRequestFlow = () => {
                     ) : (
                         <p className="no-rooms">Không có phòng trống</p>
                     )}
+                    <div className="form-group full-width">
+                        <label>Ảnh chuyển khoản *</label>
+                        <div className="upload-container">
+                            <input
+                                type="file"
+                                id="file-upload"
+                                accept="image/*"
+                                onChange={handleFileSelect}
+                                style={{ display: 'none' }}
+                            />
+                            <label htmlFor="file-upload" className="upload-button">
+                                Chọn ảnh
+                            </label>
+                        </div>
+                        {imageURL && (
+                            <div className="image-preview">
+                                <img
+                                    src={imageURL}
+                                    alt="Preview"
+                                    className="preview-image"
+                                />
+                                <button
+                                    onClick={() => {
+                                        setProofImage(null);
+                                        setImageURL(null);
+                                    }}
+                                    className="remove-image"
+                                >
+                                    Xóa
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
             {error && <div className="error-message">{error}</div>}
@@ -368,7 +731,6 @@ const DormRequestFlow = () => {
     );
 
     const renderRequestStatus = () => (
-
         <div className="request-container">
             <h2>Yêu cầu của tôi</h2>
             {loading ? (
@@ -401,7 +763,6 @@ const DormRequestFlow = () => {
     return (
         <div className='dashboard-user'>
             <Header title={"Trang chủ"} />
-
             <div className="container">
                 <div className="steps-indicator">
                     <div className={`step ${step >= 1 ? 'active' : ''}`} data-step="1">

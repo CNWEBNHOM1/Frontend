@@ -9,12 +9,12 @@ const DormRequestFlow = () => {
     const [error, setError] = useState('');
 
 
-    useEffect(async()=>{
+    useEffect(async () => {
         try {
             setLoading(true);
             const response = await axios.get('http://localhost:5000/user/myRequest', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`// lấy theo email
                 }
             });
             console.log("123", response.data.data)
@@ -25,7 +25,7 @@ const DormRequestFlow = () => {
             setLoading(false);
         }
     }, []);
-  
+
     const renderRequestStatus = () => (
         <div className="request-container">
             <h2>Yêu cầu của tôi</h2>
@@ -57,9 +57,9 @@ const DormRequestFlow = () => {
         <div className='dashboard-user'>
             <Header title={"Trang chủ"} />
 
-        <div className="container">
-            {renderRequestStatus()}
-        </div>
+            <div className="container">
+                {renderRequestStatus()}
+            </div>
         </div>
     );
 };
