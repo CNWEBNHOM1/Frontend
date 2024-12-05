@@ -489,7 +489,7 @@ const ListReport = () =>{
                     </div>
                 </div>
                 <div className="right__table-pagination">
-                    <div className="display-title" style={{color: "#0F1824;"}}>
+                    <div className="display-title" style={{color: "#0F1824"}}>
                         Hiển thị
                     </div>
                     <div className="box-page-limit">

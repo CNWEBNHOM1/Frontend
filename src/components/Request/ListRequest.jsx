@@ -120,7 +120,6 @@ const ListRequest = () =>{
     useEffect(() =>{
         fetchListRequest()
     }, [page, limit, name, room, status])
-    console.log(selectedRoom)
     return(
         <div className="list-request">
             <Header title={"Danh sách yêu cầu đăng ký phòng"}/>
@@ -332,7 +331,6 @@ const ListRequest = () =>{
                                                         )
                                                     }
                                                     else if(key === "room"){
-                                                        console.log(request.room)
                                                         return(
                                                             <td
                                                                 key={key}

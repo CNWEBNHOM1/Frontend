@@ -127,3 +127,8 @@
     background-color: #dfdfff;
     cursor: pointer;
 }
+.ttphongchon{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

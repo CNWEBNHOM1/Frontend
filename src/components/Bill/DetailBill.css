@@ -51,6 +51,18 @@
     cursor: pointer;
     background-color: #ffdfdf;
 }
+.btn-outline-primary-print{
+    height: 35px;
+    width: 80px;
+    border: 1px solid #ffae07;
+    background-color: transparent;
+    color: #ffae07;
+    border-radius: 5px;
+}
+.btn-outline-primary-print:hover{
+    cursor: pointer;
+    background-color: #eeddbc;
+}
 .btn-outline-primary-blue{
     height: 35px;
     width: 80px;
@@ -79,6 +91,27 @@
 .btn-primary:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+.btn-primary-green{
+    height: 35px;
+    width: 100px;
+    border: none;
+    background-color: #0fd186;
+    color: #FFFFFF;
+    border: 1px solid #0fd186;
+    border-radius: 5px;
+}
+.btn-primary-green:hover{
+    background-color: #29e99f;
+    cursor: pointer;
+}
+.btn-primary-green:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.btn-primary-green:active {
+    background-color: #65f0bb;
+    cursor: pointer;
 }
 .right__DetailPage{
     display: flex;

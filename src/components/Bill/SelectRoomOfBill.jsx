@@ -25,7 +25,7 @@ const SelectRoomOfBill = ({listObject, closePopup ,btnRef, onSelectRoom}) =>{
     return(
         <div className="container-select-room-of-bill" ref={popupRef}>
             <div className="wrapper-select-room-of-bill">
-                <div className="wrapper_select_room" ref={listRef}>
+                <div className="wrapper_select_room-create-bill" ref={listRef}>
                     {listObject.map((item,index) => (
                         <div className="select-room" key={index}  onClick={() => onSelectRoom(item)}>
                             <div>{`${item.department.name} - ${item.name}`}</div>

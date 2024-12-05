@@ -60,3 +60,13 @@ export const getStatisticBills = async () =>{
     }
 }
 
+export const sendBill = async (id) =>{
+    try {
+        const response = await axiosInstance.get(`/user/sendBill/${id}`)
+        return response.data
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+

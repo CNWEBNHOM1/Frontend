@@ -7,10 +7,10 @@
     box-sizing: border-box;
     position: absolute;
     inset: auto auto 0px 0px;
-    transform: translate3d(260px, -110px, 0px);
+    transform: translate3d(260px, -50px, 0px);
 }
 .wrapper-select-room-of-bill {
-    width: 300px;
+    width: 150px;
     border-radius: 3px;
     padding: 4px 4px;
     box-sizing: border-box;
@@ -18,11 +18,11 @@
     flex-direction: column;
     gap: 4px;
 }
-.wrapper_select_room{
+.wrapper_select_room-create-bill{
     display: flex;
     flex-direction: column;
-    max-height: 270px;
     overflow: auto;
+    max-height: 180px;
 
     &::-webkit-scrollbar {
         width: 4px;

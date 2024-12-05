@@ -185,7 +185,7 @@ const DetailRoom = () =>{
         return () => {
           document.body.style.overflow = 'auto';
         };
-      }, [isTransfer]);
+    }, [isTransfer]);
 
     if (isLoading) {
         return (
@@ -614,11 +614,6 @@ const DetailRoom = () =>{
                         <div className="info-header-detail-room">
                             <div className="box-header-detail-room">
                                 <h4>Danh sách sinh viên</h4>
-                            </div>
-                            <div className="btn-removeAllStudent">
-                                <button className="btn-rmv-all" onClick={handleDeleteAll}>
-                                    Xoá tất cả
-                                </button>
                             </div>
                         </div>
                         <div className="info-table-dssv">

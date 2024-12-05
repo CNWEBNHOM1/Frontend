@@ -5,7 +5,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import InfoIcon from "../../assets/icons/InfoIcon"
 import { formatDate } from "../../utils/DateUtils"
 import { useEffect, useState } from "react"
-import { declinedStudent, getDetailStudent, updateStudent } from "../../service/ManagerAPI/StudentAPI"
+import { getDetailStudent, updateStudent } from "../../service/ManagerAPI/StudentAPI"
 import { notification} from 'antd';
 
 const formatDate1 = (dateString) => {
@@ -45,7 +45,6 @@ const DetailStudent = () =>{
     const onClickUpdate = async () =>{
         try {
             const res = await updateStudent(id, detailStudent);
-            console.log(res)
             if (res.data.status === "success") {
                 openNotificationWithIcon('success', "Cập nhật thông tin thành công");
                 setTimeout(() => {
@@ -59,26 +58,6 @@ const DetailStudent = () =>{
             openNotificationWithIcon('error', "Lỗi khi cập nhật thông tin sinh viên");
         }
     }
-    const onClickDelete = async () =>{
-        try {
-            const email = detailStudent?.user?.email;
-            const res = await declinedStudent({email: email});
-            console.log(res)
-            if (res.data.status === "success") {
-                openNotificationWithIcon('success', "Xoá thành công");
-                setTimeout(() => {
-                    navigate('/manager/people');
-                }, 1000);
-            } else {
-                openNotificationWithIcon('error', "Có lỗi xảy ra");
-            }
-        } catch (error) {
-            console.log(error);
-            openNotificationWithIcon('error', "Lỗi khi xoá sinh viên");
-        }
-    }
-
-    console.log(detailStudent?.user?.email)
 
     useEffect(()=>{
         fetchDetailStudent();
@@ -108,12 +87,6 @@ const DetailStudent = () =>{
                             onClick={onClickUpdate}
                         >
                             <span className="btn__title">Cập nhật</span>
-                        </button>
-                        <button 
-                            className="btn-primary-red"
-                            onClick={onClickDelete}
-                        >
-                            <span className="btn__title">Xoá</span>
                         </button>
                     </div>
                 </div>
@@ -152,6 +125,7 @@ const DetailStudent = () =>{
                                                   name: e.target.value,
                                                 }))
                                             }
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -179,6 +153,7 @@ const DetailStudent = () =>{
                                                   ngaysinh: e.target.value,
                                                 }))
                                             }
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -211,6 +186,7 @@ const DetailStudent = () =>{
                                                   },
                                                 }))
                                             }
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -241,6 +217,7 @@ const DetailStudent = () =>{
                                                   },
                                                 }))
                                             }
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -271,6 +248,7 @@ const DetailStudent = () =>{
                                                   },
                                                 }))
                                             }
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -300,6 +278,7 @@ const DetailStudent = () =>{
                                                   phone: e.target.value,
                                                 }))
                                             }
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -327,6 +306,7 @@ const DetailStudent = () =>{
                                                   cccd: e.target.value,
                                                 }))
                                             }
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -378,6 +358,7 @@ const DetailStudent = () =>{
                                                   khoa: parseInt(e.target.value),
                                                 }))
                                             }
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -406,6 +387,7 @@ const DetailStudent = () =>{
                                               school: e.target.value,
                                             }))
                                         }
+                                        disabled
                                     />
                                 </div>
                             </div>
@@ -433,6 +415,7 @@ const DetailStudent = () =>{
                                               lop: e.target.value,
                                             }))
                                         }
+                                        disabled
                                     />
                                 </div>
                             </div>

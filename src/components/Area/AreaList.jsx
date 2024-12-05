@@ -81,7 +81,6 @@ const AreaList = () => {
 
   const fetchAreaList = async () =>{
     const areas = await getListDepartment({page: page, limit: limit, name: name});
-    console.log(areas);
     setAreaList(areas.data.listDepartment);
     setPageQuantity(areas.data.totalPages);
     setAreasQuantity(areas.data.total);
@@ -335,7 +334,7 @@ const AreaList = () => {
             </div>
           </div>
           <div className="right__table-pagination">
-            <div className="display-title" style={{color: "#0F1824;"}}>
+            <div className="display-title" style={{color: "#0F1824"}}>
               Hiển thị
             </div>
             <div className="box-page-limit">

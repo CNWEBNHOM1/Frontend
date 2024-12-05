@@ -53,7 +53,7 @@ export const declinedStudent = async(data) =>{
 
 export const kickStudentOfRoom = async(data) =>{
     try {
-        const response = await axiosInstance.post("/user/kickOne", data)
+        const response = await axiosInstance.post("/user/declineStudent", data)
         return response.data;
     } catch (err) {
         console.log(err);

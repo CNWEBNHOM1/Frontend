@@ -37,7 +37,7 @@ const DashboardManager = () => {
   const [totalReprt,setTotalReprt] = useState(null)
   const [totalRequest,setTotalRequest] = useState(null)
   const [title, setTitle] = useState("Thông tin tất cả phòng")
-  const [listObject, setListObject] = useState({});
+  const [listObject, setListObject] = useState([]);
   const [urlLink, setUrlLink] = useState("/room");
 
   const fetchAllData = async () => {

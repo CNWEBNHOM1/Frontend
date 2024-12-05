@@ -145,7 +145,6 @@ const ListRooms = () =>{
             limit: limit,
             department: dataBody.department
         })
-        console.log(rooms.data)
         setRoomList(rooms.data.listRoom)
         setPageQuantity(rooms.data.totalPages)
         setRoomQuantity(rooms.data.total)
@@ -444,7 +443,7 @@ const ListRooms = () =>{
                     </div>
                 </div>
                 <div className="right__table-pagination">
-                    <div className="display-title" style={{color: "#0F1824;"}}>
+                    <div className="display-title" style={{color: "#0F1824"}}>
                         Hiển thị
                     </div>
                     <div className="box-page-limit">

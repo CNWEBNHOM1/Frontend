@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useNavigate, useParams } from "react-router";
-import { getDetailBill, handleBill, updateDetailBill } from "../../service/ManagerAPI/BillAPI";
+import { getDetailBill, handleBill, sendBill, updateDetailBill } from "../../service/ManagerAPI/BillAPI";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -58,11 +58,20 @@ const DetailBill = () =>{
         }
     }
 
+    const handleClickSendBill = async() =>{
+        const res = await sendBill(_id);
+        if(res.message === "Bills sent successfully"){
+            openNotificationWithIcon("success", "Gửi hoá đơn thành công")
+        }
+        else{
+            openNotificationWithIcon("error", "Gửi hoá đơn thất bại")
+        }
+    }
+
     useEffect(() =>{
         fetchDetailBill();
     }, [])
     const navigate = useNavigate();
-    console.log(billDetail)
     return(
         <>
             {contextHolder}
@@ -81,11 +90,23 @@ const DetailBill = () =>{
                             <span className="btn__title">Thoát</span>
                         </button>
                         <button 
+                            className="btn-outline-primary-print" 
+                        >
+                            <span className="btn__title">In hoá đơn</span>
+                        </button>
+                        <button 
                             className="btn-primary" 
                             disabled={billDetail.trangthai !== "Chờ xác nhận"}
                             onClick={handleClickUpdate}
                         >
                             <span className="btn__title">Xác nhận</span>
+                        </button>
+                        <button 
+                            className="btn-primary-green" 
+                            disabled={billDetail.trangthai !== "Chưa đóng"}
+                            onClick={handleClickSendBill}
+                        >
+                            <span className="btn__title">Gửi hoá đơn</span>
                         </button>
                     </div>
                 </div>
