@@ -5,7 +5,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import InfoIcon from "../../assets/icons/InfoIcon"
 import { formatDate } from "../../utils/DateUtils"
 import { useEffect, useState } from "react"
-import { getDetailStudent, updateStudent } from "../../service/ManagerAPI/StudentAPI"
+import { getDetailStudent, revomeStudent } from "../../service/ManagerAPI/StudentAPI"
 import { notification} from 'antd';
 
 const formatDate1 = (dateString) => {
@@ -42,20 +42,20 @@ const DetailStudent = () =>{
         setDetailStudent(res.data);
     }
 
-    const onClickUpdate = async () =>{
+    const handleClickDelete = async () =>{
         try {
-            const res = await updateStudent(id, detailStudent);
-            if (res.data.status === "success") {
-                openNotificationWithIcon('success', "Cập nhật thông tin thành công");
+            const res = await revomeStudent(id);
+            if (res.status === "success") {
+                openNotificationWithIcon('success', "Xoá sinh viên thành công");
                 setTimeout(() => {
                     navigate('/manager/people');
                 }, 1000);
             } else {
-                openNotificationWithIcon('error', "Có lỗi xảy ra");
+                openNotificationWithIcon('error', "Lỗi khi xoá sinh viên");
             }
         } catch (error) {
             console.log(error);
-            openNotificationWithIcon('error', "Lỗi khi cập nhật thông tin sinh viên");
+            openNotificationWithIcon('error', "Có lỗi xảy ra");
         }
     }
 
@@ -82,12 +82,13 @@ const DetailStudent = () =>{
                         <button className="btn-outline-primary-red" onClick={() => navigate("/manager/people")}>
                             <span className="btn__title">Thoát</span>
                         </button>
-                        <button 
-                            className="btn-primary" 
-                            onClick={onClickUpdate}
-                        >
-                            <span className="btn__title">Cập nhật</span>
-                        </button>
+                        { detailStudent?.trangthai !== "Dừng trước hạn" && 
+                            <button 
+                                className="btn-primary-red" 
+                                onClick={handleClickDelete}
+                            >
+                            <span className="btn__title">Xoá</span>
+                        </button> }
                     </div>
                 </div>
             </div>
@@ -443,7 +444,7 @@ const DetailStudent = () =>{
                                         </span>
                                         <span className="asterisk-icon">*</span>
                                     </label>
-                                    <div className="form-textfield-request1">
+                                    <div className="form-textfield-request1234">
                                         <input 
                                             name="room"
                                             id="room"
@@ -465,7 +466,7 @@ const DetailStudent = () =>{
                                         </span>
                                         <span className="asterisk-icon">*</span>
                                     </label>
-                                    <div className="form-textfield-request1">
+                                    <div className="form-textfield-request1234">
                                         <input 
                                             name="room_gender"
                                             id="room_gender"
@@ -477,11 +478,11 @@ const DetailStudent = () =>{
                                 </div>
                             </div>
                             <div className="row-request">
-                                <div className="box-student-xa">
-                                    <label htmlFor="xa" className="form-label">
+                                <div className="box-student-huyen">
+                                    <label htmlFor="huyen" className="form-label">
                                         Trạng thái
                                         <span
-                                            id='xa'
+                                            id='huyen'
                                             className="caption-icon"
                                             style={{color: "#4d53e0"}}
                                         >
@@ -491,8 +492,8 @@ const DetailStudent = () =>{
                                     </label>
                                     <div className="form-textfiel-an">
                                         <input 
-                                            name="xa"
-                                            id="xa"
+                                            name="huyen"
+                                            id="huyen"
                                             type="text"
                                             value={detailStudent?.trangthai}
                                             disabled

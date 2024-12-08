@@ -23,7 +23,13 @@ const CreateDepartment = ({close}) =>{
     })
 
     const handleClickAddNewDepartment = async () => {
-        if (dataCreateDepartment.name && dataCreateDepartment.room_count !== null && dataCreateDepartment.room_count !== "" && dataCreateDepartment.broken_room !== null && dataCreateDepartment.broken_room !== "") {
+        if (
+            dataCreateDepartment.name &&
+            dataCreateDepartment.room_count !== null &&
+            dataCreateDepartment.room_count !== "" &&
+            dataCreateDepartment.broken_room !== null &&
+            dataCreateDepartment.broken_room !== ""
+        ) {
             try {
                 const newDepartment = await createNewDepartment(dataCreateDepartment);
                 if (newDepartment.status === "success") {
@@ -32,15 +38,22 @@ const CreateDepartment = ({close}) =>{
                     alert("Thêm khu ký túc xá thất bại");
                 }
             } catch (error) {
-                alert("Có lỗi xảy ra trong quá trình thêm khu ký túc xá");
+                if (
+                    error.response &&
+                    error.response.status === 500 &&
+                    error.response.data.error === "Department with this name already exists"
+                ) {
+                    alert(`Tên bị trùng: ${dataCreateDepartment.name}`);
+                } else {
+                    alert("Có lỗi xảy ra trong quá trình thêm khu ký túc xá");
+                }
             }
         } else {
-            alert("Không được để trống thông tin nào")
+            alert("Không được để trống thông tin nào");
         }
     
         close();
     };
-    console.log(dataCreateDepartment)
     
     return(
         <>  

@@ -1,4 +1,3 @@
-
 .right__navbar{
     width: 100%;
 }
@@ -51,50 +50,19 @@
     cursor: pointer;
     background-color: #ffdfdf;
 }
-.btn-outline-primary-blue{
-    height: 35px;
-    width: 80px;
-    border: 1px solid #4d53e0;
-    background-color: transparent;
-    color: #4d53e0;
-    border-radius: 5px;
-}
-.btn-outline-primary-blue:hover{
-    cursor: pointer;
-    background-color: #dfdfff;
-}
-.btn-primary{
-    height: 35px;
-    width: 80px;
-    border: none;
-    background-color: #4d53e0;
-    color: #FFFFFF;
-    border: 1px solid #4d53e0;
-    border-radius: 5px;
-}
-.btn-primary:hover{
-    background-color: #6265E0;
-    cursor: pointer;
-}
-.btn-primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-
 .right__DetailPage{
     display: flex;
     flex-direction: row;
     gap: 60px;
 }
-.box-maininfo {
+.box-maininfo-department {
     display: flex;
     padding-left: 32px;
     padding-top: 30px;
     flex-direction: column;
     gap: 20px;
 }
-.box-general-report{
+.box-general-department{
     background-color: #FFFFFF;
     width: 650px;
     box-sizing: border-box;
@@ -102,76 +70,47 @@
     border-radius: 3px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.info-header-report{
+.info-header-department{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 20px;
     font-style: normal;
     border-bottom: 2px solid #e8eaeb;
     box-sizing: border-box;
     padding-left: 25px;
     color: #3d3d3d;
 }
-.info-content-report{
+.info-content-department{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     box-sizing: border-box;
     padding: 20px 25px;
 }
-.form-label{
+.form-label-department{
     color: #747C87;
-    font-size: 14px;
+    font-size: 16px;
 }
-.row-report{
-    display: flex;
-    flex-direction: row;
-    gap: 45px;
-}
-.box-report-room, .box-report-trangthai, .box-report-ngaygui, .box-report-noidung, .box-report-ghichu{
+.box-department-name, .box-department-room_count, .box-department-broken_room, .box-department-ngaytao{
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.form-textfield1 input{
-    width: 260px;
-    height: 35px;
+.form-textfield-detail-department-an input{
+    width: 550px;
+    height: 40px;
     border: 1px solid #d3d5d7;
     padding: 0px 10px;
     font-size: 15px;
 }
-.form-textfield1 input:focus{
+.form-textfield-detail-department-an input:focus{
     outline: none;
 }
-.form-textarea-report textarea{
-    width: 605px;
-    height: 110px;
-    border: 1px solid #d3d5d7;
-    padding: 10px 10px;
-    font-size: 15px;
-    box-sizing: border-box;
+.box-banner-department{
+    padding-top: 30px;
 }
-.form-textarea-report textarea:focus{
-    outline: none;
-}
-.box-detail-report{
-    background-color: #FFFFFF;
-    width: 500px;
-    box-sizing: border-box;
-    padding-bottom: 20px;
-    border-radius: 3px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.form-image-report{
-    border: 1px solid #747C87;
-    display: flex;
-    box-sizing: border-box;
-    padding: 20px;
-    justify-content: center;
-}
-.form-image-report img{
-    width: 380px;
-    height: 380px;
-    object-fit: contain;
+.box-banner-department img{
+    width: 540px;
+    height: 490px;
 }

@@ -132,7 +132,8 @@ const ListBill = () =>{
     const selectDepartment = (department) => {
         setFilterBody((prev) => ({
             ...prev,
-            department: department.name
+            department: department._id,
+            select_: department
         }));
         // Đóng filter popup sau khi chọn
         setIsOpenFilter(false);
@@ -204,6 +205,8 @@ const ListBill = () =>{
     const closePopupCreate = () =>{
         setIsCreateBill(false);
     }
+
+    console.log(filterBody)
 
     useEffect(() => {
         if (isCreateBill) {
@@ -310,18 +313,6 @@ const ListBill = () =>{
                                         onSelectDepartment={selectDepartment}
                                     />
                                 )}
-                                <SelectDatePopup
-                                    title={"Hạn đóng"}
-                                    setDataFilters={(data) =>
-										setFilterBody((prev) => {
-											return {
-												...prev,
-												fromDate: data.date_from,
-												toDate: data.date_to,
-											};
-										})
-									}
-                                />
                                 <button className="btn btn_base btn_filter"
                                     onClick={() => setFilterBody({
                                         ...filterBody,
@@ -367,7 +358,7 @@ const ListBill = () =>{
                                     {filterBody.department && (
                                         <div className="box-show-selected-item">
                                             <span>
-                                                Khu: <span>{filterBody.department}</span> 
+                                                Khu: <span>{filterBody.select_.name}</span> 
                                             </span>
                                             <div className="box-remove-item">
                                                 <button

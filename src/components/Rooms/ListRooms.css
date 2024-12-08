@@ -163,6 +163,9 @@
     line-height: 20px;
     color: #0F1824;
 }
+.box-input input:focus{
+    outline: 1px solid #4d53E0;
+}
 .search-icon {
     top: 50%;
     transform: translate(0px, -50%);

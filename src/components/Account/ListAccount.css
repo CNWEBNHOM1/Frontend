@@ -5,3 +5,27 @@
     position: relative;
     overflow-x: hidden;
 }
+.icon-lock{
+    height: 15px;
+    width: 15px;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 15px;
+}
+.icon-lock:hover{
+    cursor: pointer;
+    background-color: #ff5056;
+    color: #FFFFFF;
+}
+.icon-unlock{
+    height: 15px;
+    width: 15px;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 15px;
+}
+.icon-unlock:hover{
+    cursor: pointer;
+    background-color: #048aff;
+    color: #FFFFFF;
+}

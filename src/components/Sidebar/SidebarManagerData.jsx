@@ -6,6 +6,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ReportIcon from '@mui/icons-material/Report';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 export const SidebarManagerData =[
     {
         title: "Trang chủ",
@@ -16,7 +18,7 @@ export const SidebarManagerData =[
     {
         title: "Khu ký túc",
         icon: <DomainIcon />,
-        link : "/manager/area"
+        link : "/manager/department"
     },
     {
         title: "Phòng",
@@ -42,5 +44,15 @@ export const SidebarManagerData =[
         title: "Yêu cầu",
         icon: <RequestPageIcon />,
         link : "/manager/request"   
+    },
+    {
+        title: "Tài khoản",
+        icon: <SwitchAccountIcon />,
+        link : "/manager/account"   
+    },
+    {
+        title: "Đổi mật khẩu",
+        icon: < ManageAccountsIcon/>,
+        link : "/manager/change-password"   
     }
 ]

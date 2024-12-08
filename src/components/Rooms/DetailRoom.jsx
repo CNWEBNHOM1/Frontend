@@ -8,12 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import InfoIcon from "../../assets/icons/InfoIcon";
 import SyncIcon from '@mui/icons-material/Sync';
-import { getListStudent, kickAllStudentOfRoom, kickStudentOfRoom } from "../../service/ManagerAPI/StudentAPI";
+import { getListStudent, revomeStudent } from "../../service/ManagerAPI/StudentAPI";
 import { notification} from 'antd';
 import { Button, Modal, Space } from 'antd';
 import TransferRoom from "./TransferRoom";
 import { Flex, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Switch } from 'antd';
 
 const DetailRoom = () =>{
 
@@ -52,15 +53,15 @@ const DetailRoom = () =>{
     const [isTransfer, setIsTransfer] = useState(false)
 
     const fetchListStudent = async () =>{
-        const students = await getListStudent({page: page, limit: limit, name: name, room: id, trangthai: null});
+        const students = await getListStudent({page: page, limit: limit, name: name, room: id, trangthai: "Đang ở"});
         setListStudent(students.data)
         setStudentQuantity(students.totalStudents)
         setPageQuantity(students.totalPages)
     }
 
-    const handleClickKickStudent = async(email) =>{
+    const handleClickKickStudent = async(id) =>{
         try {
-            const res = await kickStudentOfRoom({email: email});
+            const res = await revomeStudent( id);
             if (res.status === "success") {
                 openNotificationWithIcon('success', "Xoá thành viên khỏi phòng thành công");
             } else {
@@ -73,35 +74,6 @@ const DetailRoom = () =>{
         }
     }
 
-    const handleClickKickAllStudent = async() =>{
-        try {
-            const res = await kickAllStudentOfRoom();
-            if (res.message === "All students have been kicked from their rooms") {
-                openNotificationWithIcon('success', "Xoá tất cả thành viên khỏi phòng thành công");
-            } else {
-                openNotificationWithIcon('error', "Xoá không thành công");
-            }
-            setRender(!render);
-        } catch (error) {
-            console.log(error);
-            openNotificationWithIcon('error', "Lỗi khi xoá");
-        }
-    }
-
-
-    const handleDeleteAll = () =>{
-        Modal.confirm({
-            title: "Xác nhận",
-            content: "Bạn chắc muốn xoá tất cả thành viên?",
-            okText: "Xác nhận",
-            cancelText: "Hủy",
-            onOk: async () => {
-                await handleClickKickAllStudent();
-            },
-            onCancel: () => {},
-        });
-    }
-
     const [selectPeople, setSelectPeople] = useState(null)
 
     const handleClickTransfer = (people) =>{
@@ -109,14 +81,14 @@ const DetailRoom = () =>{
         setIsTransfer(true);
     }
 
-    const handleDelete = (email) => {
+    const handleDelete = (id) => {
         Modal.confirm({
             title: "Xác nhận",
             content: "Bạn chắc muốn xoá thành viên này?",
             okText: "Xác nhận",
             cancelText: "Hủy",
             onOk: async () => {
-                await handleClickKickStudent(email);
+                await handleClickKickStudent(id);
             },
             onCancel: () => {},
         });
@@ -166,6 +138,12 @@ const DetailRoom = () =>{
         setIsTransfer(false);
     }
 
+    const [isEdit, setIsEdit] = useState(false);
+
+    const onChange = () => {
+        setIsEdit(!isEdit)
+    };
+
 
     useEffect(() =>{
         fetchDetailRoom();
@@ -203,6 +181,7 @@ const DetailRoom = () =>{
             </Flex>
         );
     }
+    
 
     return(
         <>
@@ -227,12 +206,14 @@ const DetailRoom = () =>{
                         <button className="btn-outline-primary-red" onClick={() => navigate("/manager/room")}>
                             <span className="btn__title">Thoát</span>
                         </button>
-                        <button 
-                            className="btn-primary"
-                            onClick={OnUpdate}
-                        >
-                            <span className="btn__title">Cập nhật</span>
-                        </button>
+                        { isEdit && 
+                            <button 
+                                className="btn-primary"
+                                onClick={OnUpdate}
+                            >
+                                <span className="btn__title">Cập nhật</span>
+                            </button> 
+                        }
                     </div>
                 </div>
             </div>
@@ -242,6 +223,10 @@ const DetailRoom = () =>{
                         <div className="info-header-detail-room">
                             <div className="box-header-detail-room">
                                 <h4>Thông tin chung</h4>
+                            </div>
+                            <div className="edit-infomation-of-room">
+                                <h5>Chỉnh sửa</h5>
+                                <Switch defaultChecked={false} onChange={onChange} />
                             </div>
                         </div>
                         <div className="info-content-detail-room">
@@ -264,12 +249,7 @@ const DetailRoom = () =>{
                                             id="name"
                                             type="text"
                                             value={detailRoom?.name}
-                                            onChange={(e) =>
-                                                setDetailRoom((prev) => ({
-                                                  ...prev,
-                                                  name: e.target.value,
-                                                }))
-                                            }
+                                            disabled
 
                                         />
                                     </div>
@@ -321,6 +301,7 @@ const DetailRoom = () =>{
                                                   gender: e.target.value,
                                                 }))
                                             }
+                                            disabled = {!isEdit}
                                         >
                                             <option value="Nam">Nam</option>
                                             <option value="Nữ">Nữ</option>
@@ -350,6 +331,7 @@ const DetailRoom = () =>{
                                                   tinhtrang: e.target.value,
                                                 }))
                                             }
+                                            disabled = {!isEdit}
                                         >
                                             <option value="Bình thường">Bình thường</option>
                                             <option value="Bị hỏng">Bị hỏng</option>
@@ -382,6 +364,7 @@ const DetailRoom = () =>{
                                                   capacity: parseInt(e.target.value),
                                                 }))
                                             }
+                                            disabled = {!isEdit}
 
                                         />
                                     </div>
@@ -434,7 +417,7 @@ const DetailRoom = () =>{
                                                   giatrangbi: parseInt(e.target.value),
                                                 }))
                                             }
-
+                                            disabled = {!isEdit}
                                         />
                                     </div>
                                 </div>
@@ -462,6 +445,7 @@ const DetailRoom = () =>{
                                                   tieno: parseInt(e.target.value),
                                                 }))
                                             }
+                                            disabled = {!isEdit}
                                         />
                                     </div>
                                 </div>
@@ -491,6 +475,7 @@ const DetailRoom = () =>{
                                                   tiennuoc: parseInt(e.target.value),
                                                 }))
                                             }
+                                            disabled = {!isEdit}
                                         />
                                     </div>
                                 </div>
@@ -518,7 +503,7 @@ const DetailRoom = () =>{
                                                   dongiadien: parseInt(e.target.value),
                                                 }))
                                             }
-
+                                            disabled = {!isEdit}
                                         />
                                     </div>
                                 </div>
@@ -548,6 +533,7 @@ const DetailRoom = () =>{
                                                   sophongvs: parseInt(e.target.value),
                                                 }))
                                             }
+                                            disabled = {!isEdit}
                                         />
                                     </div>
                                 </div>
@@ -575,6 +561,7 @@ const DetailRoom = () =>{
                                                   binhnuocnong: parseInt(e.target.value),
                                                 }))
                                             }
+                                            disabled = {!isEdit}
                                         />
                                     </div>
                                 </div>
@@ -602,6 +589,7 @@ const DetailRoom = () =>{
                                                   dieuhoa: parseInt(e.target.value),
                                                 }))
                                             }
+                                            disabled = {!isEdit}
                                         />
                                     </div>
                                 </div>
@@ -653,7 +641,8 @@ const DetailRoom = () =>{
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {listStudent && listStudent.map((student, index) => (
+
+                                        {listStudent?.length > 0 && listStudent.map((student, index) => (
                                             
                                             <tr key={student._id}>
                                                 <td>{student?.sid}</td>
@@ -669,7 +658,7 @@ const DetailRoom = () =>{
                                                     </button>
                                                     <button 
                                                         className="action-btn-delete" 
-                                                        onClick={() => handleDelete(student.email)}
+                                                        onClick={() => handleDelete(student._id)}
                                                     >
                                                         Xoá
                                                     </button>

@@ -198,6 +198,5 @@
 .form-image-request img {
     width: 200px; /* Đảm bảo chiều rộng bao phủ cha */
     height: 200px; /* Đảm bảo chiều cao bao phủ cha */
-    object-fit: cover; /* Giữ tỷ lệ và cắt ảnh nếu cần */
-    object-position: center; /* Căn giữa hình ảnh */
+    object-fit: contain; /* Giữ tỷ lệ và cắt ảnh nếu cần */
 }

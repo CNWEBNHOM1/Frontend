@@ -31,10 +31,11 @@ export const getDetailStudent = async (id) =>{
     }
 }
 
-export const updateStudent = async(id,data) =>{
+
+export const revomeStudent = async(id) =>{
     try {
-        const response = await axiosInstance.put(`/user/updateStudent/${id}`, data)
-        return response;
+        const response = await axiosInstance.put(`/user/removeStudent/${id}`)
+        return response.data;
     } catch (err) {
         console.log(err);
         throw err;
@@ -51,26 +52,26 @@ export const declinedStudent = async(data) =>{
     }
 }
 
-export const kickStudentOfRoom = async(data) =>{
-    try {
-        const response = await axiosInstance.post("/user/declineStudent", data)
-        return response.data;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
-}
+// export const kickStudentOfRoom = async(data) =>{
+//     try {
+//         const response = await axiosInstance.post("/user/declineStudent", data)
+//         return response.data;
+//     } catch (err) {
+//         console.log(err);
+//         throw err;
+//     }
+// }
 
-export const kickAllStudentOfRoom = async() =>{
-    try {
-        const response = await axiosInstance.post("/user/kickAll")
-        console.log(response.data)
-        return response.data;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
-}
+// export const kickAllStudentOfRoom = async() =>{
+//     try {
+//         const response = await axiosInstance.post("/user/kickAll")
+//         console.log(response.data)
+//         return response.data;
+//     } catch (err) {
+//         console.log(err);
+//         throw err;
+//     }
+// }
 
 export const TransferStudent = async(student_id, new_room_id) =>{
     try {

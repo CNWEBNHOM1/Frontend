@@ -11,3 +11,14 @@ export const loginAccount = async(dataLogin) =>{
         throw error;
     }
 }
+
+export const changePassword = async(dataLogin) =>{
+    try {
+        const response = await axiosInstance.post("/auth/changePassword", dataLogin);
+        return response.data;
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

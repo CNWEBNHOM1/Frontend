@@ -14,8 +14,7 @@ import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup";
 const statusTab = [
     { key: "all", label: "Tất cả", trangthai: null },
     { key: "staying", label: "Đang ở", trangthai: "Đang ở" },
-    { key: "stop_before", label: "Dừng trước hạn", trangthai: "Dừng trước hạn" },
-    { key: "been_before", label: "Đã ở từ kỳ trước", trangthai: "Đã ở từ kỳ trước" }
+    { key: "stop_before", label: "Dừng trước hạn", trangthai: "Dừng trước hạn" }
 ];
 
 const colsToRender = {

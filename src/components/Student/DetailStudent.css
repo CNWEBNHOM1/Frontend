@@ -126,6 +126,10 @@
     box-sizing: border-box;
     padding-left: 25px;
     color: #3d3d3d;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 25px;
 }
 .info-content-student{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -151,7 +155,7 @@
     gap: 45px;
 }
 .box-request-name, .box-request-ngaysinh, .box-request-sdt, .box-request-cccd, .box-request-gender, .box-request-khoa, .box-request-diachi, .box-request-school, .box-request-class, .box-request-room, .box-request-room_gender,
-.box-request-trangthai, .box-request-sotien,.box-request-ngaygui, .box-request-ngaypheduyet,.box-request-anhminhchung,.box-student-huyen, .box-student-xa, .box-student-tinh
+.box-request-trangthai, .box-request-sotien,.box-request-ngaygui, .box-request-ngaypheduyet,.box-request-anhminhchung,.box-student-huyen, .box-student-xa, .box-student-tinh, .box-student-detail-trangthai
 {
     display: flex;
     flex-direction: column;
@@ -170,20 +174,20 @@
 
 .box-detail-request{
     background-color: #FFFFFF;
-    width: 500px;
+    width: 510px;
     box-sizing: border-box;
     padding-bottom: 20px;
     border-radius: 3px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.form-textfield-request1 input{
-    width: 180px;
+.form-textfield-request1234 input{
+    width: 193px;
     height: 35px;
     border: 1px solid #d3d5d7;
     padding: 0px 10px;
     font-size: 15px;
 }
-.form-textfield-request1 input:focus{
+.form-textfield-request1234 input:focus{
     outline: none;
 }
 
@@ -199,7 +203,7 @@
 }
 
 .form-textfiel-an input{
-    width: 100px;
+    width: 106px;
     height: 35px;
     border: 1px solid #d3d5d7;
     padding: 0px 10px;
@@ -222,4 +226,15 @@
     height: 200px; /* Đảm bảo chiều cao bao phủ cha */
     object-fit: cover; /* Giữ tỷ lệ và cắt ảnh nếu cần */
     object-position: center; /* Căn giữa hình ảnh */
+}
+.form-textfield-detail-room12345 select {
+    width: 140px;
+    height: 36px;
+    border: 1px solid #d3d5d7;
+    font-size: 15px;
+    box-sizing: border-box;
+    display: flex;
+}
+.form-textfield-detail-room12345 select:focus{
+    outline: none;
 }

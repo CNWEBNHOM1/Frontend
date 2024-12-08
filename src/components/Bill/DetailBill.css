@@ -223,6 +223,7 @@
     height: 180px;
     border: 1px solid #d3d5d7;
     border-radius: 3px;
+    object-fit: contain;
 }
 .box-bill-department{
     display: flex;

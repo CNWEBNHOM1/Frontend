@@ -63,7 +63,8 @@ const ListReport = () =>{
     const selectDepartment = (department) => {
         setFilterBody((prev) => ({
             ...prev,
-            department: department._id
+            department: department._id,
+            select_: department
         }));
         // Đóng filter popup sau khi chọn
         setIsOpenFilter(false);
@@ -297,7 +298,7 @@ const ListReport = () =>{
                                     {filterBody.department && (
                                         <div className="box-show-selected-item">
                                             <span>
-                                                Khu: <span>{filterBody.department}</span> 
+                                                Khu: <span>{filterBody.select_.name}</span> 
                                             </span>
                                             <div className="box-remove-item">
                                                 <button

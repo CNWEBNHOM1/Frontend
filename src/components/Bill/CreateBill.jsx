@@ -102,30 +102,6 @@ const CreateBill = ({close}) =>{
                         </div>
                     </div>
                     <div className="ttphongchon">
-                        <div className="box-create-bill-sodiendau">
-                            <div className="form-create-bill">
-                                <label htmlFor="sodiencuoi" className="form-label-create-bill">
-                                    Số điện đầu
-                                    <span
-                                        id='nameCaption'
-                                        className="caption-icon"
-                                        style={{color: "#4d53e0"}}
-                                    >
-                                        {infoIcon}
-                                    </span>
-                                    <span className="asterisk-icon">*</span>
-                                </label>
-                                <div className="form-textfield-create-bill">
-                                    <input 
-                                        name="sodiencuoi"
-                                        id="sodiencuoi"
-                                        type="number"
-                                        disabled
-                                        value={dataCreateBill.room ? "ff" : "Phòng"}
-                                    />
-                                </div>
-                            </div>
-                        </div>
                         <div className="box-create-bill-sodiencuoi">
                             <div className="form-create-bill">
                                 <label htmlFor="sodiencuoi" className="form-label-create-bill">

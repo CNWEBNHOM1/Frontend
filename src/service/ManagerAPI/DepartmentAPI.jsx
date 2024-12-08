@@ -19,3 +19,13 @@ export const createNewDepartment = async (data) =>{
         throw error;
     }
 }
+
+export const getDetailDepartment = async (id) =>{
+    try {
+        const response = await axiosInstance.get(`/user/detailDepartment/${id}`);
+        return response.data
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

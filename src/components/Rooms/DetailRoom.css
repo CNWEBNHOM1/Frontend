@@ -115,6 +115,17 @@
     justify-content: space-between;
     padding-right: 25px;
 }
+.edit-infomation-of-room{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.edit-infomation-of-room h5{
+    color: #747C87;
+}
 .btn-removeAllStudent{
     display: flex;
     justify-content: center;

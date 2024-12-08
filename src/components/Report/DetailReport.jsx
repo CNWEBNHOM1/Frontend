@@ -60,6 +60,7 @@ const DetailReport= () =>{
         fetchDetailReport();
     }, [])
 
+
     return (
         <>
             {contextHolder}
@@ -77,13 +78,12 @@ const DetailReport= () =>{
                         <button className="btn-outline-primary-red" onClick={() => navigate("/manager/report")}>
                             <span className="btn__title">Thoát</span>
                         </button>
-                        <button 
+                        { detailReport?.trangthai === "Chưa xử lý" && <button 
                             className="btn-primary" 
-                            disabled={detailReport?.trangthai !== "Chưa xử lý"}
                             onClick={handleUpdateReport}
                         >
                             <span className="btn__title">Cập nhật</span>
-                        </button>
+                        </button> }
                     </div>
                 </div>
             </div>
@@ -298,7 +298,7 @@ const DetailReport= () =>{
                                 </label>
                                 <div className="form-image-report">
                                     <img 
-                                        src={`http://localhost:5000/${detailReport?.minhchung}`}
+                                        src={detailReport?.minhchung}
                                         alt=""
                                     />
                                 </div>

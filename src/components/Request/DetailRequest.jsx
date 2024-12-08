@@ -68,25 +68,27 @@ const DetailRequest = () =>{
                         <button className="btn-outline-primary-red" onClick={() => navigate("/manager/request")}>
                             <span className="btn__title">Thoát</span>
                         </button>
-                        <button className="btn-primary-red" 
-                            disabled={detailRequest?.trangthai !== "pending"}
-                            onClick={() => {
-                                const action = "declined";
-                                hanldeRequest(action);
-                            }}
-                        >
-                            <span className="btn__title">Từ chối</span>
-                        </button>
-                        <button 
-                            className="btn-primary"
-                            disabled={detailRequest?.trangthai !== "pending"}
-                            onClick={() => {
-                                const action = "approved";
-                                hanldeRequest(action);
-                            }}
-                        >
-                            <span className="btn__title">Chấp nhận</span>
-                        </button>
+                        { detailRequest?.trangthai === "pending" &&  
+                            <button className="btn-primary-red" 
+                                onClick={() => {
+                                    const action = "declined";
+                                    hanldeRequest(action);
+                                }}
+                            >
+                                <span className="btn__title">Từ chối</span>
+                            </button> 
+                        }
+                        { detailRequest?.trangthai === "pending" &&  
+                            <button 
+                                className="btn-primary"
+                                onClick={() => {
+                                    const action = "approved";
+                                    hanldeRequest(action);
+                                }}
+                            >
+                                <span className="btn__title">Chấp nhận</span>
+                            </button>
+                        }
                     </div>
                 </div>
             </div>
@@ -466,7 +468,7 @@ const DetailRequest = () =>{
                                 </label>
                                 <div className="form-image-request">
                                     <img 
-                                        src={`http://localhost:5000/${detailRequest?.minhchung}`}
+                                        src={detailRequest?.minhchung}
                                         alt=""
                                     />
                                 </div>

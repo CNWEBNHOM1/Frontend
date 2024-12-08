@@ -72,6 +72,7 @@ const DetailBill = () =>{
         fetchDetailBill();
     }, [])
     const navigate = useNavigate();
+    console.log(billDetail)
     return(
         <>
             {contextHolder}
@@ -94,20 +95,23 @@ const DetailBill = () =>{
                         >
                             <span className="btn__title">In hoá đơn</span>
                         </button>
-                        <button 
+                        {   billDetail.trangthai === "Chờ xác nhận" &&
+                            <button 
                             className="btn-primary" 
-                            disabled={billDetail.trangthai !== "Chờ xác nhận"}
                             onClick={handleClickUpdate}
-                        >
+                            >
+                        
                             <span className="btn__title">Xác nhận</span>
-                        </button>
-                        <button 
-                            className="btn-primary-green" 
-                            disabled={billDetail.trangthai !== "Chưa đóng"}
-                            onClick={handleClickSendBill}
-                        >
+                            </button>
+                        }
+                        {   billDetail.trangthai === "Chưa đóng" &&
+                            <button 
+                                className="btn-primary-green" 
+                                onClick={handleClickSendBill}
+                            >
                             <span className="btn__title">Gửi hoá đơn</span>
-                        </button>
+                            </button> 
+                        }
                     </div>
                 </div>
             </div>
@@ -402,7 +406,7 @@ const DetailBill = () =>{
                         <div className="info-content">
                             <div className="box-bill-image">
                                 {billDetail.anhminhchung ? (
-                                    <img src={`http://localhost:5000/${billDetail.anhminhchung}`} alt="Ảnh minh chứng" />
+                                    <img src={DetailBill?.anhminhchung} alt="Ảnh minh chứng" />
                                 ) : (
                                     <img src={NotPayment} alt="Không có ảnh minh chứng" />
                                 )}

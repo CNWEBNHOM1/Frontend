@@ -78,11 +78,13 @@ const ListRooms = () =>{
     const [page,setPage] = useState(1);
     const [roomQuantity, setRoomQuantity] = useState(0)
     const [pageQuantity, setPageQuantity] = useState(3);
+    const [roomName, setRoomName] = useState("");
 
     const selectDepartment = (department) => {
         setDataBody((prev) => ({
             ...prev,
-            department: department.name
+            department: department._id,
+            selectDepartment: department
         }));
         // Đóng filter popup sau khi chọn
         setIsOpenFilter(false);
@@ -143,7 +145,8 @@ const ListRooms = () =>{
         const rooms = await getListRoom({
             page: page,
             limit: limit,
-            department: dataBody.department
+            department: dataBody.department,
+            name: roomName
         })
         setRoomList(rooms.data.listRoom)
         setPageQuantity(rooms.data.totalPages)
@@ -152,7 +155,7 @@ const ListRooms = () =>{
 
     useEffect(() =>{
         fetchRoomList();
-    }, [limit, page, dataBody.department])
+    }, [limit, page, dataBody.department, roomName])
 
     const navigate = useNavigate();
     return(
@@ -190,7 +193,8 @@ const ListRooms = () =>{
                                         type="text"
                                         name="search"
                                         id=""
-                                        autoComplete="on" 
+                                        autoComplete="on"
+                                        onChange={(e) => setRoomName(e.target.value)}
                                     />
                                     <fieldset className="input-field" />
                                 </div>
@@ -239,35 +243,10 @@ const ListRooms = () =>{
                         { ((dataBody.created_date_from && dataBody.created_date_to) || dataBody.department )&&(
                             <div className="box-show-selected-filter">
                                 <div className="box-show-selected-container">
-                                    {dataBody.created_date_from && dataBody.created_date_to && (
-                                        <div className="box-show-selected-item">
-                                            <span>
-                                                Ngày tạo: (<span>{dataBody.created_date_from}</span> -
-                                                <span>{dataBody.created_date_to}</span>)
-											</span>
-                                            <div className="box-remove-item">
-                                                <button
-                                                    onClick={() =>
-                                                        setDataBody((prev) => ({
-                                                        ...prev,
-                                                        created_date_from: null,
-                                                        created_date_to: null,
-                                                        }))
-                                                    }
-                                                    className="btn-remove-item"
-                                                    type="button"
-                                                >
-                                                    <span>
-                                                        <FontAwesomeIcon icon={faXmark} />
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </div>      
-                                    )}
                                     {dataBody.department && (
                                         <div className="box-show-selected-item">
                                             <span>
-                                                Khu: <span>{dataBody.department}</span> 
+                                                Khu: <span>{dataBody.selectDepartment?.name}</span> 
 											</span>
                                             <div className="box-remove-item">
                                                 <button

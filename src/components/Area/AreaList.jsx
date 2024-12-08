@@ -316,6 +316,7 @@ const AreaList = () => {
                                   ) : (
                                     <Link
                                       className="box-id"
+                                      to={`/manager/department/detail/${area._id}`}
                                     >
                                       {area[key]}
                                     </Link>
