@@ -23,7 +23,6 @@ const DetailDepartment = () =>{
         fetchDetailDepartment();
     }, [])
 
-    console.log(detailDepartment)
 
     return(
         <>
@@ -77,7 +76,9 @@ const DetailDepartment = () =>{
                                               name: e.target.value,
                                             }))
                                         }
+                                        disabled
                                     />
+                                    
                                 </div>
                             </div>
                             <div className="box-department-room_count">

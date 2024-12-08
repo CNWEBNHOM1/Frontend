@@ -19,7 +19,6 @@ const statusTab = [
     { key: "completed", label: "Đã đóng", trangthai: "Đã đóng" },
     { key: "waiting", label: "Chờ xác nhận", trangthai: "Chờ xác nhận" },
     { key: "incompleted", label: "Chưa đóng", trangthai: "Chưa đóng" },
-    { key: "overdue", label: "Quá hạn", trangthai: null }
 ];
 
 const colsToRender = {

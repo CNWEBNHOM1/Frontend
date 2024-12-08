@@ -129,7 +129,7 @@ const ListAccount = () =>{
                         <div className="main_table-scroller">
                             <div className="box-scroller">
                                 <div  className="group-scroller-btns">
-                                    <button className="btn-scroller active">Tất cả các khu</button>
+                                    <button className="btn-scroller active">Tất cả tài khoản</button>
                                 </div>
                             </div>
                         </div>
