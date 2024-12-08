@@ -10,7 +10,7 @@ export const SidebarUserData = [
     },
     {
 
-        title: "Tạo request",
+        title: "Đăng ký phòng",
         icon: <MdAppRegistration />,
         link: "/auth/DormRequestFlow"
     },

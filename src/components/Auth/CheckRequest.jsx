@@ -54,13 +54,16 @@ const DormRequestFlow = () => {
     );
 
     return (
-        <div className='dashboard-user'>
+        <>
             <Header title={"Trang chủ"} />
+            <div className='dashboard-user'>
 
-            <div className="container">
-                {renderRequestStatus()}
+
+                <div className="container">
+                    {renderRequestStatus()}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -615,7 +615,7 @@ const DormRequestFlow = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Khoa</label>
+                    <label>Khóa</label>
                     <input
                         type="text"
                         name="khoa"
@@ -761,25 +761,27 @@ const DormRequestFlow = () => {
     );
 
     return (
-        <div className='dashboard-user'>
-            <Header title={"Trang chủ"} />
-            <div className="container">
-                <div className="steps-indicator">
-                    <div className={`step ${step >= 1 ? 'active' : ''}`} data-step="1">
-                        Thông tin cá nhân
+        <> <Header title={"Trang chủ"} />
+            <div className='dashboard-user'>
+
+                <div className="container">
+                    <div className="steps-indicator">
+                        <div className={`step ${step >= 1 ? 'active' : ''}`} data-step="1">
+                            Thông tin cá nhân
+                        </div>
+                        <div className={`step ${step >= 2 ? 'active' : ''}`} data-step="2">
+                            Chọn phòng
+                        </div>
+                        <div className={`step ${step >= 3 ? 'active' : ''}`} data-step="3">
+                            Trạng thái yêu cầu
+                        </div>
                     </div>
-                    <div className={`step ${step >= 2 ? 'active' : ''}`} data-step="2">
-                        Chọn phòng
-                    </div>
-                    <div className={`step ${step >= 3 ? 'active' : ''}`} data-step="3">
-                        Trạng thái yêu cầu
-                    </div>
+                    {step === 1 && renderPersonalInfoForm()}
+                    {step === 2 && renderRoomSelection()}
+                    {step === 3 && renderRequestStatus()}
                 </div>
-                {step === 1 && renderPersonalInfoForm()}
-                {step === 2 && renderRoomSelection()}
-                {step === 3 && renderRequestStatus()}
             </div>
-        </div>
+        </>
     );
 };
 

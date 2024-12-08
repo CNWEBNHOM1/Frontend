@@ -72,7 +72,7 @@ const UserReport = () => {
     };
 
     return (
-        <> <Header title={"Trang chủ"} />
+        <> <Header />
             <div className="report-container">
                 <div className="report-card">
                     <h2 className="report-title">Tạo Báo Cáo</h2>

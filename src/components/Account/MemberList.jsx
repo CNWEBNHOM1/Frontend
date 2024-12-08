@@ -48,7 +48,7 @@ function RoomMates() {
     };
 
     return (
-        <> <Header title={"Trang chủ"} />
+        <> <Header />
             <div className="roommates-container">
                 <h1 className="title">Danh Sách Thành Viên Cùng Phòng</h1>
                 {loading ? (

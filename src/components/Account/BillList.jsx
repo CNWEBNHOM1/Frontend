@@ -75,7 +75,7 @@ function BillList() {
     }
 
     return (
-        <> <Header title={"Trang chủ"} />
+        <> <Header/>
             <div className="bill-list-container">
                 <div className="bill-list-header">
                     <h1 className="bill-list-title">Danh Sách Hóa Đơn Điện Nước</h1>
@@ -136,24 +136,19 @@ function BillList() {
                                                 {bill.trangthai}
                                             </span>
                                         </td>
+
+
                                         <td>
-                                            {/* <button
+                                            <button
                                                 className="action-button-upload"
                                                 onClick={() => handleUpload(bill._id)}
+                                                disabled={bill.trangthai !== "Chưa đóng"} // Kiểm tra trạng thái
                                             >
                                                 Up Ảnh
-                                            </button> */}
-                                            <td>
-                                                <button
-                                                    className="action-button-upload"
-                                                    onClick={() => handleUpload(bill._id)}
-                                                    disabled={bill.trangthai !== "Chưa đóng"} // Kiểm tra trạng thái
-                                                >
-                                                    Up Ảnh
-                                                </button>
-                                            </td>
-
+                                            </button>
                                         </td>
+
+
                                     </tr>
                                 ))}
                             </tbody>

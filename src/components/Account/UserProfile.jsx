@@ -56,7 +56,7 @@ function UserProfile() {
     }
     return (
         <>
-            <Header title={"Trang chủ"} />
+            <Header />
             {!profile ? (
                 <div className="loading">Đang tải thông tin cá nhân...</div>
             ) : (

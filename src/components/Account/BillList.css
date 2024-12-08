@@ -122,15 +122,10 @@
 
 .action-button-upload:disabled {
     background-color: #ccc;
-    /* Màu nền cho trạng thái disabled */
-    color: #666;
-    /* Màu chữ nhạt hơn */
     cursor: not-allowed;
-    /* Con trỏ chuột không khả dụng */
     opacity: 0.7;
-    /* Tăng độ mờ */
     transition: none;
-    /* Loại bỏ hiệu ứng hover */
+
 }
 
 
@@ -197,4 +192,21 @@
 .bill-table th:nth-child(8),
 .bill-table td:nth-child(8) {
     text-align: right;
+}
+
+.bill-list-title {
+    font-size: 1.8rem;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    margin: 20px auto;
+
+    color: #1a365d;
+
+    padding: 10px 0;
+
+    width: 100%;
+   
 }
