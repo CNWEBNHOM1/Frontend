@@ -137,12 +137,22 @@ function BillList() {
                                             </span>
                                         </td>
                                         <td>
-                                            <button
+                                            {/* <button
                                                 className="action-button-upload"
                                                 onClick={() => handleUpload(bill._id)}
                                             >
                                                 Up Ảnh
-                                            </button>
+                                            </button> */}
+                                            <td>
+                                                <button
+                                                    className="action-button-upload"
+                                                    onClick={() => handleUpload(bill._id)}
+                                                    disabled={bill.trangthai !== "Chưa đóng"} // Kiểm tra trạng thái
+                                                >
+                                                    Up Ảnh
+                                                </button>
+                                            </td>
+
                                         </td>
                                     </tr>
                                 ))}

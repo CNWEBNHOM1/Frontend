@@ -85,6 +85,23 @@
 }
 
 
+/* .action-button-upload {
+    padding: 6px 16px;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    min-width: 80px;
+    white-space: nowrap;
+}
+
+.action-button-upload:hover {
+    background-color: #2c5282;
+} */
 .action-button-upload {
     padding: 6px 16px;
     background-color: #3182ce;
@@ -102,6 +119,20 @@
 .action-button-upload:hover {
     background-color: #2c5282;
 }
+
+.action-button-upload:disabled {
+    background-color: #ccc;
+    /* Màu nền cho trạng thái disabled */
+    color: #666;
+    /* Màu chữ nhạt hơn */
+    cursor: not-allowed;
+    /* Con trỏ chuột không khả dụng */
+    opacity: 0.7;
+    /* Tăng độ mờ */
+    transition: none;
+    /* Loại bỏ hiệu ứng hover */
+}
+
 
 /* Responsive cho mobile */
 @media (max-width: 768px) {
