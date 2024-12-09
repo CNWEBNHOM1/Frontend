@@ -248,9 +248,9 @@
     font-weight: 500;
     color: #c40308;
 }
-.loading{
-    width: 1300px;
-    height: 680px;
+.loading-dashboard-manager{
+    width: 1200px;
+    height: 600px;
     overflow-x: hidden;
     overflow-y: hidden;
     display: flex;

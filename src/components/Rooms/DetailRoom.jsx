@@ -167,7 +167,7 @@ const DetailRoom = () =>{
 
     if (isLoading) {
         return (
-            <Flex align="center" gap="middle" className="loading">
+            <Flex align="center" gap="middle" className="loading-dashboard-manager">
             <Spin
                 indicator={
                 <LoadingOutlined
@@ -195,7 +195,7 @@ const DetailRoom = () =>{
             <div className="right__navbar">
                 <div className="box-navbar">
                     <div className="btn-toolbar">
-                        <Link to='/manager/room' className='btn-back'>
+                        <Link to='/manager/room' className='btn-back-of-an'>
                             <FontAwesomeIcon icon={faChevronLeft} />
                             <h4 className="btn-back__title">
                                 Quay lại danh sách phòng

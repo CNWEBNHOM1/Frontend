@@ -79,7 +79,7 @@ const DetailBill = () =>{
             <div className="right__navbar">
                 <div className="box-navbar">
                     <div className="btn-toolbar">
-                        <Link to='/manager/bill' className='btn-back'>
+                        <Link to='/manager/bill' className='btn-back-of-an'>
                             <FontAwesomeIcon icon={faChevronLeft} />
                             <h4 className="btn-back__title">
                                 Quay lại danh sách hoá đơn
@@ -306,7 +306,7 @@ const DetailBill = () =>{
                                         />
                                     </div>
                                 </div>
-                                <div className="box-bill-room">
+                                <div className="box-bill-department">
                                     <label htmlFor="thanhtien" className="form-label">
                                         Phòng
                                         <span
@@ -403,13 +403,14 @@ const DetailBill = () =>{
                                 <h4>Ảnh minh chứng</h4>
                             </div>
                         </div>
-                        <div className="info-content">
+                        <div className="info-content-1-of-fix">
                             <div className="box-bill-image">
                                 {billDetail.anhminhchung ? (
-                                    <img src={DetailBill?.anhminhchung} alt="Ảnh minh chứng" />
+                                    <img src={`${billDetail.anhminhchung}`} alt="Ảnh minh chứng" />
                                 ) : (
                                     <img src={NotPayment} alt="Không có ảnh minh chứng" />
                                 )}
+
                             </div>
                         </div>
                     </div>

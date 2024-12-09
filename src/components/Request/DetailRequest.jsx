@@ -57,7 +57,7 @@ const DetailRequest = () =>{
             <div className="right__navbar">
                 <div className="box-navbar">
                     <div className="btn-toolbar">
-                        <Link to='/manager/request' className='btn-back'>
+                        <Link to='/manager/request' className='btn-back-of-an'>
                             <FontAwesomeIcon icon={faChevronLeft} />
                             <h4 className="btn-back__title">
                                 Quay lại danh sách yêu cầu
@@ -467,10 +467,12 @@ const DetailRequest = () =>{
                                     <span className="asterisk-icon">*</span>
                                 </label>
                                 <div className="form-image-request">
-                                    <img 
-                                        src={detailRequest?.minhchung}
-                                        alt=""
-                                    />
+                                    { detailRequest?.minhchung &&
+                                        <img
+                                            src={`${detailRequest?.minhchung}`}
+                                            alt=""
+                                        /> 
+                                    }
                                 </div>
                             </div> 
                         </div>

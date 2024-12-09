@@ -71,7 +71,7 @@ const DetailStudent = () =>{
             <div className="right__navbar">
                 <div className="box-navbar">
                     <div className="btn-toolbar">
-                        <Link to='/manager/people' className='btn-back'>
+                        <Link to='/manager/people' className='btn-back-of-an'>
                             <FontAwesomeIcon icon={faChevronLeft} />
                             <h4 className="btn-back__title">
                                 Quay lại danh sách thành viên

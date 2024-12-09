@@ -28,8 +28,8 @@ const DetailDepartment = () =>{
         <>
             <div className="right__navbar">
                 <div className="box-navbar">
-                    <div className="btn-toolbar">
-                        <Link to='/manager/department' className='btn-back'>
+                    <div className="btn_toolbar">
+                        <Link to='/manager/department' className='btn-back-of-an'>
                             <FontAwesomeIcon icon={faChevronLeft} />
                             <h4 className="btn-back__title">
                                 Quay lại danh sách khu ký túc

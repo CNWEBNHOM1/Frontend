@@ -1,0 +1,212 @@
+/* BillList.css */
+.bill-list-container {
+    padding: 10px;
+    background: white;
+    overflow-x: auto;
+}
+
+.bill-list-header {
+    margin-bottom: 10px;
+}
+
+.bill-list-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.filter-section {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.filter-select {
+    padding: 4px 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background-color: white;
+    min-width: 120px;
+}
+
+.bill-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.bill-table th,
+.bill-table td {
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.bill-table th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+}
+
+/* Căn phải cho các cột số */
+.bill-table td:nth-child(2),
+.bill-table td:nth-child(3),
+.bill-table td:nth-child(4),
+.bill-table td:nth-child(5) {
+    text-align: right;
+}
+
+.status-badge {
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.status-chờ-xác-nhận {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-đã-đóng {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-chưa-đóng {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-quá-hạn {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+
+/* .action-button-upload {
+    padding: 6px 16px;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    min-width: 80px;
+    white-space: nowrap;
+}
+
+.action-button-upload:hover {
+    background-color: #2c5282;
+} */
+.action-button-upload {
+    padding: 6px 16px;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    min-width: 80px;
+    white-space: nowrap;
+}
+
+.action-button-upload:hover {
+    background-color: #2c5282;
+}
+
+.action-button-upload:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+    transition: none;
+
+}
+
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .bill-list-container {
+        margin-left: 0;
+        padding: 5px;
+    }
+
+    .filter-section {
+        flex-direction: column;
+    }
+
+    .filter-select {
+        width: 100%;
+    }
+}
+
+/* BillList.css */
+.bill-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.bill-table th,
+.bill-table td {
+    padding: 8px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Căn trái cho cột tên phòng */
+.bill-table th:first-child,
+.bill-table td:first-child {
+    text-align: left;
+}
+
+/* Căn phải cho các cột số liệu */
+.bill-table th:nth-child(2),
+.bill-table td:nth-child(2),
+.bill-table th:nth-child(3),
+.bill-table td:nth-child(3),
+.bill-table th:nth-child(4),
+.bill-table td:nth-child(4),
+.bill-table th:nth-child(5),
+.bill-table td:nth-child(5) {
+    text-align: right;
+}
+
+/* Căn giữa cho cột hạn đóng */
+.bill-table th:nth-child(6),
+.bill-table td:nth-child(6) {
+    text-align: center;
+}
+
+/* Căn giữa cho cột trạng thái */
+.bill-table th:nth-child(7),
+.bill-table td:nth-child(7) {
+    text-align: center;
+}
+
+/* Căn phải cho cột hành động */
+.bill-table th:nth-child(8),
+.bill-table td:nth-child(8) {
+    text-align: right;
+}
+
+.bill-list-title {
+    font-size: 1.8rem;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    margin: 20px auto;
+
+    color: #1a365d;
+
+    padding: 10px 0;
+
+    width: 100%;
+   
+}

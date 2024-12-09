@@ -1,11 +1,23 @@
 .dorm-form {
     display: flex;
-    flex-direction: column;
-    width: 400px;
+    flex-wrap: wrap;
+    width: 80%;
+    /* Điều chỉnh chiều rộng form */
+    max-width: 800px;
+    /* Đặt chiều rộng tối đa */
     margin: 0 auto;
+    gap: 20px;
+    /* Khoảng cách giữa các trường */
 }
 
-.dorm-form label {
+.form-group {
+    flex: 1 1 calc(50% - 20px);
+    /* Hai trường mỗi hàng */
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
     margin-top: 10px;
     font-weight: bold;
 }
@@ -17,9 +29,13 @@
     margin-top: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    width: 100%;
+    /* Đảm bảo input/ select chiếm hết chiều rộng */
 }
 
 .dorm-form button {
+    width: 100%;
+    /* Nút đăng ký chiếm hết chiều rộng */
     margin-top: 20px;
     padding: 10px;
     font-size: 16px;
@@ -32,4 +48,9 @@
 
 .dorm-form button:hover {
     background-color: #45a049;
+}
+
+.form-group-full {
+    flex: 1 1 100%;
+    /* Trường chiếm toàn bộ chiều rộng */
 }

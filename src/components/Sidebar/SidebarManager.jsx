@@ -4,11 +4,8 @@ import logoSoict from '../../assets/logo-soict.png'
 import { SidebarManagerData } from './SidebarManagerData.jsx'
 
 const SidebarManger = () => {
-
-
   return (
     <div className='Sidebar'>
-          
       <div className='logo'>
           <img src={logoSoict} alt='' style={{width: "150px", height: "120px"}}/>
       </div>

@@ -43,7 +43,7 @@ const col = {
         name: "Ghi chú"
     },
     ngaygui: {
-      name: "Ngày gửi hoá đơn",
+      name: "Ngày gửi báo cáo",
     },
     trangthai: {
       name: "Trạng thái",
@@ -63,8 +63,7 @@ const ListReport = () =>{
     const selectDepartment = (department) => {
         setFilterBody((prev) => ({
             ...prev,
-            department: department._id,
-            select_: department
+            departmentName: department.name
         }));
         // Đóng filter popup sau khi chọn
         setIsOpenFilter(false);
@@ -114,8 +113,8 @@ const ListReport = () =>{
         page: 1,
         limit: 10,
         trangthai: null,
-        room: null,
-        department:null,
+        roomName: null,
+        departmentName:null,
         fromDate: null,
         toDate: null,
         sortOrder: -1
@@ -177,6 +176,7 @@ const ListReport = () =>{
     useEffect(()=>{
         fetchListReport();
     }, [filterBody])
+    console.log(reportList)
     return(
         <div className="list-report">
             <Header title={"Danh sách báo cáo"}/>
@@ -223,7 +223,7 @@ const ListReport = () =>{
                                         id=""
                                         autoComplete="on"
                                         onChange={(e) =>
-											setFilterBody({ ...filterBody, room: e.target.value })
+											setFilterBody({ ...filterBody, roomName: e.target.value })
 										}
                                     />
                                     <fieldset className="input-field" />
@@ -267,7 +267,7 @@ const ListReport = () =>{
 								</button>
                             </div>
                         </div>
-                        {((filterBody.fromDate && filterBody.toDate) || filterBody.department) && (
+                        {((filterBody.fromDate && filterBody.toDate) || filterBody.departmentName) && (
                             <div className="box-show-selected-filter">
                                 <div className="box-show-selected-container">
                                     {filterBody.fromDate && filterBody.toDate && (
@@ -295,17 +295,17 @@ const ListReport = () =>{
                                             </div>
                                         </div>      
                                     )}
-                                    {filterBody.department && (
+                                    {filterBody.departmentName && (
                                         <div className="box-show-selected-item">
                                             <span>
-                                                Khu: <span>{filterBody.select_.name}</span> 
+                                                Khu: <span>{filterBody.departmentName}</span> 
                                             </span>
                                             <div className="box-remove-item">
                                                 <button
                                                     onClick={() =>
                                                         setFilterBody((prev) => ({
                                                         ...prev,
-                                                        department: null
+                                                        departmentName: null
                                                         }))
                                                     }
                                                     className="btn-remove-item"
@@ -452,7 +452,7 @@ const ListReport = () =>{
                                                                 className="table-data-item"
                                                             >
                                                             <p className="box-text">
-                                                                {report?.room?.department?.name}
+                                                                {report?.departmentDetails?.name}
                                                             </p>
                                                         </td>
                                                         )
@@ -473,7 +473,7 @@ const ListReport = () =>{
                                                                     to={`/manager/report/detailReport/${report._id}`}
                                                                     className="box-id"
                                                                 >
-                                                                    {report.room.name}
+                                                                    {report?.roomDetails?.name}
                                                                 </Link>
                                                                 )}
                                                             </p>

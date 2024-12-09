@@ -130,7 +130,7 @@ const DashboardManager = () => {
 
   if (isLoading) {
     return (
-      <Flex align="center" gap="middle" className="loading">
+      <Flex align="center" gap="middle" className="loading-dashboard-manager">
         <Spin
           indicator={
             <LoadingOutlined

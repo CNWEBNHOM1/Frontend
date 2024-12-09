@@ -68,8 +68,8 @@ const ListBill = () =>{
         page: 1,
         limit: 10,
         trangthai: null,
-        room: null,
-        department:null,
+        roomName: null,
+        departmentName:null,
         overdue: false,
         fromDate: null,
         toDate: null,
@@ -131,9 +131,9 @@ const ListBill = () =>{
     const selectDepartment = (department) => {
         setFilterBody((prev) => ({
             ...prev,
-            department: department._id,
-            select_: department
+            departmentName: department.name,
         }));
+        console.log(filterBody)
         // Đóng filter popup sau khi chọn
         setIsOpenFilter(false);
     };
@@ -205,7 +205,6 @@ const ListBill = () =>{
         setIsCreateBill(false);
     }
 
-    console.log(filterBody)
 
     useEffect(() => {
         if (isCreateBill) {
@@ -224,6 +223,7 @@ const ListBill = () =>{
     }, [filterBody , isRender, isCreateBill])
 
     const navigate = useNavigate();
+    console.log(billList)
     return(
         <>
         {contextHolder}
@@ -282,7 +282,7 @@ const ListBill = () =>{
                                         id=""
                                         autoComplete="on"
                                         onChange={(e) =>
-											setFilterBody({ ...filterBody, room: e.target.value })
+											setFilterBody({ ...filterBody, roomName: e.target.value })
 										}
                                     />
                                     <fieldset className="input-field" />
@@ -326,7 +326,7 @@ const ListBill = () =>{
 								</button>
                             </div>
                         </div>
-                        {((filterBody.fromDate && filterBody.toDate) || filterBody.department) && (
+                        {((filterBody.fromDate && filterBody.toDate) || filterBody.departmentName) && (
                             <div className="box-show-selected-filter">
                                 <div className="box-show-selected-container">
                                     {filterBody.fromDate && filterBody.toDate && (
@@ -354,17 +354,17 @@ const ListBill = () =>{
                                             </div>
                                         </div>      
                                     )}
-                                    {filterBody.department && (
+                                    {filterBody.departmentName && (
                                         <div className="box-show-selected-item">
                                             <span>
-                                                Khu: <span>{filterBody.select_.name}</span> 
+                                                Khu: <span>{filterBody.departmentName}</span> 
                                             </span>
                                             <div className="box-remove-item">
                                                 <button
                                                     onClick={() =>
                                                         setFilterBody((prev) => ({
                                                         ...prev,
-                                                        department: null
+                                                        departmentName: null
                                                         }))
                                                     }
                                                     className="btn-remove-item"
@@ -523,7 +523,7 @@ const ListBill = () =>{
                                                                 className="table-data-item"
                                                             >
                                                             <p className="box-text">
-                                                                {bill["room"].department.name}
+                                                                {bill?.departmentDetails?.name}
                                                             </p>
                                                         </td>
                                                         )
@@ -544,7 +544,7 @@ const ListBill = () =>{
                                                                 <Link to= {`/manager/bill/detail/${bill._id}`}
                                                                     className="box-id"
                                                                 >
-                                                                    {bill[key].name}
+                                                                    {bill?.roomDetails?.name}
                                                                 </Link>
                                                                 )}
                                                             </p>
