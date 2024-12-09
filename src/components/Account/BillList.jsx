@@ -22,24 +22,41 @@ function BillList() {
         fetchBills();
     }, [currentPage, filters]);
 
+
+    //     try {
+    //         setIsLoading(true);
+    //         const result = await getListBills({
+    //             ...filters,
+    //             page: currentPage
+    //         });
+    //         // Sửa đoạn này để lấy đúng cấu trúc data
+    //         setBills(result.data || []); // Vì data là array chứa bills luôn
+    //     } catch (error) {
+    //         console.error("Lỗi khi lấy danh sách hóa đơn:", error);
+    //         setError(error.message);
+    //         setBills([]);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
+
     const fetchBills = async () => {
         try {
             setIsLoading(true);
-            const result = await getListBills({
+            const response = await getListBills({
                 ...filters,
                 page: currentPage
             });
-            // Sửa đoạn này để lấy đúng cấu trúc data
-            setBills(result.data || []); // Vì data là array chứa bills luôn
+            setBills(response); // Không cần .data
+            console.log('Bills:', response); // Kiểm tra dữ liệu
         } catch (error) {
-            console.error("Lỗi khi lấy danh sách hóa đơn:", error);
+            console.error("Lỗi:", error);
             setError(error.message);
-            setBills([]);
+            setBills(null);
         } finally {
             setIsLoading(false);
         }
     };
-
     const handleStatusChange = (e) => {
         setFilters(prev => ({ ...prev, trangthai: e.target.value }));
         setCurrentPage(1);
@@ -75,7 +92,7 @@ function BillList() {
     }
 
     return (
-        <> <Header/>
+        <> <Header />
             <div className="bill-list-container">
                 <div className="bill-list-header">
                     <h1 className="bill-list-title">Danh Sách Hóa Đơn Điện Nước</h1>
@@ -123,9 +140,9 @@ function BillList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {bills.map((bill) => (
+                                {bills && bills.data && bills.data.bills && bills.data.bills.map((bill) => (
                                     <tr key={bill._id}>
-                                        <td>{bill.room?.name || "Không rõ"}</td>
+                                        <td>{bill.room?.name + "-" + bill.room?.department.name || "Không rõ"}</td>
                                         <td>{bill.sodiendau}</td>
                                         <td>{bill.sodiencuoi}</td>
                                         <td>{formatCurrency(bill.room?.dongiadien || 0)}</td>
@@ -136,19 +153,15 @@ function BillList() {
                                                 {bill.trangthai}
                                             </span>
                                         </td>
-
-
                                         <td>
                                             <button
                                                 className="action-button-upload"
                                                 onClick={() => handleUpload(bill._id)}
-                                                disabled={bill.trangthai !== "Chưa đóng"} // Kiểm tra trạng thái
+                                                disabled={bill.trangthai !== "Chưa đóng"}
                                             >
                                                 Up Ảnh
                                             </button>
                                         </td>
-
-
                                     </tr>
                                 ))}
                             </tbody>

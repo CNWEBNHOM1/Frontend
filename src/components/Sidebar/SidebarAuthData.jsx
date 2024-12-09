@@ -1,6 +1,7 @@
 
 import HomeIcon from '@mui/icons-material/Home';
 import { MdAppRegistration } from "react-icons/md";
+import { TbLockPassword } from "react-icons/tb";
 ;
 export const SidebarUserData = [
     {
@@ -20,6 +21,11 @@ export const SidebarUserData = [
         icon: <MdAppRegistration />,
         link: "/auth/CheckRequest"
     },
+    {
+        title: "Đổi mật khẩu",
+        icon: < TbLockPassword />,
+        link: "/auth/change-password"
+    }
 
 
 ]

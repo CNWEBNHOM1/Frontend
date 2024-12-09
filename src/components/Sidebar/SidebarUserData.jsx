@@ -4,6 +4,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ReportIcon from '@mui/icons-material/Report';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { TbLockPassword } from "react-icons/tb";
 
 export const SidebarUserData = [
     {
@@ -31,5 +32,10 @@ export const SidebarUserData = [
         icon: <ManageAccountsIcon />,
         link: "/user/account"
     },
+    {
+        title: "Đổi mật khẩu",
+        icon: < TbLockPassword />,
+        link: "/user/change-password"
+    }
 
 ]

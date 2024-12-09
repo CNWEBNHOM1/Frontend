@@ -1,11 +1,11 @@
 /* DormRequestFlow.css */
-.container {
+.container-a {
     max-width: 800px;
     margin: 0 auto;
     padding: 15px;
 }
 
-.steps-indicator {
+.steps-indicator-a {
     display: flex;
     justify-content: center;
     gap: 40px;
@@ -110,7 +110,7 @@ select:focus {
     margin-bottom: 10px;
 }
 
-.upload-button {
+.upload-button-a {
     padding: 8px 16px;
     background-color: #3b82f6;
     color: white;

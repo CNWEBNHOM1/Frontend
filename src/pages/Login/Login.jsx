@@ -110,9 +110,9 @@ const Login = () => {
                                 />
                             </div>
                         </div>
-                        <div className='btn'>
-                            <div>Vai trò </div>
-                            <div className='btn-wraper'>
+                        <div className='role-wrap'>
+                            <div className='role-label'>Vai trò </div>
+                            <div className='role-buttons'>
                                 <button onClick={handleLoginAsManager}>
                                     Manager
                                 </button>

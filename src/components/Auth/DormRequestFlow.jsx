@@ -689,7 +689,7 @@ const DormRequestFlow = () => {
                                 onChange={handleFileSelect}
                                 style={{ display: 'none' }}
                             />
-                            <label htmlFor="file-upload" className="upload-button">
+                            <label htmlFor="file-upload" className="upload-button-a">
                                 Chọn ảnh
                             </label>
                         </div>
@@ -761,11 +761,11 @@ const DormRequestFlow = () => {
     );
 
     return (
-        <> <Header title={"Trang chủ"} />
+        <> <Header title={""} />
             <div className='dashboard-user'>
 
-                <div className="container">
-                    <div className="steps-indicator">
+                <div className="container-a">
+                    <div className="steps-indicator-a">
                         <div className={`step ${step >= 1 ? 'active' : ''}`} data-step="1">
                             Thông tin cá nhân
                         </div>
