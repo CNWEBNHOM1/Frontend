@@ -27,3 +27,56 @@ export const getListBills = async (params) => {
         throw new Error(error.response?.data?.error || 'Có lỗi xảy ra khi lấy danh sách hóa đơn');
     }
 };
+
+// export const getBillPayment = async (billId) => {
+//     try {
+//         const response = await fetch('http://localhost:5000/user/getBillPaymentUrl', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${localStorage.getItem('token')}`
+//             },
+//             body: JSON.stringify({
+//                 returnUrl: "http://localhost:4444/login",
+//                 billId
+//             })
+//         });
+
+//         const data = await response.json();
+//         console.log('Response data:', data);
+
+//         if (!response.ok) {
+//             throw new Error(data.message || 'Có lỗi xảy ra khi tạo URL thanh toán');
+//         }
+
+//         return data;
+//     } catch (error) {
+//         console.error('Payment error:', error);
+//         throw error;
+//     }
+// };
+
+export const getBillPayment = async (billId, returnUrl) => { // Thêm tham số returnUrl
+    try {
+        const response = await fetch('http://localhost:5000/user/getBillPaymentUrl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                returnUrl: returnUrl, // Sử dụng returnUrl được truyền vào
+                billId
+            })
+        });
+        const data = await response.json();
+        console.log('Response data:', data);
+        if (!response.ok) {
+            throw new Error(data.message || 'Có lỗi xảy ra khi tạo URL thanh toán');
+        }
+        return data;
+    } catch (error) {
+        console.error('Payment error:', error);
+        throw error;
+    }
+};

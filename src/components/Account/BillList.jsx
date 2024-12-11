@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getListBills } from '../../service/bills';
 import EmptyState from './EmptyState';
+import { getBillPayment } from '../../service/bills';
 import './BillList.css';
 import Header from "../../components/Header/Header";
 
@@ -79,6 +80,25 @@ function BillList() {
         }).format(amount);
     };
 
+
+    const handlePayment = async (billId) => {
+        try {
+            console.log('Calling payment with billId:', billId);
+            const returnUrl = `${window.location.origin}/user/payment-return`; // Sửa thành payment-return
+            const data = await getBillPayment(billId, returnUrl); // Truyền returnUrl vào
+            console.log('Data:', data);
+            if (data.status === 'success' && data.data) {
+                console.log('Redirecting to:', data.data);
+                window.location.href = data.data;
+            } else {
+                console.error('Invalid response data:', data);
+                alert('Có lỗi xảy ra khi tạo link thanh toán');
+            }
+        } catch (error) {
+            console.error("Lỗi khi tạo URL thanh toán:", error);
+            alert("Có lỗi xảy ra khi tạo link thanh toán");
+        }
+    };
     if (isLoading) {
         return <div className="loading">Đang tải dữ liệu...</div>;
     }
@@ -103,10 +123,8 @@ function BillList() {
                             onChange={handleStatusChange}
                         >
                             <option value="">Tất cả trạng thái</option>
-                            <option value="Chờ xác nhận">Chờ xác nhận</option>
                             <option value="Đã đóng">Đã đóng</option>
                             <option value="Chưa đóng">Chưa đóng</option>
-                            <option value="Quá hạn">Quá hạn</option>
                         </select>
 
                         <select
@@ -136,13 +154,13 @@ function BillList() {
                                     <th>Thành tiền</th>
                                     <th>Hạn đóng</th>
                                     <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th>Thanh toán</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {bills && bills.data && bills.data.bills && bills.data.bills.map((bill) => (
                                     <tr key={bill._id}>
-                                        <td>{bill.room?.name + "-" + bill.room?.department.name || "Không rõ"}</td>
+                                        <td>{bill.room?.department.name + "-" + bill.room?.name || "Không rõ"}</td>
                                         <td>{bill.sodiendau}</td>
                                         <td>{bill.sodiencuoi}</td>
                                         <td>{formatCurrency(bill.room?.dongiadien || 0)}</td>
@@ -155,13 +173,14 @@ function BillList() {
                                         </td>
                                         <td>
                                             <button
-                                                className="action-button-upload"
-                                                onClick={() => handleUpload(bill._id)}
+                                                className="action-button-payment"
+                                                onClick={() => handlePayment(bill._id)}
                                                 disabled={bill.trangthai !== "Chưa đóng"}
                                             >
-                                                Up Ảnh
+                                                Thanh toán
                                             </button>
                                         </td>
+
                                     </tr>
                                 ))}
                             </tbody>
