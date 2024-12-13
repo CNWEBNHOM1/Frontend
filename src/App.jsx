@@ -27,7 +27,7 @@ const App = () => {
             <Route path="/register" element={<SignUp />} />
             <Route path="/dashboard/*" element={<LayoutAuth />} /> {/* Giao diện khách */}
             <Route path='/auth' element={<Navigate to='/auth/dashboard' />} />
-            <Route path='/manager' element= {<Navigate to='/manager/bill'/>} />
+            <Route path='/manager' element= {<Navigate to='/manager/dashboard'/>} />
             <Route element = {<PrivateManagerRoute isAuthenticated={isAuthenticated} dispatch={dispatch} role={role}/>}>
               <Route path='/manager/*' element={<LayoutManager/>}/>
             </Route>
