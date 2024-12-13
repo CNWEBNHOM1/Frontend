@@ -245,3 +245,13 @@
         min-width: 80px;
     }
 }
+
+.no-bills-message {
+    text-align: center;
+    padding: 20px;
+    color: red;
+    font-size: 16px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}

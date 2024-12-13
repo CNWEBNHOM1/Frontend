@@ -163,7 +163,6 @@ function UserProfile() {
                         )}
                     </div>
 
-
                 </div>
             )}
         </>
