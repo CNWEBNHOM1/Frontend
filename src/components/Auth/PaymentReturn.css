@@ -1,0 +1,229 @@
+.payment-return-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f6f8fb 0%, #f1f4f9 100%);
+    padding: 20px;
+}
+
+.payment-return-card {
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.payment-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.icon-wrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: scaleIn 0.5s ease-out 0.3s both;
+}
+
+.icon-wrapper.success {
+    background-color: #ecfdf5;
+    color: #059669;
+    box-shadow: 0 0 0 8px rgba(5, 150, 105, 0.1);
+}
+
+.icon-wrapper.failure {
+    background-color: #fef2f2;
+    color: #dc2626;
+    box-shadow: 0 0 0 8px rgba(220, 38, 38, 0.1);
+}
+
+.icon-wrapper.error {
+    background-color: #fffbeb;
+    color: #d97706;
+    box-shadow: 0 0 0 8px rgba(217, 119, 6, 0.1);
+}
+
+.payment-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    animation: fadeIn 0.5s ease-out 0.4s both;
+}
+
+.payment-title.success {
+    color: #059669;
+}
+
+.payment-title.failure {
+    color: #dc2626;
+}
+
+.payment-title.error {
+    color: #d97706;
+}
+
+.payment-message {
+    color: #6b7280;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    animation: fadeIn 0.5s ease-out 0.5s both;
+}
+
+.return-button {
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    color: white;
+    background-color: #3b82f6;
+    animation: fadeIn 0.5s ease-out 0.6s both;
+    position: relative;
+    overflow: hidden;
+}
+
+.return-button:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2);
+}
+
+.return-button:active {
+    transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@media (max-width: 640px) {
+    .payment-return-card {
+        padding: 24px;
+        margin: 16px;
+    }
+
+    .icon-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+
+    .payment-title {
+        font-size: 24px;
+    }
+
+    .payment-message {
+        font-size: 14px;
+        margin-bottom: 24px;
+    }
+
+    .return-button {
+        padding: 14px 24px;
+        font-size: 14px;
+    }
+}
+
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
+}
+
+.error-message {
+    color: #dc2626;
+    text-align: center;
+    padding: 20px;
+}
+
+.status-success {
+    color: #059669;
+    font-weight: 600;
+}
+
+.payment-details {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 30px 0;
+    width: 100%;
+    animation: fadeIn 0.5s ease-out 0.5s both;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0;
+    line-height: 1.8;
+}
+
+.detail-label {
+    color: #64748b;
+    font-weight: 500;
+    font-size: 15px;
+    margin-right: 20px;
+}
+
+.detail-value {
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.payment-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 30px 0;
+    color: #059669;
+}
+
+/* Thêm margin cho button */
+.return-button {
+    margin-top: 30px;
+}
