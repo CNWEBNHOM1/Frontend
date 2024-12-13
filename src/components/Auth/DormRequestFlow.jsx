@@ -618,10 +618,10 @@ const DormRequestFlow = () => {
     );
 
     const renderPayment = () => (
-        <div className="payment-container">
+        <div className="room-payment-container">
             <h2>Thanh toán</h2>
             {selectedRoom && (
-                <div className="payment-details">
+                <div className="room-payment-details">
                     <h3>Thông tin thanh toán</h3>
                     <p>Phòng: {selectedRoom.name}</p>
                     <p>Tòa: {selectedRoom.department.name}</p>
@@ -629,15 +629,15 @@ const DormRequestFlow = () => {
 
                     <button
                         onClick={handlePayment}
-                        className="btn-payment"
+                        className="room-payment-button"
                         disabled={loading}
                     >
                         {loading ? 'Đang xử lý...' : 'Thanh toán qua VNPay'}
                     </button>
                 </div>
             )}
-            {error && <div className="error-message">{error}</div>}
-            <button onClick={() => setStep(2)} className="btn-back">
+            {error && <div className="room-payment-error">{error}</div>}
+            <button onClick={() => setStep(2)} className="room-payment-back-button">
                 Quay lại
             </button>
         </div>

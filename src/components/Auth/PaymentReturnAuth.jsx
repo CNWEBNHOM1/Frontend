@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
-import './PaymentReturn.css';
+import './PaymentReturnAuth.css';
 
 function PaymentReturn() {
     const location = useLocation();
@@ -37,37 +37,37 @@ function PaymentReturn() {
     };
 
     return (
-        <div className="payment-return-wrapper">
-            <div className="payment-return-card">
+        <div className="payment-return-auth-wrapper">
+            <div className="payment-return-auth-card">
                 {paymentStatus === 'success' && paymentData && (
-                    <div className="payment-content">
-                        <div className="icon-wrapper success">
+                    <div className="payment-return-auth-content">
+                        <div className="payment-return-auth-icon-success">
                             <CheckCircle size={40} />
                         </div>
-                        <h2 className="payment-title success">Thanh toán thành công!</h2>
-                        <div className="payment-details">
-                            <div className="detail-item">
-                                <span className="detail-label">Mã giao dịch:</span>
-                                <span className="detail-value">{paymentData.magiaodich}</span>
+                        <h2 className="payment-return-auth-title-success">Thanh toán thành công!</h2>
+                        <div className="payment-return-auth-details">
+                            <div className="payment-return-auth-detail-item">
+                                <span className="payment-return-auth-detail-label">Mã giao dịch:</span>
+                                <span className="payment-return-auth-detail-value">{paymentData.magiaodich}</span>
                             </div>
-                            <div className="detail-item">
-                                <span className="detail-label">Số tiền:</span>
-                                <span className="detail-value">
+                            <div className="payment-return-auth-detail-item">
+                                <span className="payment-return-auth-detail-label">Số tiền:</span>
+                                <span className="payment-return-auth-detail-value">
                                     {(Number(paymentData.sotien) / 1000).toLocaleString('vi-VN')} VNĐ
                                 </span>
                             </div>
-                            <div className="detail-item">
-                                <span className="detail-label">Nội dung:</span>
-                                <span className="detail-value">{paymentData.thongtingiaodich}</span>
+                            <div className="payment-return-auth-detail-item">
+                                <span className="payment-return-auth-detail-label">Nội dung:</span>
+                                <span className="payment-return-auth-detail-value">{paymentData.thongtingiaodich}</span>
                             </div>
-                            <div className="detail-item">
-                                <span className="detail-label">Trạng thái:</span>
-                                <span className="detail-value status-success">{paymentData.trangthai}</span>
+                            <div className="payment-return-auth-detail-item">
+                                <span className="payment-return-auth-detail-label">Trạng thái:</span>
+                                <span className="payment-return-auth-detail-value-success">{paymentData.trangthai}</span>
                             </div>
                         </div>
                         <button
                             onClick={handleReturn}
-                            className="return-button"
+                            className="payment-return-auth-button"
                         >
                             Quay lại trang yêu cầu
                         </button>
@@ -75,17 +75,17 @@ function PaymentReturn() {
                 )}
 
                 {paymentStatus === 'failure' && (
-                    <div className="payment-content">
-                        <div className="icon-wrapper failure">
+                    <div className="payment-return-auth-content">
+                        <div className="payment-return-auth-icon-failure">
                             <XCircle size={40} />
                         </div>
-                        <h2 className="payment-title failure">Thanh toán thất bại!</h2>
-                        <p className="payment-message">
+                        <h2 className="payment-return-auth-title-failure">Thanh toán thất bại!</h2>
+                        <p className="payment-return-auth-message">
                             Đã có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.
                         </p>
                         <button
                             onClick={handleReturn}
-                            className="return-button failure"
+                            className="payment-return-auth-button-failure"
                         >
                             Quay lại trang yêu cầu
                         </button>
@@ -93,17 +93,17 @@ function PaymentReturn() {
                 )}
 
                 {paymentStatus === 'error' && (
-                    <div className="payment-content">
-                        <div className="icon-wrapper error">
+                    <div className="payment-return-auth-content">
+                        <div className="payment-return-auth-icon-error">
                             <AlertCircle size={40} />
                         </div>
-                        <h2 className="payment-title error">Lỗi xử lý!</h2>
-                        <p className="payment-message">
+                        <h2 className="payment-return-auth-title-error">Lỗi xử lý!</h2>
+                        <p className="payment-return-auth-message">
                             Đã có lỗi xảy ra khi xử lý thanh toán. Vui lòng kiểm tra lại sau.
                         </p>
                         <button
                             onClick={handleReturn}
-                            className="return-button error"
+                            className="payment-return-auth-button-error"
                         >
                             Quay lại trang yêu cầu
                         </button>
