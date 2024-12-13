@@ -15,6 +15,9 @@ import TransferRoom from "./TransferRoom";
 import { Flex, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Switch } from 'antd';
+import API_CONFIG from "../../config/ApiConfig";
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 const DetailRoom = () =>{
 
@@ -181,6 +184,35 @@ const DetailRoom = () =>{
             </Flex>
         );
     }
+
+    const exportStudentsToExcel = async () => {
+        try {
+            console.log(detailRoom.department.name)
+            const token = localStorage.getItem('token');
+            const response = await axios({
+                url: `${API_CONFIG.API_BASE_URL}/user/exportAllStudentByRoom`,
+                method: 'POST',
+                responseType: 'blob',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    department: detailRoom.department.name,
+                    room: detailRoom.name
+                }
+            });
+            
+            const fileName = `${detailRoom.department.name}_${detailRoom.name}_${Date.now()}_DSSV.xlsx`;
+    
+            const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            saveAs(file, fileName);
+    
+        } catch (error) {
+            console.error('Lỗi gì đó: ', error);
+            alert("Lỗi khi xuất file");
+        }
+    };
     
 
     return(
@@ -602,6 +634,9 @@ const DetailRoom = () =>{
                         <div className="info-header-detail-room">
                             <div className="box-header-detail-room">
                                 <h4>Danh sách sinh viên</h4>
+                            </div>
+                            <div className="edit-infomation-of-room">
+                                <button className="btn-an-12132024-xuatfile" onClick={exportStudentsToExcel}>Xuất file </button>
                             </div>
                         </div>
                         <div className="info-table-dssv">

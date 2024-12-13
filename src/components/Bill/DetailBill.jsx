@@ -12,6 +12,9 @@ import logoSoict from "../../assets/logo-soict.png";
 import NotPayment from "../../assets/chuachuyenkhoan.jpg"
 import { formatDate, formatDateWithHour } from "../../utils/DateUtils";
 import { notification} from 'antd';
+import { saveAs } from "file-saver";
+import API_CONFIG from "../../config/ApiConfig";
+import axios from "axios";
 
 
 function extractMonth(dateStr) {
@@ -73,6 +76,33 @@ const DetailBill = () =>{
     }, [])
     const navigate = useNavigate();
     console.log(billDetail)
+
+    const exportBillToPDF = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios({
+                url: `${API_CONFIG.API_BASE_URL}/user/exportBills`,
+                method: 'POST',
+                responseType: 'blob', // Nhận file PDF
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                data: {
+                    billId: _id
+                },
+            });
+            const fileName = `${billDetail.room.department.name}_${billDetail.room.name}_${Date.now()}_Invoice.pdf`;
+    
+            // Tạo file PDF
+            const file = new Blob([response.data], { type: 'application/pdf' });
+            saveAs(file, fileName);
+    
+        } catch (error) {
+            console.error('Lỗi gì đó: ', error);
+            alert("Lỗi khi xuất file PDF");
+        }
+    };
     return(
         <>
             {contextHolder}
@@ -92,6 +122,7 @@ const DetailBill = () =>{
                         </button>
                         <button 
                             className="btn-outline-primary-print" 
+                            onClick={exportBillToPDF}
                         >
                             <span className="btn__title">In hoá đơn</span>
                         </button>

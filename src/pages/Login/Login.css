@@ -9,7 +9,7 @@
 }
 
 .login_banner {
-    width: 50%;
+    width: 45%;
 }
 
 .banner_img {
@@ -28,7 +28,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 55%;
 }
 
 .login_content {
@@ -39,13 +39,8 @@
     justify-content: center;
     box-shadow: 0 0 25px rgba(77, 83, 224, 0.5);
     transition: box-shadow 0.3s;
-    width: 50%;
-    height: 70%;
-    padding-left: 60px;
-    padding-right: 60px;
-    padding-left: 40px;
-    padding-right: 40px;
-
+    box-sizing: border-box;
+    padding: 40px 60px;
 
 }
 
@@ -132,6 +127,11 @@
 .role-buttons button:hover {
     background-color: #4d53e0;
     color: #ffffff;
+}
+.role-buttons button:active{
+    background-color: #4caf50;
+    color: #FFFFFF;
+    border: 2px solid #4caf50;
 }
 
 .guest {

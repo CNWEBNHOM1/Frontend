@@ -21,9 +21,9 @@ const statusTab = [
 const colsToRender = {
     name: true,
     sid: true,
-    phone: true,
     gender: true,
     room: true,
+    priority:true,
     createdAt: true,
     trangthai: true
 };
@@ -35,14 +35,14 @@ const col = {
     sid: {
         name: "Mã số sinh viên"
     },
-    phone: {
-        name: "Số điện thoại"
-    },
     gender: {
         name: "Giới tính"
     },
     room: {
         name: "Phòng đăng ký"
+    },
+    priority: {
+        name: "Ưu tiên"
     },
     createdAt: {
         name: "Ngày gửi"
@@ -120,12 +120,13 @@ const ListRequest = () =>{
     useEffect(() =>{
         fetchListRequest()
     }, [page, limit, name, room, status])
+    console.log(listRequest)
     return(
         <div className="list-request">
             <Header title={"Danh sách yêu cầu đăng ký phòng"}/>
             <div className="right__listPage">
                 <div className="toolbar">
-                    <button className="btn-base">
+                    <button className="btn-base" style={{visibility: "hidden"}}>
                         <span className="btn-icon">
                             <FontAwesomeIcon icon={faPlus} style={{height: '15px'}}/>
                         </span>
@@ -342,6 +343,20 @@ const ListRequest = () =>{
                                                                 {`${request?.room?.department?.name} - ${request?.room?.name}`}
                                                             </p>
                                                         </td>
+                                                        )
+                                                    }
+                                                    else if(key === "priority"){
+                                                        return(
+                                                            <td
+                                                                key={key}
+                                                                colSpan={1}
+                                                                rowSpan={1}
+                                                                className="table-data-item"
+                                                            >
+                                                                <p className="box-text">
+                                                                    {request[key] ? "Có" : "Không"}
+                                                                </p>
+                                                            </td>
                                                         )
                                                     }
                                                     else

@@ -182,12 +182,12 @@ const ListReport = () =>{
             <Header title={"Danh sách báo cáo"}/>
             <div className="right__listPage">
                 <div className="toolbar">
-                    <button className="btn-base">
+                    <button className="btn-base" style={{visibility: "hidden"}}>
                         <span className="btn-icon">
                             <FontAwesomeIcon icon={faPlus} style={{height: '15px'}}/>
                         </span>
                         <span className="btn-title">
-                            Xuất flie
+                            mf;ld
                         </span>
                     </button>
                 </div>

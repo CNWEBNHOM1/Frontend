@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Header from "../Header/Header"
 import "./ListStudent.css"
-import { faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faCaretDown, faChevronLeft, faChevronRight, faMagnifyingGlass, faPlus, faPrint, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useRef, useState } from "react";
 import SelectRoomOfRequest from "../Request/SelectRoomOfRequest";
 import { getListRoom } from "../../service/ManagerAPI/RoomAPI";
@@ -114,7 +114,6 @@ const ListStudent = () => {
     const exportStudentsToExcel = async () => {
         try {
             const token = localStorage.getItem('token');
-            // console.log(token);
             const response = await axios({
                 url: `${API_CONFIG.API_BASE_URL}/user/exportAllStudent`,
                 method: 'GET',
@@ -123,14 +122,16 @@ const ListStudent = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            // console.log(localStorage.getItem('token'))
-            const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-            saveAs(file, `${Date.now()}_DSSV.xlsx`);
-
+            const fileName = `${Date.now()}_DSSV.xlsx`;
+    
+            const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            saveAs(file, fileName);
+    
         } catch (error) {
             console.error('Lỗi gì đó: ', error);
+            alert("Lỗi khi xuất file");
         }
-    }
+    };
 
     useEffect(() => {
         fetchListRomm();
@@ -146,7 +147,7 @@ const ListStudent = () => {
                 <div className="toolbar">
                     <button className="btn-base" onClick={exportStudentsToExcel}>
                         <span className="btn-icon">
-                            <FontAwesomeIcon icon={faPlus} style={{ height: '15px' }} />
+                            <FontAwesomeIcon icon={faPrint} style={{ height: '15px' }} />
                         </span>
                         <span className="btn-title">
                             Xuất flie
