@@ -75,7 +75,6 @@ const DetailBill = () =>{
         fetchDetailBill();
     }, [])
     const navigate = useNavigate();
-    console.log(billDetail)
 
     const exportBillToPDF = async () => {
         try {

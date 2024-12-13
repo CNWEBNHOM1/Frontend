@@ -176,7 +176,6 @@ const ListReport = () =>{
     useEffect(()=>{
         fetchListReport();
     }, [filterBody])
-    console.log(reportList)
     return(
         <div className="list-report">
             <Header title={"Danh sách báo cáo"}/>

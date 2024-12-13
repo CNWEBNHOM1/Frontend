@@ -41,7 +41,6 @@ const ListAccount = () =>{
 
     const fetchListAccount = async () =>{
         const res = await getAllAccount({page: page, limit: limit, email: email})
-        console.log(res);
         setListAccount(res.data);
         setAccountQuantity(res.totalUsers)
         setPageQuantity(res.totalPages);
