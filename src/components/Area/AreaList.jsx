@@ -395,4 +395,4 @@ const AreaList = () => {
   )
 }
 
-export default withAuthorization(AreaList, ["Quản lý"])
+export default AreaList
