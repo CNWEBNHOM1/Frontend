@@ -62,16 +62,13 @@ const DashboardUser = () => {
                         </div>
                         <div className="info-grid">
                             <div className="info-item">
-                                <h4>Địa chỉ</h4>
-                                <p>Đại học Bách Khoa Hà Nội</p>
+                                <h4>Địa chỉ:  Đại học Bách Khoa Hà Nội</h4>
                             </div>
                             <div className="info-item">
-                                <h4>Liên hệ</h4>
-                                <p>soict@hust.edu.vn</p>
+                                <h4>Liên hệ:  soict@hust.edu.vn</h4>
                             </div>
                             <div className="info-item">
-                                <h4>Hotline</h4>
-                                <p>024.3869.2463</p>
+                                <h4>Hotline:  024.3869.2463</h4>
                             </div>
                         </div>
                     </div>

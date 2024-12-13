@@ -454,27 +454,6 @@ const DetailRequest = () =>{
                                     </div>
                                 </div>
                             </div>
-                            <div className="box-request-anhminhchung">
-                                <label htmlFor="anhminhchung" className="form-label">
-                                    Ảnh minh chứng
-                                    <span
-                                        id='anhminhchung'
-                                        className="caption-icon"
-                                        style={{color: "#4d53e0"}}
-                                    >
-                                        {InfoIcon}
-                                    </span>
-                                    <span className="asterisk-icon">*</span>
-                                </label>
-                                <div className="form-image-request">
-                                    { detailRequest?.minhchung &&
-                                        <img
-                                            src={`${detailRequest?.minhchung}`}
-                                            alt=""
-                                        /> 
-                                    }
-                                </div>
-                            </div> 
                         </div>
                     </div>
                 </div>

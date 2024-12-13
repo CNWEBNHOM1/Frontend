@@ -44,22 +44,34 @@ const CreateBill = ({close}) =>{
         setIsOpenSelectRoom(false);  // Đóng popup sau khi chọn phòng
     };
 
-    const handleClickCreateBill  = async () =>{
-        if (dataCreateBill.room && dataCreateBill.sodiencuoi !== null && dataCreateBill.sodiencuoi !== "") {
-            const newBill = await createBill({room: dataCreateBill.room, sodiencuoi: dataCreateBill.sodiencuoi});
-            console.log(newBill)
-            if(newBill.status === "success"){
-                alert("Tạo hoá đơn thành công")
+    const handleClickCreateBill = async () => {
+        try {
+            if (dataCreateBill.room && dataCreateBill.sodiencuoi !== null && dataCreateBill.sodiencuoi !== "" && dataCreateBill.sodiencuoi > 0) {
+                const newBill = await createBill({ room: dataCreateBill.room, sodiencuoi: dataCreateBill.sodiencuoi });
+                console.log(newBill);
+                if (newBill.status === "success") {
+                    alert("Tạo hoá đơn thành công");
+                } else {
+                    console.log(newBill);
+                    alert("Tạo hoá đơn không thành công");
+                }
+                close();
+            } 
+            else if(dataCreateBill.sodiencuoi < 0){
+                alert("Lỗi: Số điện cuối không hợp lệ");
             }
-            else{
-                alert("Tạo hoá đơn không thành công")
+            else {
+                alert("Chưa điền đầy đủ thông tin!");
             }
-            close();
-        } else {
-            alert("Chưa điền đầy đủ thông tin!");
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                alert(`Lỗi: Số điện cuối hiện tại của phòng là ${error.response.data.sodiendau}.`);
+            } else {
+                console.error("Lỗi khi tạo hoá đơn:", error);
+                alert("Đã xảy ra lỗi. Vui lòng thử lại sau!");
+            }
         }
-
-    }
+    };
 
     useEffect(() =>{
         fetchListRomm();

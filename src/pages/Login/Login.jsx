@@ -99,7 +99,7 @@ const Login = () => {
                                     type='password'
                                     id='password'
                                     name='password'
-                                    placeholder='Enter your password'
+                                    placeholder='Vui lòng nhập mật khẩu'
                                     value={formLogin.password}
                                     onChange={(e) => {
                                         setFormLogin({
@@ -110,14 +110,14 @@ const Login = () => {
                                 />
                             </div>
                         </div>
-                        <div className='btn'>
-                            <div>Vai trò </div>
-                            <div className='btn-wraper'>
+                        <div className='role-wrap'>
+                            <div className='role-label'>Vai trò </div>
+                            <div className='role-buttons'>
                                 <button onClick={handleLoginAsManager}>
-                                    Manager
+                                    Quản lý
                                 </button>
-                                <button onClick={handleLoginAsUser}>User</button>
-                                <button onClick={handleLoginAsGuest}>Guest</button> {/* Thêm nút cho Khách */}
+                                <button onClick={handleLoginAsUser}>Sinh viên</button>
+                                <button onClick={handleLoginAsGuest}>Khách</button> {/* Thêm nút cho Khách */}
                             </div>
                         </div>
                         <div className='guest'>

@@ -137,7 +137,7 @@ const CreateRoom = () =>{
             <div className="right__navbar">
                 <div className="box-navbar">
                     <div className="btn-toolbar">
-                        <Link to='/manager/bill' className='btn-back'>
+                        <Link to='/manager/bill' className='btn-back-of-an'>
                             <FontAwesomeIcon icon={faChevronLeft} />
                             <h4 className="btn-back__title">
                                 Quay lại danh sách phòng

@@ -143,7 +143,7 @@ function UserProfile() {
                                 </div>
                                 <div>
                                     <label>Phòng:</label>
-                                    <span>{profile.room ? profile.room.name : "Chưa có phòng"}</span>
+                                    <span>{profile.room ? profile.room.name + "-" + profile.room.department.name : "Chưa có phòng"}</span>
                                 </div>
 
                             </>
@@ -163,22 +163,6 @@ function UserProfile() {
                         )}
                     </div>
 
-                    {/* <div className="action-buttons">
-                        {isEditing ? (
-                            <>
-                                <button className="save-btn" onClick={handleSaveClick}>
-                                    Lưu thay đổi
-                                </button>
-                                <button className="cancel-btn" onClick={handleCancelClick}>
-                                    Hủy
-                                </button>
-                            </>
-                        ) : (
-                            <button className="edit-btn" onClick={handleEditClick}>
-                                Chỉnh sửa
-                            </button>
-                        )}
-                    </div> */}
                 </div>
             )}
         </>

@@ -17,7 +17,6 @@ import CreateBill from "./CreateBill";
 const statusTab = [
     { key: "all", label: "Tất cả hoá đơn", trangthai: null },
     { key: "completed", label: "Đã đóng", trangthai: "Đã đóng" },
-    { key: "waiting", label: "Chờ xác nhận", trangthai: "Chờ xác nhận" },
     { key: "incompleted", label: "Chưa đóng", trangthai: "Chưa đóng" },
 ];
 

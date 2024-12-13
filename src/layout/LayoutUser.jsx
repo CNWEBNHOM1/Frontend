@@ -8,6 +8,8 @@ import MemberList from "../components/Account/MemberList"
 import UserReport from "../components/Account/UserReport"
 import Upanhhoadon from "../components/Account/Upanhhoadon"
 import BillList from "../components/Account/BillList"
+import ChangePassword from "../pages/Password/ChangePassword"
+import PaymentReturn from "../components/Account/PaymentReturn"
 const LayoutUser = () => {
   return (
     <div className="layout">
@@ -21,6 +23,9 @@ const LayoutUser = () => {
           <Route path='/invoice/*' element={<BillList />} />
           <Route path='/report/*' element={<UserReport />} />
           <Route path="/anhhhoadon" element={<Upanhhoadon />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/payment-return" element={<PaymentReturn />} />
+          <Route path="/user/payment-return" element={<PaymentReturn />} />
         </Routes>
       </div>
     </div>

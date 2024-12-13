@@ -116,7 +116,7 @@ const ListAccount = () =>{
                 <Header title={"Danh sách tài khoản"}/>
                 <div className="right__listPage">
                     <div className="toolbar">
-                        <button className="btn-base">
+                        <button className="btn-base" style={{visibility: "hidden"}}>
                             <span className="btn-icon">
                                 <FontAwesomeIcon icon={faPrint} style={{height: '15px'}}/>
                             </span>

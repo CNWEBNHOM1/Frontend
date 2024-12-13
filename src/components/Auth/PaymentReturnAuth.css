@@ -1,0 +1,268 @@
+.payment-return-auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f6f8fb 0%, #f1f4f9 100%);
+    padding: 20px;
+}
+
+.payment-return-auth-card {
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+    animation: fadeInUp 0.6s ease-out;
+    overflow: hidden;
+}
+
+.payment-return-auth-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.payment-return-auth-icon-success {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: scaleIn 0.5s ease-out 0.3s both;
+    background-color: #ecfdf5;
+    color: #059669;
+    box-shadow: 0 0 0 8px rgba(5, 150, 105, 0.1);
+}
+
+.payment-return-auth-icon-failure {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: scaleIn 0.5s ease-out 0.3s both;
+    background-color: #fef2f2;
+    color: #dc2626;
+    box-shadow: 0 0 0 8px rgba(220, 38, 38, 0.1);
+}
+
+.payment-return-auth-icon-error {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: scaleIn 0.5s ease-out 0.3s both;
+    background-color: #fffbeb;
+    color: #d97706;
+    box-shadow: 0 0 0 8px rgba(217, 119, 6, 0.1);
+}
+
+.payment-return-auth-title-success {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    animation: fadeIn 0.5s ease-out 0.4s both;
+    color: #059669;
+}
+
+.payment-return-auth-title-failure {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    animation: fadeIn 0.5s ease-out 0.4s both;
+    color: #dc2626;
+}
+
+.payment-return-auth-title-error {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    animation: fadeIn 0.5s ease-out 0.4s both;
+    color: #d97706;
+}
+
+.payment-return-auth-message {
+    color: #6b7280;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    animation: fadeIn 0.5s ease-out 0.5s both;
+}
+
+.payment-return-auth-button {
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    color: white;
+    background-color: #3b82f6;
+    animation: fadeIn 0.5s ease-out 0.6s both;
+    position: relative;
+    overflow: hidden;
+    margin-top: 30px;
+}
+
+.payment-return-auth-button-failure {
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    color: white;
+    background-color: #dc2626;
+    animation: fadeIn 0.5s ease-out 0.6s both;
+    position: relative;
+    overflow: hidden;
+    margin-top: 30px;
+}
+
+.payment-return-auth-button-error {
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    color: white;
+    background-color: #d97706;
+    animation: fadeIn 0.5s ease-out 0.6s both;
+    position: relative;
+    overflow: hidden;
+    margin-top: 30px;
+}
+
+.payment-return-auth-button:hover,
+.payment-return-auth-button-failure:hover,
+.payment-return-auth-button-error:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.payment-return-auth-button:active,
+.payment-return-auth-button-failure:active,
+.payment-return-auth-button-error:active {
+    transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .payment-return-auth-card {
+        padding: 24px;
+        margin: 16px;
+    }
+
+    .payment-return-auth-icon-success,
+    .payment-return-auth-icon-failure,
+    .payment-return-auth-icon-error {
+        width: 70px;
+        height: 70px;
+    }
+
+    .payment-return-auth-title-success,
+    .payment-return-auth-title-failure,
+    .payment-return-auth-title-error {
+        font-size: 24px;
+    }
+
+    .payment-return-auth-message {
+        font-size: 14px;
+        margin-bottom: 24px;
+    }
+
+    .payment-return-auth-button,
+    .payment-return-auth-button-failure,
+    .payment-return-auth-button-error {
+        padding: 14px 24px;
+        font-size: 14px;
+    }
+}
+
+.payment-return-auth-detail-value-success {
+    color: #059669;
+    font-weight: 600;
+}
+
+.payment-return-auth-details {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    width: 100%;
+    animation: fadeIn 0.5s ease-out 0.5s both;
+}
+
+.payment-return-auth-detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0;
+    line-height: 1.8;
+}
+
+.payment-return-auth-detail-label {
+    color: #64748b;
+    font-weight: 500;
+    font-size: 15px;
+    margin-right: 20px;
+}
+
+.payment-return-auth-detail-value {
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 15px;
+}

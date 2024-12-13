@@ -410,3 +410,19 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 5;
 }
+.btn-an-12132024-xuatfile{
+    border: 1px solid #4d53e0;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 8px 15px;
+    color: #4d53e0;
+}
+.btn-an-12132024-xuatfile:hover{
+    cursor: pointer;
+}
+.btn-an-12132024-xuatfile:active{
+    background-color: #4d53e0;
+    color: #FFFFFF;
+}

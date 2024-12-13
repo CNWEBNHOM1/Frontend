@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './DormRequestFlow.css';
+import './CheckRequest.css';
 import Header from '../Header/Header';
 
 const DormRequestFlow = () => {
@@ -8,24 +8,26 @@ const DormRequestFlow = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get('http://localhost:5000/user/myRequest', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                console.log("API response:", response.data.data);
+                setRequests(Array.isArray(response.data.data) ? response.data.data : []);
+            } catch (error) {
+                setError('Lỗi khi tải yêu cầu');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    useEffect(async () => {
-        try {
-            setLoading(true);
-            const response = await axios.get('http://localhost:5000/user/myRequest', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`// lấy theo email
-                }
-            });
-            console.log("123", response.data.data)
-            setRequests(Array.isArray(response.data.data) ? response.data.data : []);
-        } catch (error) {
-            setError('Lỗi khi tải yêu cầu');
-        } finally {
-            setLoading(false);
-        }
+        fetchData();
     }, []);
-
     const renderRequestStatus = () => (
         <div className="request-container">
             <h2>Yêu cầu của tôi</h2>
@@ -55,11 +57,11 @@ const DormRequestFlow = () => {
 
     return (
         <>
-            <Header title={"Trang chủ"} />
+            <Header title={""} />
             <div className='dashboard-user'>
 
 
-                <div className="container">
+                <div className="container-b">
                     {renderRequestStatus()}
                 </div>
             </div>

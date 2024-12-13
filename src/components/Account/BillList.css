@@ -1,167 +1,91 @@
 /* BillList.css */
 .bill-list-container {
-    padding: 10px;
+    padding: 20px;
     background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    margin: 20px;
     overflow-x: auto;
 }
 
 .bill-list-header {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .bill-list-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 20px auto;
+    color: #1a365d;
+    padding: 10px 0;
+    width: 100%;
 }
 
 .filter-section {
     display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background-color: #f8fafc;
+    border-radius: 8px;
 }
 
 .filter-select {
-    padding: 4px 8px;
+    padding: 8px 16px;
     border: 1px solid #e2e8f0;
-    border-radius: 4px;
+    border-radius: 6px;
     background-color: white;
-    min-width: 120px;
+    min-width: 200px;
+    font-size: 14px;
+    color: #475569;
+}
+
+.filter-select:hover {
+    border-color: #cbd5e1;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 1px #3182ce;
+}
+
+.bill-table-wrapper {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .bill-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: 0.9rem;
+    background-color: white;
 }
 
 .bill-table th,
 .bill-table td {
-    padding: 6px;
-    text-align: left;
+    padding: 12px 16px;
     border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
 }
 
 .bill-table th {
     background-color: #f8fafc;
     font-weight: 600;
     color: #475569;
-    white-space: nowrap;
-}
-
-/* Căn phải cho các cột số */
-.bill-table td:nth-child(2),
-.bill-table td:nth-child(3),
-.bill-table td:nth-child(4),
-.bill-table td:nth-child(5) {
-    text-align: right;
-}
-
-.status-badge {
-    padding: 2px 6px;
-    border-radius: 12px;
+    text-transform: uppercase;
     font-size: 0.8rem;
-    white-space: nowrap;
-}
-
-.status-chờ-xác-nhận {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.status-đã-đóng {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.status-chưa-đóng {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-.status-quá-hạn {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-
-/* .action-button-upload {
-    padding: 6px 16px;
-    background-color: #3182ce;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    min-width: 80px;
-    white-space: nowrap;
-}
-
-.action-button-upload:hover {
-    background-color: #2c5282;
-} */
-.action-button-upload {
-    padding: 6px 16px;
-    background-color: #3182ce;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    min-width: 80px;
-    white-space: nowrap;
-}
-
-.action-button-upload:hover {
-    background-color: #2c5282;
-}
-
-.action-button-upload:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    opacity: 0.7;
-    transition: none;
-
-}
-
-
-/* Responsive cho mobile */
-@media (max-width: 768px) {
-    .bill-list-container {
-        margin-left: 0;
-        padding: 5px;
-    }
-
-    .filter-section {
-        flex-direction: column;
-    }
-
-    .filter-select {
-        width: 100%;
-    }
-}
-
-/* BillList.css */
-.bill-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-}
-
-.bill-table th,
-.bill-table td {
-    padding: 8px;
-    border-bottom: 1px solid #e2e8f0;
+    letter-spacing: 0.05em;
 }
 
 /* Căn trái cho cột tên phòng */
 .bill-table th:first-child,
 .bill-table td:first-child {
     text-align: left;
+    padding-left: 24px;
 }
 
 /* Căn phải cho các cột số liệu */
@@ -176,37 +100,158 @@
     text-align: right;
 }
 
-/* Căn giữa cho cột hạn đóng */
+/* Căn giữa cho cột hạn đóng và trạng thái */
 .bill-table th:nth-child(6),
-.bill-table td:nth-child(6) {
-    text-align: center;
-}
-
-/* Căn giữa cho cột trạng thái */
+.bill-table td:nth-child(6),
 .bill-table th:nth-child(7),
 .bill-table td:nth-child(7) {
     text-align: center;
 }
 
-/* Căn phải cho cột hành động */
-.bill-table th:nth-child(8),
-.bill-table td:nth-child(8) {
-    text-align: right;
+/* Căn giữa cho cột actions */
+.bill-table th:nth-last-child(-n+2),
+.bill-table td:nth-last-child(-n+2) {
+    text-align: center;
+    min-width: 120px;
 }
 
-.bill-list-title {
-    font-size: 1.8rem;
+.bill-table tbody tr:hover {
+    background-color: #f8fafc;
+}
 
-    font-weight: 700;
-
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: inline-block;
     text-align: center;
+    min-width: 100px;
+}
 
-    margin: 20px auto;
+.status-chờ-xác-nhận {
+    background-color: #fef3c7;
+    color: #92400e;
+}
 
-    color: #1a365d;
+.status-đã-đóng {
+    background-color: #dcfce7;
+    color: #166534;
+}
 
-    padding: 10px 0;
+.status-chưa-đóng {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
 
-    width: 100%;
-   
+.status-quá-hạn {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.action-buttons-group {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.action-button-payment,
+.action-button-upload {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 100px;
+    border: none;
+}
+
+.action-button-payment {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.action-button-upload {
+    background-color: #3182ce;
+    color: white;
+}
+
+.action-button-payment:hover:not(:disabled),
+.action-button-upload:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-button-payment:hover:not(:disabled) {
+    background-color: #45a049;
+}
+
+.action-button-upload:hover:not(:disabled) {
+    background-color: #2c5282;
+}
+
+.action-button-payment:disabled,
+.action-button-upload:disabled {
+    background-color: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1rem;
+    color: #475569;
+}
+
+.error-message {
+    text-align: center;
+    padding: 20px;
+    color: #dc2626;
+    font-size: 1.1rem;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .bill-list-container {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .filter-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-select {
+        width: 100%;
+    }
+
+    .bill-list-title {
+        font-size: 1.4rem;
+    }
+
+    .bill-table th,
+    .bill-table td {
+        padding: 8px;
+    }
+
+    .action-button-payment,
+    .action-button-upload {
+        padding: 6px 12px;
+        font-size: 13px;
+        min-width: 80px;
+    }
+}
+
+.no-bills-message {
+    text-align: center;
+    padding: 20px;
+    color: red;
+    font-size: 16px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    margin-bottom: 20px;
 }
