@@ -90,10 +90,8 @@ const DashboardManager = () => {
       setUrlLink("bill")
       const res = await getStatisticBills();
       setListObject([
-        {label: "Chờ xác nhận", number: res.data.count_pending},
         {label: "Đã đóng", number: res.data.count_paid},
         {label: "Chưa đóng", number: res.data.count_notYetPaid},
-        {label: "Quá hạn", number: res.data.count_overdue}
       ])
     }
     else if(title === "Thông tin tất cả báo cáo"){
