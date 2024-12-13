@@ -14,7 +14,7 @@ const UnauthorizedPage = () =>{
                 <p className="errorHelp">Bạn chưa được cấp quyền nên không thể vào được trang này. Vui lòng quay lại trang chủ và liên hệ với admin để được cấp quyền nếu cần thiết.</p>
                 <div className="boxBtn">
                     <Button
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate("/login")}
                         className='errorBtn'
                         type="submit"
                         color="secondary-red"

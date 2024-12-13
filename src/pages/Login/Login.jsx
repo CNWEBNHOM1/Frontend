@@ -22,7 +22,6 @@ const Login = () => {
             description: message,
         });
     };
-    console.log(message)
 
     const doLogin = async (role) => {
         const result = await dispatch(login({ ...formLogin, role }));
