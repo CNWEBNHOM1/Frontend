@@ -8,24 +8,6 @@ const DormRequestFlow = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-
-    // useEffect(async () => {
-    //     try {
-    //         setLoading(true);
-    //         const response = await axios.get('http://localhost:5000/user/myRequest', {
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem('token')}`// lấy theo email
-    //             }
-    //         });
-    //         console.log("123", response.data.data)
-    //         setRequests(Array.isArray(response.data.data) ? response.data.data : []);
-    //     } catch (error) {
-    //         setError('Lỗi khi tải yêu cầu');
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }, []);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
