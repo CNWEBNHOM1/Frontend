@@ -5,6 +5,7 @@ import DormRequestFlow from "../components/Auth/DormRequestFlow";
 import CheckRequest from "../components/Auth/CheckRequest";
 import Area from "../pages/Area/Area";
 import ChangePassword from "../pages/Password/ChangePassword"
+import PaymentReturn from "../components/Auth/PaymentReturnAuth.jsx";
 import "./Layout.css";
 
 const LayoutAuth = () => {
@@ -19,6 +20,7 @@ const LayoutAuth = () => {
                     <Route path="/DormRequestFlow/*" element={< DormRequestFlow />} />
                     <Route path="/CheckRequest/*" element={<  CheckRequest />} />
                     <Route path="/change-password" element={<ChangePassword />} />
+                    <Route path="/payment-return" element={<PaymentReturn />} />
                 </Routes>
             </div>
         </div>

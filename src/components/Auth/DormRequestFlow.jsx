@@ -1,4 +1,3 @@
-// DormRequestFlow.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DormRequestFlow.css';
@@ -44,12 +43,11 @@ const DormRequestFlow = () => {
     // Other states
     const [rooms, setRooms] = useState([]);
     const [proofImage, setProofImage] = useState(null);
-    const [requests, setRequests] = useState([]);
-    const [timer, setTimer] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [imageURL, setImageURL] = useState(null);
-
+    const [selectedRoom, setSelectedRoom] = useState(null);
+    const [requestId, setRequestId] = useState(null);
 
     useEffect(() => {
         fetchProvinces();
@@ -90,9 +88,6 @@ const DormRequestFlow = () => {
         if (step === 2) {
             fetchRooms();
         }
-        if (step === 3) {
-            fetchMyRequests();
-        }
     }, [step]);
 
     const fetchProvinces = async () => {
@@ -132,17 +127,8 @@ const DormRequestFlow = () => {
         setLocationError(prev => ({ ...prev, ward: '' }));
         try {
             const response = await axios.get(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`);
-            if (response.data && response.data.wards) {
-                setWards(response.data.wards);
-            } else {
-                setWards([]);
-                setLocationError(prev => ({
-                    ...prev,
-                    ward: 'Không có dữ liệu phường/xã'
-                }));
-            }
+            setWards(response.data.wards);
         } catch (error) {
-            console.error('Error fetching wards:', error);
             setLocationError(prev => ({
                 ...prev,
                 ward: 'Lỗi khi tải danh sách phường/xã. Vui lòng thử lại sau.'
@@ -177,22 +163,6 @@ const DormRequestFlow = () => {
         }
     };
 
-    const fetchMyRequests = async () => {
-        try {
-            setLoading(true);
-            const response = await axios.get('http://localhost:5000/user/myRequests', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-            setRequests(response.data);
-        } catch (error) {
-            setError('Lỗi khi tải yêu cầu');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         if (name.startsWith('address.')) {
@@ -215,7 +185,6 @@ const DormRequestFlow = () => {
     const handleProvinceChange = (e) => {
         const { value } = e.target;
         const selectedProvince = provinces.find(p => p.code === parseInt(value));
-
         if (selectedProvince) {
             setFormData(prev => ({
                 ...prev,
@@ -231,7 +200,6 @@ const DormRequestFlow = () => {
     const handleDistrictChange = (e) => {
         const { value } = e.target;
         const selectedDistrict = districts.find(d => d.code === parseInt(value));
-
         if (selectedDistrict) {
             setFormData(prev => ({
                 ...prev,
@@ -247,7 +215,6 @@ const DormRequestFlow = () => {
     const handleWardChange = (e) => {
         const { value } = e.target;
         const selectedWard = wards.find(w => w.code === parseInt(value));
-
         if (selectedWard) {
             setFormData(prev => ({
                 ...prev,
@@ -259,6 +226,7 @@ const DormRequestFlow = () => {
             }));
         }
     };
+
     const handleFileSelect = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -301,10 +269,9 @@ const DormRequestFlow = () => {
         return true;
     };
 
-    const validateForm = () => {
+    const validatePersonalInfo = () => {
         const required = ['name', 'ngaysinh', 'gender', 'sid', 'cccd', 'phone', 'school'];
         const missing = required.filter(field => !formData[field]);
-
         if (!validateLocation()) {
             return false;
         }
@@ -313,184 +280,138 @@ const DormRequestFlow = () => {
             setError('Vui lòng điền đầy đủ thông tin bắt buộc');
             return false;
         }
+
         return true;
     };
 
-    const handleRoomSelection = async (roomId) => {
-        try {
-            setLoading(true);
-            await axios.post('http://localhost:5000/user/updateRequest-1',
-                { roomId },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                }
-            );
-            setFormData({ ...formData, roomId });
-
-            const timerID = setTimeout(async () => {
-                try {
-                    await axios.post('http://localhost:5000/user/updateRequest-2',
-                        { roomId },
-                        {
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem('token')}`
-                            }
-                        }
-                    );
-                    setFormData(prev => ({ ...prev, roomId: '' }));
-                } catch (error) {
-                    setError('Lỗi khi cập nhật trạng thái phòng');
-                }
-            }, 30 * 60 * 1000);
-
-            setTimer(timerID);
-            setError('');
-        } catch (error) {
-            setError('Lỗi khi chọn phòng');
-        } finally {
-            setLoading(false);
-        }
+    const handleRoomSelection = (room) => {
+        setSelectedRoom({
+            ...room,
+            totalPrice: room.giatrangbi + room.tieno + room.tiennuoc
+        });
+        setFormData({ ...formData, roomId: room._id });
     };
 
-
-
-    //     if (!validateForm()) return;
-
-    //     try {
-    //         setLoading(true);
-    //         const formDataObj = new FormData();
-
-    //         Object.keys(formData).forEach(key => {
-    //             if (key === 'address') {
-    //                 formDataObj.append('address', JSON.stringify(formData.address));
-    //             } else {
-    //                 formDataObj.append(key, formData[key]);
-    //             }
-    //         });
-
-    //         if (proofImage) {
-    //             formDataObj.append('minhchung', proofImage);
-    //         }
-
-    //         const response = await axios.post('http://localhost:5000/user/createRequest', formDataObj, {
-    //             headers: {
-    //                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //                 'Content-Type': 'multipart/form-data'
-    //             }
-    //         });
-
-    //         if (response.data.status === "success") {
-    //             if (timer) {
-    //                 clearTimeout(timer);
-    //             }
-    //             navigate("/auth/CheckRequest");
-    //             setError('');
-    //         }
-    //     } catch (error) {
-    //         setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.error || error.message));
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
-    // const submitRequest = async () => {
-    //     if (!validateForm()) return;
-
-    //     try {
-    //         setLoading(true);
-    //         const formDataObj = new FormData();
-
-    //         // Tách address ra khỏi formData chính
-    //         const { address, ...otherData } = formData;
-
-    //         // Append các trường dữ liệu khác
-    //         Object.keys(otherData).forEach(key => {
-    //             formDataObj.append(key, otherData[key]);
-    //         });
-
-    //         // Append address như một object JSON
-    //         formDataObj.append('address', JSON.stringify({
-    //             tinh: formData.address.tinh,
-    //             thanh: formData.address.thanh,
-    //             xa: formData.address.xa
-    //         }));
-
-    //         // Append file ảnh nếu có
-    //         if (proofImage) {
-    //             formDataObj.append('minhchung', proofImage);
-    //         }
-
-    //         const response = await axios.post('http://localhost:5000/user/createRequest', formDataObj, {
-    //             headers: {
-    //                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //                 'Content-Type': 'multipart/form-data'
-    //             }
-    //         });
-
-    //         if (response.data.status === "success") {
-    //             if (timer) {
-    //                 clearTimeout(timer);
-    //             }
-    //             navigate("/auth/CheckRequest");
-    //             setError('');
-    //         }
-    //     } catch (error) {
-    //         setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.error || error.message));
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
     const submitRequest = async () => {
-        if (!validateForm()) return;
+        if (!formData.roomId) {
+            setError('Vui lòng chọn phòng');
+            return;
+        }
 
         try {
             setLoading(true);
             const formDataObj = new FormData();
 
             // Thêm các trường dữ liệu cơ bản
-            const { address, ...otherData } = formData;
-            Object.keys(otherData).forEach(key => {
-                // Set priority luôn là false
-                if (key === 'priority') {
-                    formDataObj.append(key, false);
-                } else {
-                    formDataObj.append(key, formData[key]);
+            formDataObj.append('name', formData.name);
+            formDataObj.append('ngaysinh', formData.ngaysinh);
+            formDataObj.append('gender', formData.gender);
+            formDataObj.append('sid', formData.sid);
+            formDataObj.append('cccd', formData.cccd);
+            formDataObj.append('phone', formData.phone);
+            formDataObj.append('school', formData.school);
+            formDataObj.append('khoa', formData.khoa || '');
+            formDataObj.append('lop', formData.lop || '');
+            formDataObj.append('roomId', formData.roomId);
+            formDataObj.append('priority', 'false');
+
+            // Thêm địa chỉ
+            const addressData = {
+                tinh: formData.address.tinh,
+                thanh: formData.address.thanh,
+                xa: formData.address.xa
+            };
+            formDataObj.append('address', JSON.stringify(addressData));
+
+
+            // Tạo một file PNG rỗng từ base64 string
+            const defaultPngBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+            const defaultFileBlob = await fetch(`data:image/png;base64,${defaultPngBase64}`).then(r => r.blob());
+            const defaultFile = new File([defaultFileBlob], 'default.png', { type: 'image/png' });
+
+            formDataObj.append('minhchung', defaultFile);
+
+            const response = await axios.post(
+                'http://localhost:5000/user/createRequest',
+                formDataObj,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
                 }
-            });
-
-            // Thử gửi từng trường của address riêng
-            formDataObj.append('address[tinh]', formData.address.tinh);
-            formDataObj.append('address[thanh]', formData.address.thanh);
-            formDataObj.append('address[xa]', formData.address.xa);
-
-            // Thêm file ảnh
-            if (proofImage) {
-                formDataObj.append('minhchung', proofImage);
-            }
-
-            const response = await axios.post('http://localhost:5000/user/createRequest', formDataObj, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            );
 
             if (response.data.status === "success") {
-                if (timer) {
-                    clearTimeout(timer);
-                }
-                navigate("/auth/CheckRequest");
-                setError('');
+                setRequestId(response.data.data._id);
+                setStep(3); // Move to payment step
             }
         } catch (error) {
-            setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.error || error.message));
+            console.error('Error details:', error.response?.data);
+            setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.message || error.message));
         } finally {
             setLoading(false);
         }
     };
+
+    const handlePayment = async () => {
+        if (!selectedRoom || !requestId) {
+            setError('Không tìm thấy thông tin phòng hoặc yêu cầu');
+            return;
+        }
+        try {
+            setLoading(true);
+            const response = await axios.post(
+                'http://localhost:5000/user/getRoomPaymentUrl',
+                {
+                    returnUrl: `${window.location.origin}/auth/payment-return`,
+                    requestId,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                }
+            );
+
+            if (response.data.status === "success") {
+                window.location.href = response.data.data;
+            }
+        } catch (error) {
+            setError('Lỗi khi tạo URL thanh toán: ' + (error.response?.data?.error || error.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleUploadProof = async () => {
+        try {
+            setLoading(true);
+            const formData = new FormData();
+            formData.append('minhchung', proofImage);
+            formData.append('requestId', requestId);
+
+            const response = await axios.post(
+                'http://localhost:5000/user/uploadPaymentProof',
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+
+            if (response.data.status === "success") {
+                navigate("/auth/payment-return");
+            }
+        } catch (error) {
+            setError('Lỗi khi tải lên ảnh: ' + (error.response?.data?.message || error.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const renderPersonalInfoForm = () => (
         <div className="form-container">
             <h2>Thông tin cá nhân</h2>
@@ -553,7 +474,6 @@ const DormRequestFlow = () => {
                     />
                 </div>
 
-                {/* Location selection */}
                 <div className="form-group">
                     <label>Tỉnh/Thành phố *</label>
                     <select
@@ -621,7 +541,7 @@ const DormRequestFlow = () => {
                         name="khoa"
                         value={formData.khoa}
                         onChange={handleInputChange}
-                        placeholder="Nhập khoa"
+                        placeholder="Nhập khóa"
                     />
                 </div>
                 <div className="form-group">
@@ -647,7 +567,7 @@ const DormRequestFlow = () => {
             </div>
             {error && <div className="error-message">{error}</div>}
             <button
-                onClick={() => validateForm() && setStep(2)}
+                onClick={() => validatePersonalInfo() && setStep(2)}
                 className="btn-next"
                 disabled={loading || locationLoading}
             >
@@ -668,10 +588,10 @@ const DormRequestFlow = () => {
                             <div
                                 key={room._id}
                                 className={`room-card ${formData.roomId === room._id ? 'selected' : ''}`}
-                                onClick={() => handleRoomSelection(room._id)}
+                                onClick={() => handleRoomSelection(room)}
                             >
                                 <h3>Phòng {room.name}</h3>
-                                <p>Toa {room.department.name}</p>
+                                <p>Tòa {room.department.name}</p>
                                 <p>Còn trống: {room.capacity - room.occupiedSlots}</p>
                                 <p>Giá: {(room.giatrangbi + room.tieno + room.tiennuoc).toLocaleString('vi-VN')} VNĐ</p>
                             </div>
@@ -679,39 +599,6 @@ const DormRequestFlow = () => {
                     ) : (
                         <p className="no-rooms">Không có phòng trống</p>
                     )}
-                    <div className="form-group full-width">
-                        <label>Ảnh chuyển khoản *</label>
-                        <div className="upload-container">
-                            <input
-                                type="file"
-                                id="file-upload"
-                                accept="image/*"
-                                onChange={handleFileSelect}
-                                style={{ display: 'none' }}
-                            />
-                            <label htmlFor="file-upload" className="upload-button-a">
-                                Chọn ảnh
-                            </label>
-                        </div>
-                        {imageURL && (
-                            <div className="image-preview">
-                                <img
-                                    src={imageURL}
-                                    alt="Preview"
-                                    className="preview-image"
-                                />
-                                <button
-                                    onClick={() => {
-                                        setProofImage(null);
-                                        setImageURL(null);
-                                    }}
-                                    className="remove-image"
-                                >
-                                    Xóa
-                                </button>
-                            </div>
-                        )}
-                    </div>
                 </div>
             )}
             {error && <div className="error-message">{error}</div>}
@@ -724,46 +611,84 @@ const DormRequestFlow = () => {
                     className="btn-submit"
                     disabled={!formData.roomId || loading}
                 >
-                    {loading ? 'Đang xử lý...' : 'Gửi yêu cầu'}
+                    {loading ? 'Đang xử lý...' : 'Tiếp theo: Thanh toán'}
                 </button>
             </div>
         </div>
     );
 
-    const renderRequestStatus = () => (
-        <div className="request-container">
-            <h2>Yêu cầu của tôi</h2>
-            {loading ? (
-                <div className="loading">Đang tải danh sách yêu cầu...</div>
-            ) : (
-                <div className="request-list">
-                    {requests.length > 0 ? (
-                        requests.map(request => (
-                            <div key={request._id} className="request-card">
-                                <h3>Mã yêu cầu: {request._id}</h3>
-                                <p className={`status ${request.trangthai.toLowerCase()}`}>
-                                    Trạng thái: {request.trangthai}
-                                </p>
-                                <p>Phòng: {request.room}</p>
-                                <p>Số tiền: {request.sotienphaitra.toLocaleString('vi-VN')} VNĐ</p>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="no-requests">Chưa có yêu cầu nào</p>
-                    )}
+    const renderPayment = () => (
+        <div className="room-payment-container">
+            <h2>Thanh toán</h2>
+            {selectedRoom && (
+                <div className="room-payment-details">
+                    <h3>Thông tin thanh toán</h3>
+                    <p>Phòng: {selectedRoom.name}</p>
+                    <p>Tòa: {selectedRoom.department.name}</p>
+                    <p>Tổng tiền: {(selectedRoom.giatrangbi + selectedRoom.tieno + selectedRoom.tiennuoc).toLocaleString('vi-VN')} VNĐ</p>
+
+                    <button
+                        onClick={handlePayment}
+                        className="room-payment-button"
+                        disabled={loading}
+                    >
+                        {loading ? 'Đang xử lý...' : 'Thanh toán qua VNPay'}
+                    </button>
                 </div>
             )}
-            {error && <div className="error-message">{error}</div>}
-            <button onClick={() => setStep(1)} className="btn-new-request">
-                Tạo yêu cầu mới
+            {error && <div className="room-payment-error">{error}</div>}
+            <button onClick={() => setStep(2)} className="room-payment-back-button">
+                Quay lại
             </button>
         </div>
     );
 
-    return (
-        <> <Header title={""} />
-            <div className='dashboard-user'>
+    const renderRequestStatus = () => (
+        <div className="request-container">
+            <h2>Tải lên ảnh thanh toán</h2>
+            <div className="upload-section">
+                <div className="form-group">
+                    <input
+                        type="file"
+                        id="file-upload"
+                        accept="image/*"
+                        onChange={handleFileSelect}
+                        style={{ display: 'none' }}
+                    />
+                    <label htmlFor="file-upload" className="upload-button">
+                        Chọn ảnh
+                    </label>
+                    {imageURL && (
+                        <div className="image-preview">
+                            <img src={imageURL} alt="Preview" className="preview-image" />
+                            <button
+                                onClick={() => {
+                                    setProofImage(null);
+                                    setImageURL(null);
+                                }}
+                                className="remove-image"
+                            >
+                                Xóa
+                            </button>
+                        </div>
+                    )}
+                </div>
+                <button
+                    onClick={handleUploadProof}
+                    className="btn-submit"
+                    disabled={!proofImage || loading}
+                >
+                    {loading ? 'Đang xử lý...' : 'Hoàn tất đăng ký'}
+                </button>
+            </div>
+            {error && <div className="error-message">{error}</div>}
+        </div>
+    );
 
+    return (
+        <>
+            <Header title={""} />
+            <div className='dashboard-user'>
                 <div className="container-a">
                     <div className="steps-indicator-a">
                         <div className={`step ${step >= 1 ? 'active' : ''}`} data-step="1">
@@ -773,12 +698,16 @@ const DormRequestFlow = () => {
                             Chọn phòng
                         </div>
                         <div className={`step ${step >= 3 ? 'active' : ''}`} data-step="3">
+                            Thanh toán
+                        </div>
+                        <div className={`step ${step >= 4 ? 'active' : ''}`} data-step="4">
                             Trạng thái yêu cầu
                         </div>
                     </div>
                     {step === 1 && renderPersonalInfoForm()}
                     {step === 2 && renderRoomSelection()}
-                    {step === 3 && renderRequestStatus()}
+                    {step === 3 && renderPayment()}
+                    {step === 4 && renderRequestStatus()}
                 </div>
             </div>
         </>
