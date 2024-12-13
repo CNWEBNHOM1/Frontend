@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../components/Header/Header"
 import { withAuthorization } from '../../hoc';
-import "./DashboardManager.css"
+import "./DashboardManager1.css"
 import { faBuilding, faFile } from "@fortawesome/free-regular-svg-icons";
 import { faBook, faFileInvoice, faHouse, faPerson } from "@fortawesome/free-solid-svg-icons";
 import Detail from "./Detail";
