@@ -29,6 +29,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "file-saver": "^2.0.5",
     "frontend": "file:",
     "lucide-react": "^0.462.0",
     "react": "^18.3.1",
