@@ -4,8 +4,9 @@ import { Button, notification } from 'antd';
 import axios from 'axios';
 import './SignUp.css';
 import loginImage from '../../assets/signup_image.svg';
+import API_CONFIG from '../../config/ApiConfig';
 
-const API_BASE_URL = 'http://localhost:5000/auth';
+const API_BASE_URL = `${API_CONFIG.API_BASE_URL}/auth`;
 
 const SignUp = () => {
     const navigate = useNavigate();

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Upanhhoadon.css";
+import API_CONFIG from "../../config/ApiConfig";
 
 const Upanhhoadon = () => {
     const location = useLocation();
@@ -25,7 +26,7 @@ const Upanhhoadon = () => {
             formData.append("id", billId);
             const token = localStorage.getItem("token");
 
-            await axios.post("http://localhost:5000/user/uploadProof", formData, {
+            await axios.post(`${API_CONFIG.API_BASE_URL}/user/uploadProof`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`,

@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DormRequestFlow.css';
 import Header from '../Header/Header';
 import { useNavigate } from "react-router-dom";
+import API_CONFIG from '../../config/ApiConfig';
 
 const DormRequestFlow = () => {
     const navigate = useNavigate();
@@ -142,7 +144,7 @@ const DormRequestFlow = () => {
     const fetchRooms = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:5000/user/roomAvailable', {
+            const response = await axios.get(`${API_CONFIG.API_BASE_URL}/user/roomAvailable`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -332,7 +334,7 @@ const DormRequestFlow = () => {
             formDataObj.append('minhchung', defaultFile);
 
             const response = await axios.post(
-                'http://localhost:5000/user/createRequest',
+                `${API_CONFIG.API_BASE_URL}/user/createRequest`,
                 formDataObj,
                 {
                     headers: {
@@ -362,7 +364,7 @@ const DormRequestFlow = () => {
         try {
             setLoading(true);
             const response = await axios.post(
-                'http://localhost:5000/user/getRoomPaymentUrl',
+                `${API_CONFIG.API_BASE_URL}/user/getRoomPaymentUrl`,
                 {
                     returnUrl: `${window.location.origin}/auth/payment-return`,
                     requestId,
@@ -392,7 +394,7 @@ const DormRequestFlow = () => {
             formData.append('requestId', requestId);
 
             const response = await axios.post(
-                'http://localhost:5000/user/uploadPaymentProof',
+                `${API_CONFIG.API_BASE_URL}/user/uploadPaymentProof`,
                 formData,
                 {
                     headers: {

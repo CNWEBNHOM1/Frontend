@@ -1,3 +1,4 @@
+import API_CONFIG from "../config/ApiConfig";
 import axiosInstance from "./axiosInstance";
 
 export const getListBills = async (params) => {
@@ -58,7 +59,7 @@ export const getListBills = async (params) => {
 
 export const getBillPayment = async (billId, returnUrl) => { // Thêm tham số returnUrl
     try {
-        const response = await fetch('http://localhost:5000/user/getBillPaymentUrl', {
+        const response = await fetch(`${API_CONFIG.API_BASE_URL}/user/getBillPaymentUrl`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

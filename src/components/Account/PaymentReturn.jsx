@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import './PaymentReturn.css';
+import API_CONFIG from '../../config/ApiConfig';
 
 function PaymentReturn() {
     const location = useLocation();
@@ -14,7 +15,7 @@ function PaymentReturn() {
     useEffect(() => {
         const handlePaymentReturn = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/user/getBillPaymentReturn${location.search}`, {
+                const response = await fetch(`${API_CONFIG.API_BASE_URL}/user/getBillPaymentReturn${location.search}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

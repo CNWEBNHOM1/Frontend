@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CheckRequest.css';
 import Header from '../Header/Header';
+import API_CONFIG from '../../config/ApiConfig';
 
 const DormRequestFlow = () => {
     const [requests, setRequests] = useState([]);
@@ -12,7 +14,7 @@ const DormRequestFlow = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('http://localhost:5000/user/myRequest', {
+                const response = await axios.get(`${API_CONFIG.API_BASE_URL}/user/myRequest`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

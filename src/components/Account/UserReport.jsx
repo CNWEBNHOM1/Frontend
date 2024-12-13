@@ -4,6 +4,7 @@ import axios from "axios";
 import { Upload, File, X } from 'lucide-react';
 import "./UserReport.css";
 import Header from "../../components/Header/Header";
+import API_CONFIG from "../../config/ApiConfig";
 
 const UserReport = () => {
     const navigate = useNavigate();
@@ -48,7 +49,7 @@ const UserReport = () => {
             formData.append("noidung", noidung);
             const token = localStorage.getItem("token");
 
-            await axios.post("http://localhost:5000/user/createReport", formData, {
+            await axios.post(`${API_CONFIG.API_BASE_URL}/user/createReport`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`,
