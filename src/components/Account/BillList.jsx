@@ -23,24 +23,6 @@ function BillList() {
         fetchBills();
     }, [currentPage, filters]);
 
-
-    //     try {
-    //         setIsLoading(true);
-    //         const result = await getListBills({
-    //             ...filters,
-    //             page: currentPage
-    //         });
-    //         // Sửa đoạn này để lấy đúng cấu trúc data
-    //         setBills(result.data || []); // Vì data là array chứa bills luôn
-    //     } catch (error) {
-    //         console.error("Lỗi khi lấy danh sách hóa đơn:", error);
-    //         setError(error.message);
-    //         setBills([]);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
-
     const fetchBills = async () => {
         try {
             setIsLoading(true);
@@ -48,8 +30,16 @@ function BillList() {
                 ...filters,
                 page: currentPage
             });
-            setBills(response); // Không cần .data
-            console.log('Bills:', response); // Kiểm tra dữ liệu
+
+            // Kiểm tra nếu response không phải error khác "bill not found"
+            if (response.error && response.error !== "bill not found") {
+                setError(response.error);
+                setBills(null);
+            } else {
+                // Nếu response là "bill not found" hoặc response thành công
+                setBills(response.error ? { data: { bills: [] } } : response);
+            }
+            console.log('Bills:', response);
         } catch (error) {
             console.error("Lỗi:", error);
             setError(error.message);
@@ -58,6 +48,7 @@ function BillList() {
             setIsLoading(false);
         }
     };
+
     const handleStatusChange = (e) => {
         setFilters(prev => ({ ...prev, trangthai: e.target.value }));
         setCurrentPage(1);
@@ -69,10 +60,6 @@ function BillList() {
         setCurrentPage(1);
     };
 
-    const handleUpload = (billId) => {
-        navigate(`/user/anhhhoadon`, { state: { billId } });
-    };
-
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
@@ -80,12 +67,11 @@ function BillList() {
         }).format(amount);
     };
 
-
     const handlePayment = async (billId) => {
         try {
             console.log('Calling payment with billId:', billId);
-            const returnUrl = `${window.location.origin}/user/payment-return`; // Sửa thành payment-return
-            const data = await getBillPayment(billId, returnUrl); // Truyền returnUrl vào
+            const returnUrl = `${window.location.origin}/user/payment-return`;
+            const data = await getBillPayment(billId, returnUrl);
             console.log('Data:', data);
             if (data.status === 'success' && data.data) {
                 console.log('Redirecting to:', data.data);
@@ -99,6 +85,7 @@ function BillList() {
             alert("Có lỗi xảy ra khi tạo link thanh toán");
         }
     };
+
     if (isLoading) {
         return <div className="loading">Đang tải dữ liệu...</div>;
     }
@@ -107,12 +94,18 @@ function BillList() {
         return <div className="error-message">{error}</div>;
     }
 
-    if (!bills) {
+    if (!bills || !bills.data) {
         return null;
     }
 
+    // Chỉ hiển thị EmptyState khi không có filter và không có hóa đơn
+    if (bills.data.bills?.length === 0 && !filters.trangthai) {
+        return <EmptyState />;
+    }
+
     return (
-        <> <Header />
+        <>
+            <Header />
             <div className="bill-list-container">
                 <div className="bill-list-header">
                     <h1 className="bill-list-title">Danh Sách Hóa Đơn Điện Nước</h1>
@@ -140,53 +133,53 @@ function BillList() {
                     </div>
                 </div>
 
-                {bills.length === 0 ? (
-                    <EmptyState />
-                ) : (
-                    <div className="bill-table-wrapper">
-                        <table className="bill-table">
-                            <thead>
-                                <tr>
-                                    <th>Tên phòng</th>
-                                    <th>Số điện đầu</th>
-                                    <th>Số điện cuối</th>
-                                    <th>Đơn giá</th>
-                                    <th>Thành tiền</th>
-                                    <th>Hạn đóng</th>
-                                    <th>Trạng thái</th>
-                                    <th>Thanh toán</th>
+                <div className="bill-table-wrapper">
+                    <table className="bill-table">
+                        <thead>
+                            <tr>
+                                <th>Tên phòng</th>
+                                <th>Số điện đầu</th>
+                                <th>Số điện cuối</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                                <th>Hạn đóng</th>
+                                <th>Trạng thái</th>
+                                <th>Thanh toán</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {bills.data.bills?.map((bill) => (
+                                <tr key={bill._id}>
+                                    <td>{bill.room?.department.name + "-" + bill.room?.name || "Không rõ"}</td>
+                                    <td>{bill.sodiendau}</td>
+                                    <td>{bill.sodiencuoi}</td>
+                                    <td>{formatCurrency(bill.room?.dongiadien || 0)}</td>
+                                    <td>{formatCurrency(bill.thanhtien)}</td>
+                                    <td>{new Date(bill.handong).toLocaleString('vi-VN')}</td>
+                                    <td>
+                                        <span className={`status-badge status-${bill.trangthai.toLowerCase().replace(/\s+/g, '-')}`}>
+                                            {bill.trangthai}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button
+                                            className="action-button-payment"
+                                            onClick={() => handlePayment(bill._id)}
+                                            disabled={bill.trangthai !== "Chưa đóng"}
+                                        >
+                                            Thanh toán
+                                        </button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {bills && bills.data && bills.data.bills && bills.data.bills.map((bill) => (
-                                    <tr key={bill._id}>
-                                        <td>{bill.room?.department.name + "-" + bill.room?.name || "Không rõ"}</td>
-                                        <td>{bill.sodiendau}</td>
-                                        <td>{bill.sodiencuoi}</td>
-                                        <td>{formatCurrency(bill.room?.dongiadien || 0)}</td>
-                                        <td>{formatCurrency(bill.thanhtien)}</td>
-                                        <td>{new Date(bill.handong).toLocaleString('vi-VN')}</td>
-                                        <td>
-                                            <span className={`status-badge status-${bill.trangthai.toLowerCase().replace(/\s+/g, '-')}`}>
-                                                {bill.trangthai}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button
-                                                className="action-button-payment"
-                                                onClick={() => handlePayment(bill._id)}
-                                                disabled={bill.trangthai !== "Chưa đóng"}
-                                            >
-                                                Thanh toán
-                                            </button>
-                                        </td>
-
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                            ))}
+                        </tbody>
+                    </table>
+                    {(!bills.data.bills || bills.data.bills.length === 0) && filters.trangthai && (
+                        <div className="no-data-message">
+                            Không có hóa đơn nào phù hợp với điều kiện tìm kiếm
+                        </div>
+                    )}
+                </div>
             </div>
         </>
     );
