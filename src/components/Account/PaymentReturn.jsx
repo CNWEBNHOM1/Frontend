@@ -6,6 +6,7 @@ import './PaymentReturn.css';
 function PaymentReturn() {
     const location = useLocation();
     const navigate = useNavigate();
+    
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [paymentData, setPaymentData] = useState(null);
 
