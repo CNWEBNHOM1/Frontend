@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, notification } from 'antd';
 import axios from 'axios';
 import './SignUp.css';
-import loginImage from '../../assets/signup_image.svg'; // Hình ảnh giao diện đăng ký
+import loginImage from '../../assets/signup_image.svg';
 
-// Đúng URL của backend
 const API_BASE_URL = 'http://localhost:5000/auth';
 
 const SignUp = () => {
@@ -17,32 +16,39 @@ const SignUp = () => {
         password: '',
     });
 
-    // Hàm mở thông báo
-    const openNotificationWithIcon = (type, message) => {
+    const openNotificationWithIcon = (type, message, description = '') => {
         api[type]({
             message: message,
-            description: message,
+            description: description || message,
         });
     };
 
-    // Hàm xử lý đăng ký
     const handleSignUp = async () => {
         try {
-            // Đúng endpoint là /auth/register
             const response = await axios.post(`${API_BASE_URL}/register`, formSignUp);
 
             if (response.status === 201) {
                 openNotificationWithIcon(
                     'success',
-                    `Đăng ký thành công! Email: ${response.data.email}, Vai trò: ${response.data.role}`
+                    'Đăng ký thành công!',
+                    `Email: ${response.data.email}, Vai trò: ${response.data.role}`
                 );
-                navigate('/login'); // Điều hướng đến trang đăng nhập
-            } else {
-                openNotificationWithIcon('error', response.data.message || 'Đăng ký thất bại!');
+                navigate('/login');
             }
         } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Đã xảy ra lỗi!';
-            openNotificationWithIcon('error', errorMessage);
+            if (error.response?.status === 409 || error.response?.data?.message?.includes('email')) {
+                openNotificationWithIcon(
+                    'error',
+                    'Đăng ký thất bại!',
+                    'Email này đã được đăng ký, vui lòng sử dụng email khác'
+                );
+            } else {
+                openNotificationWithIcon(
+                    'error',
+                    'Đăng ký thất bại!',
+                    error.response?.data?.message || 'Đã xảy ra lỗi, vui lòng thử lại'
+                );
+            }
         }
     };
 
