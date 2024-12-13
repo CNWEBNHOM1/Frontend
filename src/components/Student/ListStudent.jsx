@@ -10,6 +10,9 @@ import { getListStudent } from "../../service/ManagerAPI/StudentAPI";
 import { formatDate } from "../../utils/DateUtils";
 import { Link } from "react-router-dom";
 import LimitSelectPopup from "../LimitSelectPopup/LimitSelectPopup";
+import API_CONFIG from "../../config/ApiConfig";
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 const statusTab = [
     { key: "all", label: "Tất cả", trangthai: null },
@@ -27,13 +30,13 @@ const colsToRender = {
 };
 
 const col = {
-    name : {
+    name: {
         name: "Họ và tên"
     },
     sid: {
         name: "Mã số sinh viên"
     },
-    email:{
+    email: {
         name: "Email"
     },
     phone: {
@@ -46,17 +49,17 @@ const col = {
         name: "Phòng"
     }
 }
-const ListStudent = () =>{
+const ListStudent = () => {
     const [tabActive, setTabActive] = useState("all");
 
     // phan trang,bo loc
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const [name,setName] = useState(null); 
+    const [name, setName] = useState(null);
     const [room, setRoom] = useState(null);
     const btnRef = useRef(null);
-    const [isOpenSelectRoom,setIsOpenSelectRoom] = useState(false);
-    const closePopupSelectRoom = () =>{
+    const [isOpenSelectRoom, setIsOpenSelectRoom] = useState(false);
+    const closePopupSelectRoom = () => {
         setIsOpenSelectRoom(false);
     }
     const [selectedRoom, setSelectedRoom] = useState(null);
@@ -72,7 +75,7 @@ const ListStudent = () =>{
         setIsOpenSelectRoom(false);  // Đóng popup sau khi chọn phòng
     };
 
-    const fetchListRomm = async () =>{
+    const fetchListRomm = async () => {
         const rooms = await getListRoom(datafetchRoomList)
         setListRoom(rooms.data.listRoom);
     }
@@ -83,7 +86,7 @@ const ListStudent = () =>{
     const [pageQuantity, setPageQuantity] = useState(null);
     const [studentQuantity, setStudentQuantity] = useState(null);
     const limitBtnRef = useRef(null);
-    const [isOpenLimitPopup,setIsOpenLimitPopup] = useState(false);
+    const [isOpenLimitPopup, setIsOpenLimitPopup] = useState(false);
 
     const handlePrevPage = () => {
         setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
@@ -95,37 +98,59 @@ const ListStudent = () =>{
 
     const [listStudent, setListStudent] = useState([]);
     const [trangthai, setTrangthai] = useState(null);
-    
+
     const handleTabClick = (key, trangthai) => {
         setTabActive(key);
         setTrangthai(trangthai);
     };
 
-    const fetchListStudent = async () =>{
-        const students = await getListStudent({page: page, limit: limit, name: name, room: room, trangthai: trangthai});
+    const fetchListStudent = async () => {
+        const students = await getListStudent({ page: page, limit: limit, name: name, room: room, trangthai: trangthai });
         setListStudent(students.data)
         setStudentQuantity(students.totalStudents)
         setPageQuantity(students.totalPages)
+    };
+
+    const exportStudentsToExcel = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            // console.log(token);
+            const response = await axios({
+                url: `${API_CONFIG.API_BASE_URL}/user/exportAllStudent`,
+                method: 'GET',
+                responseType: 'blob',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            // console.log(localStorage.getItem('token'))
+            const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+            saveAs(file, `${Date.now()}_DSSV.xlsx`);
+
+        } catch (error) {
+            console.error('Lỗi gì đó: ', error);
+        }
     }
 
     useEffect(() => {
-      fetchListRomm();  
+        fetchListRomm();
     }, [isOpenSelectRoom])
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchListStudent();
     }, [page, limit, room, trangthai, name])
-    return(
+    return (
         <div className="list-student">
-            <Header title={"Danh sách thành viên"}/>
+            <Header title={"Danh sách thành viên"} />
             <div className="right__listPage">
                 <div className="toolbar">
-                    <button className="btn-base">
+                    <button className="btn-base" onClick={exportStudentsToExcel}>
                         <span className="btn-icon">
-                            <FontAwesomeIcon icon={faPlus} style={{height: '15px'}}/>
+                            <FontAwesomeIcon icon={faPlus} style={{ height: '15px' }} />
                         </span>
                         <span className="btn-title">
                             Xuất flie
+
                         </span>
                     </button>
                 </div>
@@ -138,7 +163,7 @@ const ListStudent = () =>{
                                         key={key}
                                         className={`btn-scroller ${tabActive === key ? "active" : ""}`}
                                         onClick={() => {
-                                                handleTabClick(key, trangthai);
+                                            handleTabClick(key, trangthai);
                                         }}
                                     >
                                         {label}
@@ -154,8 +179,8 @@ const ListStudent = () =>{
                                     <div className="search-icon">
                                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                                     </div>
-                                    <input 
-                                        placeholder="Tìm kiếm theo tên thành viên" 
+                                    <input
+                                        placeholder="Tìm kiếm theo tên thành viên"
                                         type="text"
                                         name="search"
                                         id=""
@@ -166,29 +191,29 @@ const ListStudent = () =>{
                                 </div>
                             </div>
                             <div className="btn-group group-filter-btns">
-                                <button className="btn btn_base btn_filter"  ref={btnRef} onClick={() => setIsOpenSelectRoom(!isOpenSelectRoom)}>
+                                <button className="btn btn_base btn_filter" ref={btnRef} onClick={() => setIsOpenSelectRoom(!isOpenSelectRoom)}>
                                     <span className="btn_label">
-										Phòng
-										<span className="btn_icon">
-											<FontAwesomeIcon icon={faCaretDown} style={{color:"#A3A8AF" }}/>
-										</span>
-									</span>
+                                        Phòng
+                                        <span className="btn_icon">
+                                            <FontAwesomeIcon icon={faCaretDown} style={{ color: "#A3A8AF" }} />
+                                        </span>
+                                    </span>
                                 </button>
-                                {isOpenSelectRoom && <SelectRoomOfRequest closePopup={closePopupSelectRoom} btnRef={btnRef} listObject={listRoom} onSelectRoom = {selectRoom}/>}
+                                {isOpenSelectRoom && <SelectRoomOfRequest closePopup={closePopupSelectRoom} btnRef={btnRef} listObject={listRoom} onSelectRoom={selectRoom} />}
                                 <button className="btn btn_base btn_filter"
-                                    onClick={() =>{
+                                    onClick={() => {
                                         setRoom(null);
                                         setSelectedRoom(null);
                                     }
-                                }
+                                    }
                                 >
-									<span className="btn_label">
-										Xóa bộ lọc
-									</span>
-								</button>
+                                    <span className="btn_label">
+                                        Xóa bộ lọc
+                                    </span>
+                                </button>
                             </div>
                         </div>
-                        { selectedRoom && (
+                        {selectedRoom && (
                             <div className="box-show-selected-filter">
                                 <div className="box-show-selected-container">
                                     {selectRoom && (
@@ -199,10 +224,10 @@ const ListStudent = () =>{
                                             </span>
                                             <div className="box-remove-item">
                                                 <button
-                                                    onClick={() =>{
-                                                            setRoom(null);
-                                                            setSelectedRoom(null);
-                                                        }
+                                                    onClick={() => {
+                                                        setRoom(null);
+                                                        setSelectedRoom(null);
+                                                    }
                                                     }
                                                     className="btn-remove-item"
                                                     type="button"
@@ -212,7 +237,7 @@ const ListStudent = () =>{
                                                     </span>
                                                 </button>
                                             </div>
-                                        </div>      
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -221,26 +246,26 @@ const ListStudent = () =>{
                     <div className="main_table-headers">
                         <table className="box-table-headers">
                             <colgroup>
-                                <col style={{width: "150px"}}></col>
-                                <col style={{width: "150px"}}></col>
-                                <col style={{width: "250px"}}></col>
-                                <col style={{width: "120px"}}></col>
-                                <col style={{width: "150px"}}></col>
-                                <col style={{width: "130px"}}></col>
+                                <col style={{ width: "150px" }}></col>
+                                <col style={{ width: "150px" }}></col>
+                                <col style={{ width: "250px" }}></col>
+                                <col style={{ width: "120px" }}></col>
+                                <col style={{ width: "150px" }}></col>
+                                <col style={{ width: "130px" }}></col>
                             </colgroup>
                             <thead>
                                 <tr className="group-table-headers">
                                     {Object.entries(colsToRender).map(([key, value]) => {
-                                        if(value){
+                                        if (value) {
                                             return (
                                                 <th
-													key={key}
-													colSpan={1}
-													rowSpan={1}
-													className="table-header-item"
-												>
-													{col[key]?.name}
-												</th>
+                                                    key={key}
+                                                    colSpan={1}
+                                                    rowSpan={1}
+                                                    className="table-header-item"
+                                                >
+                                                    {col[key]?.name}
+                                                </th>
                                             )
                                         }
                                         return null
@@ -252,83 +277,83 @@ const ListStudent = () =>{
                     <div className="table-data__container">
                         <table className="box-table-data">
                             <colgroup>
-                                <col style={{width: "150px"}}></col>
-                                <col style={{width: "150px"}}></col>
-                                <col style={{width: "250px"}}></col>
-                                <col style={{width: "120px"}}></col>
-                                <col style={{width: "150px"}}></col>
-                                <col style={{width: "130px"}}></col>
+                                <col style={{ width: "150px" }}></col>
+                                <col style={{ width: "150px" }}></col>
+                                <col style={{ width: "250px" }}></col>
+                                <col style={{ width: "120px" }}></col>
+                                <col style={{ width: "150px" }}></col>
+                                <col style={{ width: "130px" }}></col>
                             </colgroup>
                             <tbody>
-                                {listStudent.map((student, index) =>{
-                                    return(
+                                {listStudent.map((student, index) => {
+                                    return (
                                         <tr key={index} className="table-data-row">
-                                            {Object.entries(colsToRender).map(([key,value]) =>{
-                                                if(value){
-                                                    if(key === "ngaysinh"){
-                                                        return(
+                                            {Object.entries(colsToRender).map(([key, value]) => {
+                                                if (value) {
+                                                    if (key === "ngaysinh") {
+                                                        return (
                                                             <td
                                                                 key={key}
                                                                 colSpan={1}
                                                                 rowSpan={1}
                                                                 className="table-data-item"
                                                             >
-                                                            <p className="box-text">
-                                                                {formatDate(student[key])}
-                                                            </p>
-                                                        </td>
+                                                                <p className="box-text">
+                                                                    {formatDate(student[key])}
+                                                                </p>
+                                                            </td>
                                                         )
                                                     }
-                                                    else if(key === "email"){
-                                                        return(
+                                                    else if (key === "email") {
+                                                        return (
                                                             <td
                                                                 key={key}
                                                                 colSpan={1}
                                                                 rowSpan={1}
                                                                 className="table-data-item"
                                                             >
-                                                            <p className="box-text">
-                                                                {student?.user?.email}
-                                                            </p>
-                                                        </td>
+                                                                <p className="box-text">
+                                                                    {student?.user?.email}
+                                                                </p>
+                                                            </td>
                                                         )
                                                     }
-                                                    else if(key === "room"){
-                                                        return(
+                                                    else if (key === "room") {
+                                                        return (
                                                             <td
                                                                 key={key}
                                                                 colSpan={1}
                                                                 rowSpan={1}
                                                                 className="table-data-item"
                                                             >
-                                                            <p className="box-text">
-                                                                {`${student?.room?.department?.name} - ${student?.room?.name}`}
-                                                            </p>
-                                                        </td>
+                                                                <p className="box-text">
+                                                                    {`${student?.room?.department?.name} - ${student?.room?.name}`}
+                                                                </p>
+                                                            </td>
                                                         )
                                                     }
                                                     else
-                                                    return(
-                                                        <td
-                                                            key={key}
-                                                            colSpan={1}
-													        rowSpan={1}
-                                                            className="table-data-item"
-                                                        >
-                                                            <p className="box-text">
-                                                                {key !== "name" ? (
-                                                                student[key]
-                                                                ) : (
-                                                                <Link
-                                                                    className="box-id"
-                                                                    to={`/manager/people/detail/${student._id}`}
-                                                                >
-                                                                    {student[key]}
-                                                                </Link>
-                                                                )}
-                                                            </p>
-                                                        </td>
-                                                    )
+                                                        return (
+                                                            <td
+                                                                key={key}
+                                                                colSpan={1}
+                                                                rowSpan={1}
+                                                                className="table-data-item"
+                                                            >
+                                                                <p className="box-text">
+                                                                    {key !== "name" ? (
+                                                                        student[key]
+                                                                    ) : (
+                                                                        <Link
+                                                                            className="box-id"
+                                                                            to={`/manager/people/detail/${student._id}`}
+                                                                        >
+                                                                            {student[key]}
+                                                                        </Link>
+                                                                    )}
+                                                                </p>
+                                                            </td>
+                                                        )
                                                 }
                                                 return null;
                                             })}
@@ -340,7 +365,7 @@ const ListStudent = () =>{
                     </div>
                 </div>
                 <div className="right__table-pagination">
-                    <div className="display-title" style={{color: "#0F1824"}}>
+                    <div className="display-title" style={{ color: "#0F1824" }}>
                         Hiển thị
                     </div>
                     <div className="box-page-limit">
@@ -364,9 +389,9 @@ const ListStudent = () =>{
                                     setPage(1);
                                 }}
                             />
-						)}
+                        )}
                     </div>
-                    <div className="title-1" style={{display: "flex", flexDirection: "row", gap: '5px'}}>
+                    <div className="title-1" style={{ display: "flex", flexDirection: "row", gap: '5px' }}>
                         <div>Kết quả.</div>
                         <div className="item-quantity">
                             Từ {(page - 1) * limit + 1} đến{" "}
