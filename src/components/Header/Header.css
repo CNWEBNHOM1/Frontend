@@ -3,10 +3,9 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 8%;
     background-color: #FFFFFF;
     width: 100%;
-    padding: 0 20px;
+    padding: 10px 20px;
     padding-left: 32px;
     padding-right: 32px;
     box-sizing: border-box;
