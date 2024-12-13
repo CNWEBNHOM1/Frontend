@@ -60,7 +60,6 @@ const DetailReport= () =>{
         fetchDetailReport();
     }, [])
 
-    console.log(detailReport)
     return (
         <>
             {contextHolder}

@@ -222,7 +222,6 @@ const ListBill = () =>{
     }, [filterBody , isRender, isCreateBill])
 
     const navigate = useNavigate();
-    console.log(billList)
     return(
         <>
         {contextHolder}

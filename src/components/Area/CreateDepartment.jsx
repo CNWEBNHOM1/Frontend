@@ -28,7 +28,9 @@ const CreateDepartment = ({close}) =>{
             dataCreateDepartment.room_count !== null &&
             dataCreateDepartment.room_count !== "" &&
             dataCreateDepartment.broken_room !== null &&
-            dataCreateDepartment.broken_room !== ""
+            dataCreateDepartment.broken_room !== "" &&
+            dataCreateDepartment.broken_room > 0 &&
+            dataCreateDepartment.room_count > 0 
         ) {
             try {
                 const newDepartment = await createNewDepartment(dataCreateDepartment);

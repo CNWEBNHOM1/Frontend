@@ -50,7 +50,6 @@ const DetailRequest = () =>{
     useEffect(()=>{
         fetchDetailRequest()
     }, [])
-    console.log(detailRequest)
     return(
         <>
             {contextHolder}
