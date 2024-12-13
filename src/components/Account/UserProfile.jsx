@@ -163,7 +163,7 @@ function UserProfile() {
                         )}
                     </div>
 
-                    <div className="action-buttons">
+                    {/* <div className="action-buttons">
                         {isEditing ? (
                             <>
                                 <button className="save-btn" onClick={handleSaveClick}>
@@ -178,7 +178,7 @@ function UserProfile() {
                                 Chỉnh sửa
                             </button>
                         )}
-                    </div>
+                    </div> */}
                 </div>
             )}
         </>

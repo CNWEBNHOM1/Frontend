@@ -75,7 +75,7 @@ function BillList() {
     }
 
     return (
-        <> <Header/>
+        <> <Header />
             <div className="bill-list-container">
                 <div className="bill-list-header">
                     <h1 className="bill-list-title">Danh Sách Hóa Đơn Điện Nước</h1>
