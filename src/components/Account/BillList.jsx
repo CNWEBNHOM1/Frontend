@@ -26,7 +26,7 @@ function BillList() {
     const fetchBills = async () => {
         try {
             setIsLoading(true);
-            setError(null); 
+            setError(null);
             const response = await getListBills({
                 ...filters,
                 page: currentPage
