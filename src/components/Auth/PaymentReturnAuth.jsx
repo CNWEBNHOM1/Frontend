@@ -35,7 +35,7 @@ function PaymentReturn() {
     }, [location]);
 
     const handleReturn = () => {
-        window.location.href = 'http://localhost:4444/auth/CheckRequest';
+        window.location.href = `${API_CONFIG.API_BASE_URL}/auth/CheckRequest`;
     };
 
     return (
@@ -55,7 +55,7 @@ function PaymentReturn() {
                             <div className="payment-return-auth-detail-item">
                                 <span className="payment-return-auth-detail-label">Số tiền:</span>
                                 <span className="payment-return-auth-detail-value">
-                                    {(Number(paymentData.sotien) / 1000).toLocaleString('vi-VN')} VNĐ
+                                    {(Number(paymentData.sotien) / 100).toLocaleString('vi-VN')} VNĐ
                                 </span>
                             </div>
                             <div className="payment-return-auth-detail-item">

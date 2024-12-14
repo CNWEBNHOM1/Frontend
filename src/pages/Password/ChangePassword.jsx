@@ -57,7 +57,7 @@ const ChangePassword = () =>{
     const onChangePassword = () =>{
         Modal.confirm({
             title: "Xác nhận",
-            content: "Bạn chắc muốn khoá tài khoản này?",
+            content: "Bạn chắc muốn đổi mật khẩu của tài khoản này?",
             okText: "Xác nhận",
             cancelText: "Hủy",
             onOk: async () => {

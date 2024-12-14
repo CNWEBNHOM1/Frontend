@@ -36,7 +36,7 @@ function PaymentReturn() {
     }, [location]);
 
     const handleReturn = () => {
-        window.location.href = 'http://localhost:4444/user/invoice';
+        window.location.href = `${API_CONFIG.API_BASE_URL}/user/invoice`;
     };
 
     return (

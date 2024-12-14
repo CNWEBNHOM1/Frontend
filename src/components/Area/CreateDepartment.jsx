@@ -29,7 +29,7 @@ const CreateDepartment = ({close}) =>{
             dataCreateDepartment.room_count !== "" &&
             dataCreateDepartment.broken_room !== null &&
             dataCreateDepartment.broken_room !== "" &&
-            dataCreateDepartment.broken_room > 0 &&
+            dataCreateDepartment.broken_room >= 0 &&
             dataCreateDepartment.room_count > 0 
         ) {
             try {
@@ -50,8 +50,12 @@ const CreateDepartment = ({close}) =>{
                     alert("Có lỗi xảy ra trong quá trình thêm khu ký túc xá");
                 }
             }
-        } else {
-            alert("Không được để trống thông tin nào");
+        } 
+        else if(dataCreateDepartment.broken_room <0 &&dataCreateDepartment.room_count <= 0 ){
+            alert("Lỗi: Số phòng bị hỏng và tổng số phòng không hợp lệ")
+        }
+        else {
+            alert("Lỗi: Không được để trống thông tin nào");
         }
     
         close();
