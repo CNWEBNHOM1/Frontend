@@ -315,40 +315,42 @@ const DormRequestFlow = () => {
 
         try {
             setLoading(true);
-            const formDataObj = new FormData();
+            // const formDataObj = new FormData();
 
-            // Thêm các trường dữ liệu cơ bản
-            formDataObj.append('name', formData.name);
-            formDataObj.append('ngaysinh', formData.ngaysinh);
-            formDataObj.append('gender', formData.gender);
-            formDataObj.append('sid', formData.sid);
-            formDataObj.append('cccd', formData.cccd);
-            formDataObj.append('phone', formData.phone);
-            formDataObj.append('school', formData.school);
-            formDataObj.append('khoa', formData.khoa || '');
-            formDataObj.append('lop', formData.lop || '');
-            formDataObj.append('roomId', formData.roomId);
-            formDataObj.append('priority', 'false');
+            // // Thêm các trường dữ liệu cơ bản
+            // formDataObj.append('name', formData.name);
+            // formDataObj.append('ngaysinh', formData.ngaysinh);
+            // formDataObj.append('gender', formData.gender);
+            // formDataObj.append('sid', formData.sid);
+            // formDataObj.append('cccd', formData.cccd);
+            // formDataObj.append('phone', formData.phone);
+            // formDataObj.append('school', formData.school);
+            // formDataObj.append('khoa', formData.khoa || '');
+            // formDataObj.append('lop', formData.lop || '');
+            // formDataObj.append('roomId', formData.roomId);
+            // formDataObj.append('priority', 'false');
 
-            // Thêm địa chỉ
-            const addressData = {
-                tinh: formData.address.tinh,
-                thanh: formData.address.thanh,
-                xa: formData.address.xa
-            };
-            formDataObj.append('address', JSON.stringify(addressData));
+            // // Thêm địa chỉ
+            // const addressData = {
+            //     tinh: formData.address.tinh,
+            //     thanh: formData.address.thanh,
+            //     xa: formData.address.xa
+            // };
+            // formDataObj.append('address', JSON.stringify(addressData));
+            
 
 
-            // Tạo một file PNG rỗng từ base64 string
-            const defaultPngBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
-            const defaultFileBlob = await fetch(`data:image/png;base64,${defaultPngBase64}`).then(r => r.blob());
-            const defaultFile = new File([defaultFileBlob], 'default.png', { type: 'image/png' });
+            // // Tạo một file PNG rỗng từ base64 string
+            // const defaultPngBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+            // const defaultFileBlob = await fetch(`data:image/png;base64,${defaultPngBase64}`).then(r => r.blob());
+            // const defaultFile = new File([defaultFileBlob], 'default.png', { type: 'image/png' });
 
-            formDataObj.append('minhchung', defaultFile);
+            // formDataObj.append('minhchung', defaultFile);
+            // console.log("abfjf: ",formDataObj)
 
             const response = await axios.post(
                 `${API_CONFIG.API_BASE_URL}/user/createRequest`,
-                formDataObj,
+                formData,
                 {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -363,11 +365,13 @@ const DormRequestFlow = () => {
             }
         } catch (error) {
             console.error('Error details:', error.response?.data);
-            setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.message || error.message));
+            setError('Lỗi khi gửi yêu cầu: ' + (error.response?.data?.error || error.message));
         } finally {
             setLoading(false);
         }
     };
+
+    console.log(formData)
 
     const handlePayment = async () => {
         if (!selectedRoom || !requestId) {
@@ -582,7 +586,12 @@ const DormRequestFlow = () => {
             </div>
             {error && <div className="error-message">{error}</div>}
             <button
-                onClick={() => validatePersonalInfo() && setStep(2)}
+                 onClick={() => {
+                    if (validatePersonalInfo()) {
+                        setError(null); // Reset lỗi
+                        setStep(2);
+                    }
+                }}
                 className="btn-next"
                 disabled={loading || locationLoading}
             >
@@ -619,7 +628,7 @@ const DormRequestFlow = () => {
             )}
             {error && <div className="error-message">{error}</div>}
             <div className="button-group">
-                <button onClick={() => setStep(1)} className="btn-back">
+                <button onClick={() => {setStep(1); setError(null)}} className="btn-back">
                     Quay lại
                 </button>
                 <button

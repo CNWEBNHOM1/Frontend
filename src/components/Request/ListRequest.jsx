@@ -232,7 +232,7 @@ const ListRequest = () =>{
                                 <col style={{width: "120px"}}></col>
                                 <col style={{width: "200px"}}></col>
                                 <col style={{width: "150px"}}></col>
-                                <col style={{width: "120px"}}></col>
+                                <col style={{width: "150px"}}></col>
                             </colgroup>
                             <thead>
                                 <tr className="group-table-headers">
@@ -264,7 +264,7 @@ const ListRequest = () =>{
                                 <col style={{width: "120px"}}></col>
                                 <col style={{width: "200px"}}></col>
                                 <col style={{width: "150px"}}></col>
-                                <col style={{width: "120px"}}></col>
+                                <col style={{width: "150px"}}></col>
                             </colgroup>
                             <tbody>
                                 {listRequest.map((request, index) =>{
@@ -282,7 +282,7 @@ const ListRequest = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-green">
-                                                                        {"Chấp nhận"}
+                                                                        {"Đã chấp nhận"}
                                                                     </p>
                                                                 </td>
                                                             )
@@ -296,7 +296,21 @@ const ListRequest = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-blue">
-                                                                        {"Thanh toán"}
+                                                                        {"Đã thanh toán"}
+                                                                    </p>
+                                                                </td>
+                                                            )
+                                                        }
+                                                        else if(request[key] === "unpaid"){
+                                                            return(
+                                                                <td
+                                                                    key={key}
+                                                                    colSpan={1}
+                                                                    rowSpan={1}
+                                                                    className="table-data-item"
+                                                                >
+                                                                    <p className="box-red1">
+                                                                        {"Chưa thanh toán"}
                                                                     </p>
                                                                 </td>
                                                             )
@@ -310,7 +324,7 @@ const ListRequest = () =>{
                                                                     className="table-data-item"
                                                                 >
                                                                     <p className="box-red">
-                                                                        {"Từ chối"}
+                                                                        {"Đã từ chối"}
                                                                     </p>
                                                                 </td>
                                                             )
