@@ -35,7 +35,7 @@ function PaymentReturn() {
     }, [location]);
 
     const handleReturn = () => {
-        window.location.href = `${API_CONFIG.API_BASE_URL}/auth/CheckRequest`;
+        navigate("/auth/CheckRequest")
     };
 
     return (

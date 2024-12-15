@@ -36,7 +36,8 @@ function PaymentReturn() {
     }, [location]);
 
     const handleReturn = () => {
-        window.location.href = `${API_CONFIG.API_BASE_URL}/user/invoice`;
+        // window.location.href = `${API_CONFIG.API_BASE_URL}/user/invoice`;
+        navigate("/user/invoice");
     };
 
     return (

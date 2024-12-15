@@ -35,6 +35,7 @@ export const login = (dataLogin) => {
     return async (dispatch) => {
         try {
             const response = await loginAccount(dataLogin);
+            console.log(response)
 
             // Kiểm tra mã trạng thái của phản hồi
             if (response.message === "Login Successful") {

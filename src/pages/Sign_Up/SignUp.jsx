@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, notification } from 'antd';
 import axios from 'axios';
@@ -27,30 +27,38 @@ const SignUp = () => {
     const handleSignUp = async () => {
         try {
             const response = await axios.post(`${API_BASE_URL}/register`, formSignUp);
-
-            if (response.status === 201) {
+            if (response.status === 201 && response?.data?.message === "User Created Successfully. Check your mail to active" ) {
                 openNotificationWithIcon(
                     'success',
                     'Đăng ký thành công!',
-                    `Email: ${response.data.email}, Vai trò: ${response.data.role}`
+                    `Kiếm tra email để kích hoạt tài khoản`
                 );
-                navigate('/login');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1000);
             }
-        } catch (error) {
-            if (error.response?.status === 409 || error.response?.data?.message?.includes('email')) {
-                openNotificationWithIcon(
-                    'error',
-                    'Đăng ký thất bại!',
-                    'Email này đã được đăng ký, vui lòng sử dụng email khác'
-                );
-            } else {
-                openNotificationWithIcon(
-                    'error',
-                    'Đăng ký thất bại!',
-                    error.response?.data?.message || 'Đã xảy ra lỗi, vui lòng thử lại'
-                );
+            } catch (error) {
+                if (error.response?.status === 444 && error.response?.data && error.response?.data?.message === "Email exist") {
+                    openNotificationWithIcon(
+                        'error',
+                        'Đăng ký thất bại!',
+                        'Email này đã được đăng ký, vui lòng sử dụng email khác'
+                    );
+                } else if( error.response?.status === 500 && error.response?.data && error.response?.data?.message === "You must use HUST email"){
+                    openNotificationWithIcon(
+                        'error',
+                        'Đăng ký thất bại!',
+                        'Phải sử dụng email Hust'
+                    );
+                } 
+                else {
+                    openNotificationWithIcon(
+                        'error',
+                        'Đăng ký thất bại!',
+                        error.response?.data?.message || 'Đã xảy ra lỗi, vui lòng thử lại'
+                    );
+                }
             }
-        }
     };
 
     return (

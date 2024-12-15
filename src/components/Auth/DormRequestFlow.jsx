@@ -72,6 +72,8 @@ const DormRequestFlow = () => {
         }
     }, [formData.address.tinhCode]);
 
+     console.log(error)
+
     useEffect(() => {
         if (formData.address.thanhCode) {
             fetchWards(formData.address.thanhCode);
@@ -247,28 +249,39 @@ const DormRequestFlow = () => {
     };
 
     const validateLocation = () => {
-        if (!formData.address.tinh) {
-            setLocationError(prev => ({
-                ...prev,
-                province: 'Vui lòng chọn tỉnh/thành phố'
-            }));
-            return false;
-        }
-        if (!formData.address.thanh) {
-            setLocationError(prev => ({
-                ...prev,
-                district: 'Vui lòng chọn quận/huyện'
-            }));
-            return false;
-        }
-        if (!formData.address.xa) {
-            setLocationError(prev => ({
-                ...prev,
-                ward: 'Vui lòng chọn phường/xã'
-            }));
-            return false;
-        }
-        return true;
+        let valid = true;
+    
+        setLocationError(prev => {
+            const newErrors = { ...prev };  // Sao chép các lỗi hiện tại
+    
+            // Kiểm tra tỉnh
+            if (!formData.address.tinh) {
+                newErrors.province = 'Vui lòng chọn tỉnh/thành phố';
+                valid = false;
+            } else {
+                newErrors.province = '';  // Xóa lỗi tỉnh nếu đã chọn
+            }
+    
+            // Kiểm tra quận/huyện
+            if (!formData.address.thanh) {
+                newErrors.district = 'Vui lòng chọn quận/huyện';
+                valid = false;
+            } else {
+                newErrors.district = '';  // Xóa lỗi quận/huyện nếu đã chọn
+            }
+    
+            // Kiểm tra phường/xã
+            if (!formData.address.xa) {
+                newErrors.ward = 'Vui lòng chọn phường/xã';
+                valid = false;
+            } else {
+                newErrors.ward = '';  // Xóa lỗi phường/xã nếu đã chọn
+            }
+    
+            return newErrors;  // Trả về các lỗi đã được cập nhật
+        });
+    
+        return valid;
     };
 
     const validatePersonalInfo = () => {
@@ -592,10 +605,11 @@ const DormRequestFlow = () => {
                                 className={`room-card ${formData.roomId === room._id ? 'selected' : ''}`}
                                 onClick={() => handleRoomSelection(room)}
                             >
-                                <h3>Phòng {room.name}</h3>
-                                <p>Tòa {room.department.name}</p>
-                                <p>Còn trống: {room.capacity - room.occupiedSlots}</p>
-                                <p>Giá: {(room.giatrangbi + room.tieno + room.tiennuoc).toLocaleString('vi-VN')} VNĐ</p>
+                                <h3>Phòng: {room.name}</h3>
+                                <p>Tòa: <b>{room.department.name}</b></p>
+                                <p>Phòng dành cho: <b>{room?.gender}</b></p>
+                                <p>Còn trống: <b>{room.capacity - room.occupiedSlots} </b></p>
+                                <p>Giá: <b>{(room.giatrangbi + room.tieno + room.tiennuoc).toLocaleString('vi-VN')} VNĐ </b></p>
                             </div>
                         ))
                     ) : (

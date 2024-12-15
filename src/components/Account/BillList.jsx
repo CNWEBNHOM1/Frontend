@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getListBills } from '../../service/bills';
@@ -15,7 +16,7 @@ function BillList() {
         trangthai: '',
         sortBy: 'createAt',
         order: 'asc',
-        limit: 10
+        limit: 100
     });
     const navigate = useNavigate();
 
