@@ -72,7 +72,7 @@ const DormRequestFlow = () => {
         }
     }, [formData.address.tinhCode]);
 
-     console.log(error)
+    console.log(error)
 
     useEffect(() => {
         if (formData.address.thanhCode) {
@@ -250,10 +250,10 @@ const DormRequestFlow = () => {
 
     const validateLocation = () => {
         let valid = true;
-    
+
         setLocationError(prev => {
             const newErrors = { ...prev };  // Sao chép các lỗi hiện tại
-    
+
             // Kiểm tra tỉnh
             if (!formData.address.tinh) {
                 newErrors.province = 'Vui lòng chọn tỉnh/thành phố';
@@ -261,7 +261,7 @@ const DormRequestFlow = () => {
             } else {
                 newErrors.province = '';  // Xóa lỗi tỉnh nếu đã chọn
             }
-    
+
             // Kiểm tra quận/huyện
             if (!formData.address.thanh) {
                 newErrors.district = 'Vui lòng chọn quận/huyện';
@@ -269,7 +269,7 @@ const DormRequestFlow = () => {
             } else {
                 newErrors.district = '';  // Xóa lỗi quận/huyện nếu đã chọn
             }
-    
+
             // Kiểm tra phường/xã
             if (!formData.address.xa) {
                 newErrors.ward = 'Vui lòng chọn phường/xã';
@@ -277,10 +277,10 @@ const DormRequestFlow = () => {
             } else {
                 newErrors.ward = '';  // Xóa lỗi phường/xã nếu đã chọn
             }
-    
+
             return newErrors;  // Trả về các lỗi đã được cập nhật
         });
-    
+
         return valid;
     };
 
@@ -337,7 +337,7 @@ const DormRequestFlow = () => {
             //     xa: formData.address.xa
             // };
             // formDataObj.append('address', JSON.stringify(addressData));
-            
+
 
 
             // // Tạo một file PNG rỗng từ base64 string
@@ -552,6 +552,18 @@ const DormRequestFlow = () => {
                         <div className="error-message">{locationError.ward}</div>
                     )}
                 </div>
+                <div className="form-group">
+                    <label>Ưu tiên</label>
+                    <select
+                        name="priority"
+                        value={formData.priority}
+                        onChange={handleInputChange}
+                    >
+                        <option value="">Chọn ưu tiên</option>
+                        <option value="true">Có</option>
+                        <option value="false">Không</option>
+                    </select>
+                </div>
 
                 <div className="form-group">
                     <label>Khóa</label>
@@ -586,7 +598,7 @@ const DormRequestFlow = () => {
             </div>
             {error && <div className="error-message">{error}</div>}
             <button
-                 onClick={() => {
+                onClick={() => {
                     if (validatePersonalInfo()) {
                         setError(null); // Reset lỗi
                         setStep(2);
@@ -628,7 +640,7 @@ const DormRequestFlow = () => {
             )}
             {error && <div className="error-message">{error}</div>}
             <div className="button-group">
-                <button onClick={() => {setStep(1); setError(null)}} className="btn-back">
+                <button onClick={() => { setStep(1); setError(null) }} className="btn-back">
                     Quay lại
                 </button>
                 <button
