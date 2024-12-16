@@ -109,6 +109,7 @@ const DashboardManager = () => {
         {label: "Đã thanh toán", number: res.data.count_pending},
         {label: "Đã chấp nhận", number: res.data.count_approved},
         {label: "Đã từ chối", number: res.data.count_declined},
+        {label: "Chưa thanh toán", number: res.data.count_unpaid},
       ])
     }
   }

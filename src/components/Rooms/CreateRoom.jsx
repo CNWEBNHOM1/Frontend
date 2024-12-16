@@ -109,7 +109,7 @@ const CreateRoom = () =>{
                     openNotificationWithIcon('error', "Tạo phòng mới không thành công");
                 }
             } catch (error) {
-                if (error.response && error.response.status === 500 && error.response.data.error === "Room exist") {
+                if (error.response && error.response.status === 403 && error.response.data.error === "Room exist") {
                     openNotificationWithIcon('error', "Phòng đã tồn tại");
                 } else {
                     openNotificationWithIcon('error', "Có lỗi xảy ra trong quá trình thêm phòng mới");

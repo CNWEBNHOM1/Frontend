@@ -43,7 +43,7 @@ function PaymentReturn() {
     return (
         <div className="payment-return-wrapper">
             <div className="payment-return-card">
-                {paymentStatus === 'success' && paymentData && (
+                {paymentStatus === 'success' && paymentData.trangthai === "Thành công" && (
                     <div className="payment-content">
                         <div className="icon-wrapper success">
                             <CheckCircle size={40} />
@@ -57,7 +57,7 @@ function PaymentReturn() {
                             <div className="detail-item">
                                 <span className="detail-label">Số tiền:</span>
                                 <span className="detail-value">
-                                    {Number(paymentData.sotien).toLocaleString('vi-VN')} VNĐ
+                                    {Number(paymentData.sotien / 100).toLocaleString('vi-VN')} VNĐ
                                 </span>
                             </div>
                             <div className="detail-item">
@@ -79,7 +79,7 @@ function PaymentReturn() {
                 )}
 
                 {/* Giữ nguyên phần failure và error */}
-                {paymentStatus === 'failure' && (
+                {paymentStatus === 'success' && paymentData.trangthai === "Không thành công" && (
                     <div className="payment-content">
                         <div className="icon-wrapper failure">
                             <XCircle size={40} />

@@ -16,7 +16,8 @@ const statusTab = [
     { key: "all", label: "Tất cả yêu cầu", trangthai: null },
     { key: "pending", label: "Đã thanh toán", trangthai: "pending" },
     { key: "approved", label: "Đã chấp nhận", trangthai: "approved" },
-    { key: "declined", label: "Đã từ chối", trangthai: "declined" }
+    { key: "declined", label: "Đã từ chối", trangthai: "declined" },
+    { key: "unpaid", label: "Chưa thanh toán", trangthai: "unpaid" }
 ];
 const colsToRender = {
     name: true,

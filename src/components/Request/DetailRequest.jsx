@@ -379,7 +379,7 @@ const DetailRequest = () =>{
                                             name="trangthai"
                                             id="trangthai"
                                             type="text"
-                                            value={detailRequest?.trangthai === "approved" ? "Thành công" : detailRequest?.trangthai === "pending" ? "Đã thanh toán" : "Đã từ chối"}
+                                            value={detailRequest?.trangthai === "approved" ? "Thành công" : detailRequest?.trangthai === "pending" ? "Đã thanh toán" : detailRequest?.trangthai === "unpaid"? "Chưa thanh toán" : "Đã từ chối"}
                                             disabled
                                         />
                                     </div>

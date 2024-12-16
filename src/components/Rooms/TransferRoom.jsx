@@ -30,21 +30,41 @@ const TransferRoom = ({close, detailRoom, people}) =>{
         setIsOpenSelectRoom(false);
     }
 
-    const handleCLickOk = async() =>{
-        if(select){
-            const res = await TransferStudent(people._id, select._id);
-            if(res.status === "success"){
-                alert("Chuyển phòng thành công")
+    const handleCLickOk  = async () => {
+        if (select) {
+            try {
+                const res = await TransferStudent(people._id, select._id);
+                console.log("Response:", res);
+    
+                if (res.status === "success") {
+                    alert("Chuyển phòng thành công");
+                } else {
+                    alert("Chuyển phòng thất bại");
+                }
+            } catch (error) {
+                if (error.response) {
+                    const { status, data } = error.response;
+                    switch (status) {
+                        case 404:
+                            alert("Lỗi: Giới tính không phù hợp với phòng này");
+                            break;
+                        case 405:
+                            alert("Lỗi: Học sinh đã ở trong phòng này rồi!");
+                            break;
+                        default:
+                            alert(`Lỗi không xác định: ${data.error}`);
+                    }
+                } else {
+                    alert("Lỗi: Không thể kết nối với server!");
+                }
+                console.error("Error:", error);
+            } finally {
+                close();
             }
-            else{
-                alert("Chuyển phòng thất bại")
-            }
-            close();
+        } else {
+            alert("Chưa chọn phòng chuyển đến");
         }
-        else{
-            alert("Chưa chọn phòng chuyển đến")
-        }
-    }
+    };
     return(
         <div className="transfer-room">
             <div className="transfer-header">

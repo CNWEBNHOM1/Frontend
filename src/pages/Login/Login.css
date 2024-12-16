@@ -67,7 +67,6 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-
 }
 
 .form_input label {
@@ -198,3 +197,130 @@
     font-size: 15px;
     font-weight: 400;
 }
+.forgotpassword{
+    font-family: "Roboto", sans-serif; 
+    font-size: 12px;
+    color: gray;
+}
+.forgotpassword:hover{
+    cursor: pointer;
+    color: #4d53e0;
+}
+.forgotpassword:active{
+    cursor: pointer;
+    color: #4caf50
+}
+
+.forgot-password {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+.forgot-password-content-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.forgot-password-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title-big {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.title-sub {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+}
+
+.form {
+    margin-top: 20px;
+}
+
+.form-input1 {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.input-forgot {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.input-forgot:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btn-reset {
+    background: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-reset:hover {
+    background: #45a049;
+}
+
+.btn-back-login {
+    color: #4caf50;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.btn-back-login:hover {
+    color: #45a049;
+}
+
+.forgot-password-banner {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-img img {
+    width: 80%;
+    max-width: 400px;
+}
+

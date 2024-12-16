@@ -285,7 +285,7 @@ const DormRequestFlow = () => {
     };
 
     const validatePersonalInfo = () => {
-        const required = ['name', 'ngaysinh', 'gender', 'sid', 'cccd', 'phone', 'school'];
+        const required = ['name', 'ngaysinh', 'gender', 'sid', 'cccd', 'phone', 'school', 'priority'];
         const missing = required.filter(field => !formData[field]);
         if (!validateLocation()) {
             return false;
@@ -553,7 +553,7 @@ const DormRequestFlow = () => {
                     )}
                 </div>
                 <div className="form-group">
-                    <label>Ưu tiên</label>
+                    <label>Ưu tiên *</label>
                     <select
                         name="priority"
                         value={formData.priority}
