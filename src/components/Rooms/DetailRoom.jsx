@@ -127,7 +127,7 @@ const DetailRoom = () =>{
     const OnUpdate = () =>{
         Modal.confirm({
             title: "Xác nhận",
-            content: "Bạn chắc muốn xoá tất cả thành viên?",
+            content: "Bạn chắc muốn cập nhật thông tin phòng?",
             okText: "Xác nhận",
             cancelText: "Hủy",
             onOk: async () => {
