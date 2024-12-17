@@ -15,6 +15,7 @@ const SignUp = () => {
     const [formSignUp, setFormSignUp] = useState({
         email: '',
         password: '',
+        samepassword: ''
     });
 
     const openNotificationWithIcon = (type, message, description = '') => {
@@ -93,6 +94,17 @@ const SignUp = () => {
                                     placeholder="Vui lòng nhập mật khẩu"
                                     value={formSignUp.password}
                                     onChange={(e) => setFormSignUp({ ...formSignUp, password: e.target.value })}
+                                />
+                            </div>
+                            <div className="form_input">
+                                <label htmlFor="samepassword">Xác nhận mật khẩu</label>
+                                <input
+                                    type="password"
+                                    id="samepassword"
+                                    name="samepassword"
+                                    placeholder="Vui lòng nhập lại mật khẩu"
+                                    value={formSignUp.samepassword}
+                                    onChange={(e) => setFormSignUp({ ...formSignUp, samepassword: e.target.value })}
                                 />
                             </div>
                         </div>
