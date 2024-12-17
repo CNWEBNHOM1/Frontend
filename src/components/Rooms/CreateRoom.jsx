@@ -111,7 +111,12 @@ const CreateRoom = () =>{
             } catch (error) {
                 if (error.response && error.response.status === 403 && error.response.data.error === "Room exist") {
                     openNotificationWithIcon('error', "Phòng đã tồn tại");
-                } else {
+                } 
+                
+                else if(error.response && error.response.status === 405 && error.response.data.error === "Department is full"){
+                    openNotificationWithIcon('error', "Khu này đã có tối đa số phòng");
+                }
+                else {
                     openNotificationWithIcon('error', "Có lỗi xảy ra trong quá trình thêm phòng mới");
                 }
             }
