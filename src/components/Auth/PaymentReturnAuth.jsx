@@ -41,7 +41,7 @@ function PaymentReturn() {
     return (
         <div className="payment-return-auth-wrapper">
             <div className="payment-return-auth-card">
-                {paymentStatus === 'success' && paymentData && (
+                {paymentStatus === 'success' && paymentData.trangthai === "Thành công" && (
                     <div className="payment-return-auth-content">
                         <div className="payment-return-auth-icon-success">
                             <CheckCircle size={40} />
@@ -76,7 +76,7 @@ function PaymentReturn() {
                     </div>
                 )}
 
-                {paymentStatus === 'failure' && (
+                {paymentStatus === 'success' && paymentData.trangthai === "Không thành công" && (
                     <div className="payment-return-auth-content">
                         <div className="payment-return-auth-icon-failure">
                             <XCircle size={40} />
