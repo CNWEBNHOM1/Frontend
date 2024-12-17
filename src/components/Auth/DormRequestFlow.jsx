@@ -576,7 +576,7 @@ const DormRequestFlow = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Trường *</label>
+                    <label>Trường/Viện *</label>
                     <input
                         type="text"
                         name="school"
