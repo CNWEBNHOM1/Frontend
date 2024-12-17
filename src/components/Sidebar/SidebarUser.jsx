@@ -18,7 +18,7 @@ const SidebarUser = () => {
                 key={key}
                 onClick={() => window.location.pathname = val.link}
                 className='row'
-                id={window.location.pathname == val.link ? "active" : ""}
+                id={window.location.pathname.startsWith(val.link) ? "active" : ""}
               >
                 {""}
                 <div id='icon'>{val.icon}</div>
